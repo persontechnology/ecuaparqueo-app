@@ -3,6 +3,7 @@
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\RolesPermisosController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
@@ -74,7 +75,11 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
     
     
-    
+    // parqueaderos
+    Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');
+    Route::get('/parqueadero-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderoNuevo');
+    Route::post('/parqueadero-guardar', [ParqueaderoController::class, 'guardar'])->name('guardarParqueadero');
+    Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
     
     
     
