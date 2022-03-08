@@ -80,6 +80,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/parqueadero-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderoNuevo');
     Route::post('/parqueadero-guardar', [ParqueaderoController::class, 'guardar'])->name('guardarParqueadero');
     Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
+    Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
     
     
     
