@@ -3,6 +3,7 @@
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\RolesPermisosController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
@@ -72,6 +73,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/vehiculos-editar/{id}', [VehiculoController::class, 'editar'])->name('vehiculosEditar');
     Route::post('/vehiculos-actualizar', [VehiculoController::class, 'actualizar'])->name('actualizarVehiculo');
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
+
+    // orden de movilizacion
+    Route::get('/odern-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
+    Route::post('/odern-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
     
     
     

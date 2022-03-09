@@ -33,6 +33,9 @@
 	{{-- datatable --}}
 	<script src="{{ asset('global_assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
 	<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+
+
+
 	@stack('scripts')
 </head>
 

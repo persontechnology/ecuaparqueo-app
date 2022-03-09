@@ -110,6 +110,16 @@
                 @endcan
 
 
+                <li class="nav-item">
+                    <a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion*')?'active':'' }}">
+                        <i class="fa-solid fa-address-card"></i>
+                        <span>
+                            Ordén de movilización
+                        </span>
+                    </a>
+                </li>
+
+
 
                 @hasanyrole('SuperAdmin|SiteAdmin')
 

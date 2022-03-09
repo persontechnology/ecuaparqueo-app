@@ -11,7 +11,9 @@
 @section('content')
 
 <div class="card card-body">
-    {{$dataTable->table()}}
+    <div class="table-responsive">
+        {{$dataTable->table()}}
+    </div>
 </div>
 @push('scripts')
     {{$dataTable->scripts()}}
