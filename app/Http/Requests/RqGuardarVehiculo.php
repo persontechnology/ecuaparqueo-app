@@ -31,7 +31,8 @@ class RqGuardarVehiculo extends FormRequest
             'estado'=>'required|in:Activo,Inactivo',
             'descripcion'=>'required|string|max:255',
             'foto'=>'nullable|image',
-            'tipo'=>'required|exists:tipo_vehiculos,id'
+            'tipo'=>'required|exists:tipo_vehiculos,id',
+            'kilometraje'=>'required|string|max:255',
         ];
     }
 }

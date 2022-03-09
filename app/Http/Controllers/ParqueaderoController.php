@@ -53,7 +53,8 @@ class ParqueaderoController extends Controller
     }
     public function listarEspacios(Request $request, Parqueadero $parqueadero)
     {
-        $espacios = $parqueadero->espacios()->get();
+        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo','vehiculo.kilometraje'])->get();
+        
         return view('espacios.index', ['espacios' => $espacios]);
     }
 }

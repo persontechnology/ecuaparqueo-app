@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\VehiculoDataTable;
 use App\Http\Requests\RqActualizarVehiculo;
 use App\Http\Requests\RqGuardarVehiculo;
+use App\Models\Kilometraje;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
 use Illuminate\Contracts\Cache\Store;
@@ -75,6 +76,13 @@ class VehiculoController extends Controller
                 );
                 $ve->foto=$path;
             }
+        }
+        if($request->has('kilometraje')){
+            $kilometraje= new Kilometraje();
+            $kilometraje->vehiculo_id=$ve->id;
+            $kilometraje->numero=$request->kilometraje;
+            $kilometraje->save();
+            $ve->kilometraje_id=$kilometraje->id;
         }
 
         $ve->save();

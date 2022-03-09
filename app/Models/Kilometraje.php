@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Espacio extends Model
+class Kilometraje extends Model
 {
     use HasFactory;
-
-    public function vehiculo()
-    {
-        return $this->belongsTo(Vehiculo::class);
-    }
 }
