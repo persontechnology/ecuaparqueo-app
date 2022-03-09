@@ -18,8 +18,9 @@ class CreateEspaciosTable extends Migration
             $table->integer('numero');
             $table->string('left');
             $table->string('top');
+            $table->enum('estado',['Activo','Inactivo','Presente','Ausente','Solicitado','Reservado'])->default('Activo');
             $table->foreignId('parqueadero_id')->constrained('parqueaderos');
-            $table->foreignId('vehiculo_id')->constrained('vehiculos');
+            $table->foreignId('vehiculo_id')->constrained('vehiculos')->nullable();
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             $table->timestamps();

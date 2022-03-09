@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\ParqueaderoDataTable;
 use App\Http\Requests\Parqueaderos\RqActualizar;
 use App\Http\Requests\Parqueaderos\RqGuardar;
+use App\Models\Espacio;
 use App\Models\Parqueadero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,18 +37,23 @@ class ParqueaderoController extends Controller
     {
         $parqueadero = Parqueadero::findOrFail($id);
         //return $parqueadero;
-        return view('parqueaderos.editar', ['parqueadero'=>$parqueadero]);
+        return view('parqueaderos.editar', ['parqueadero' => $parqueadero]);
     }
     public function actualizar(RqActualizar $request)
     {
-        $parqueadero=Parqueadero::find($request->id);
+        $parqueadero = Parqueadero::find($request->id);
         $parqueadero->nombre = $request->nombre;
         $parqueadero->descripcion = $request->descripcion;
         $parqueadero->direccion = $request->direccion;
         $parqueadero->numero_total = $request->numero_total;
-        $parqueadero->user_create=Auth::user()->id;
+        $parqueadero->user_create = Auth::user()->id;
         $parqueadero->save();
-        request()->session()->flash('success','Parqueadero actualizado');
+        request()->session()->flash('success', 'Parqueadero actualizado');
         return redirect()->route('parqueaderos');
+    }
+    public function listarEspacios(Request $request, Parqueadero $parqueadero)
+    {
+        $espacios = $parqueadero->espacios()->get();
+        return view('espacios.index', ['espacios' => $espacios]);
     }
 }

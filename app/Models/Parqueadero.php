@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Parqueadero extends Model
 {
     use HasFactory;
+
+    #region relaciones
+    
+    public function espacios()
+    {
+        return $this->hasMany(Espacio::class);
+    }
+
 }

@@ -23,6 +23,8 @@
 
 	<!-- Theme JS files -->
 	<script src="{{ asset('assets/js/app.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/extensions/jquery_ui/interactions.min.js') }}"></script>
+
 	<!-- /theme JS files -->
 
 	{{-- extras --}}
