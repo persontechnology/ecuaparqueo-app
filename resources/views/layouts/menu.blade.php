@@ -123,7 +123,8 @@
                     </li>
                 @endcan
 
-
+                @can('Orden de Movilización')
+                
                 <li class="nav-item">
                     <a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion*')?'active':'' }}">
                         <i class="fa-solid fa-address-card"></i>
@@ -132,6 +133,8 @@
                         </span>
                     </a>
                 </li>
+                
+                @endcan
 
 
 

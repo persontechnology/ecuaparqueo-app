@@ -26,7 +26,14 @@ class DatabaseSeeder extends Seeder
         }
         
         // permisos
-        foreach (['Usuarios','Empresa','Departamentos','Vehículos'] as $per) {
+        $permisos = array(
+            'Usuarios',
+            'Empresa',
+            'Departamentos',
+            'Vehículos',
+            'Orden de Movilización'
+        );
+        foreach ($permisos as $per) {
             Permission::updateOrCreate(['name' => $per]);    
         }
 

@@ -78,7 +78,12 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
     // orden de movilizacion
     Route::get('/odern-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
+    Route::get('/odern-movilizacion-nuevo', [OrdenMovilizacionController::class, 'nuevo'])->name('odernMovilizacionNuevo');
     Route::post('/odern-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
+    Route::get('/odern-movilizacion-editar/{id}', [OrdenMovilizacionController::class, 'editar'])->name('odernMovilizacionEditar');
+    Route::post('/odern-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
+    Route::post('/odern-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
+    
     
     
     // parqueaderos

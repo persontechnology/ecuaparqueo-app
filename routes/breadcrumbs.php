@@ -71,3 +71,17 @@ Breadcrumbs::for('parqueaderosNuevo', function (BreadcrumbTrail $trail) {
     $trail->parent('parqueaderos');
     $trail->push('Nuevo', route('parqueaderoNuevo'));
 });
+
+// orden de movilización
+Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Orden de movilización', route('odernMovilizacion'));
+});
+Breadcrumbs::for('odernMovilizacionNuevo', function (BreadcrumbTrail $trail) {
+    $trail->parent('odernMovilizacion');
+    $trail->push('Nuevo', route('odernMovilizacionNuevo'));
+});
+Breadcrumbs::for('odernMovilizacionEditar', function (BreadcrumbTrail $trail, $orden) {
+    $trail->parent('odernMovilizacion');
+    $trail->push('Editar', route('odernMovilizacionEditar',$orden->id));
+});
