@@ -60,18 +60,6 @@
                     </a>
                 </li>
 
-                @can('Usuarios')
-                    <li class="nav-item">
-                        <a href="{{ route('usuarios') }}"
-                            class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-users"></i>
-                            <span>
-                                Usuarios
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-
                 @can('Empresa')
                     <li class="nav-item">
                         <a href="{{ route('empresa') }}"
@@ -83,9 +71,18 @@
                         </a>
                     </li>
                 @endcan
-
-
-
+                
+                @can('Usuarios')
+                    <li class="nav-item">
+                        <a href="{{ route('usuarios') }}"
+                            class="nav-link {{ request()->routeIs('usuarios*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-users"></i>
+                            <span>
+                                Usuarios
+                            </span>
+                        </a>
+                    </li>
+                @endcan
 
                 @can('Departamentos')
                     <li class="nav-item">
@@ -129,12 +126,27 @@
                     <a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion*')?'active':'' }}">
                         <i class="fa-solid fa-address-card"></i>
                         <span>
-                            Ordén de movilización
+                            Orden de movilización
                         </span>
                     </a>
                 </li>
                 
                 @endcan
+
+                @can('Control Orden de Movilización')
+                
+                <li class="nav-item">
+                    <a href="{{ route('controlOdernMovilizacion') }}" class="nav-link {{ request()->routeIs('controlOdernMovilizacion*')?'active':'' }}">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>
+                            Control orden de movilización
+                        </span>
+                    </a>
+                </li>
+                
+                @endcan
+
+                
 
 
 

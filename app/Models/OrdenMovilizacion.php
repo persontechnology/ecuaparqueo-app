@@ -11,10 +11,6 @@ class OrdenMovilizacion extends Model
 {
     use HasFactory;
     
-    
-
-    
-
     // Deivid, esto creara automaticamnet el siguente numero de orden y lo guardara en bbdd
     public static function boot()
     {
@@ -25,21 +21,18 @@ class OrdenMovilizacion extends Model
     }
 
     //Deivid, crear numero siguente para la orden
-    // public function scopeNumeroSiguente(){
-    //     return IdGenerator::generate(['table' => 'orden_movilizacions','field'=>'numero', 'length' => 10, 'prefix' =>'0','reset_on_prefix_change'=>true]);
-    // }
 
     public function scopeNumeroSiguente()
     {
-        $orderObj = $this->select('numero')->latest('id')->first();
-        if ($orderObj) {
-            $orderNr = $orderObj->numero;
-            $removed1char = substr($orderNr, 1);
-            $generateOrder_nr = '#' . str_pad($removed1char + 1, 10, "0", STR_PAD_LEFT);
+        $orden = $this->select('numero')->latest('id')->first();
+        if ($orden) {
+            $ordenNumero = $orden->numero;
+            $quitarChart = substr($ordenNumero, 1);
+            $ordenNumeroGenerado = '#' . str_pad($quitarChart + 1, 10, "0", STR_PAD_LEFT);
         } else {
-            $generateOrder_nr = '#' . str_pad(1, 10, "0", STR_PAD_LEFT);
+            $ordenNumeroGenerado = '#' . str_pad(1, 10, "0", STR_PAD_LEFT);
         }
-        return $generateOrder_nr;
+        return $ordenNumeroGenerado;
     }
 
     // Deivid, formateando para hora salida
@@ -76,5 +69,28 @@ class OrdenMovilizacion extends Model
     {
         return $this->belongsTo(Vehiculo::class,'vehiculo_id');
     }
+
+    // Deivid, usuario creado
+    public function usuarioCreado()
+    {
+        return $this->belongsTo(User::class,'user_create');
+    }
+    // Deivid, usuario actualizado
+    public function usuarioActualizado()
+    {
+        return $this->belongsTo(User::class,'user_update');
+    }
+    
+    // Deivid, usuario aceptado
+    public function usuarioAceptado()
+    {
+        return $this->belongsTo(User::class,'user_acepted');
+    }
+    // Deivid, usuario aceptado
+    public function usuarioDenegado()
+    {
+        return $this->belongsTo(User::class,'user_denegated');
+    }
+
 
 }

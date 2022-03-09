@@ -31,18 +31,23 @@
             <p>Selecionar Supervisor</p>
 
             
-            @foreach ($usuarios as $sup)
-                <div class="form-check">
-                    <input type="radio" value="{{$sup->id}}" {{ old('supervisor')==$sup->id ?'checked':'' }} name="supervisor"  class="form-check-input" id="permi-0-{{ $sup->id }}" required>
-                    <label class="form-check-label" for="permi-0-{{ $sup->id }}" >{{ $sup->email }}
-                    </label>
+            @if ($usuarios->count()>0)
+                @foreach ($usuarios as $sup)
+                    <div class="form-check">
+                        <input type="radio" value="{{$sup->id}}" {{ old('supervisor')==$sup->id ?'checked':'' }} name="supervisor"  class="form-check-input" id="permi-0-{{ $sup->id }}" required>
+                        <label class="form-check-label" for="permi-0-{{ $sup->id }}" >{{ $sup->email }}
+                        </label>
+                        
+                        <a href="#" data-popup="popover" data-trigger="hover" title="{{ $sup->apellidos }} {{ $sup->nombres }}" data-content="{{ $sup->documento }}">
+                            <i class="fa-solid fa-user"></i>
+                        </a>
+                    </div>
                     
-                    <a href="#" data-popup="popover" data-trigger="hover" title="{{ $sup->apellidos }} {{ $sup->nombres }}" data-content="{{ $sup->documento }}">
-                        <i class="fa-solid fa-user"></i>
-                    </a>
-                </div>
-                
-            @endforeach
+                @endforeach
+            @else
+                    @include('layouts.alert',['type'=>'danger','msg'=>'No existe usuarios con rol supervisor.!'])
+                    <a href="{{ route('usuariosNuevo') }}">Crear uno nuevo</a>
+            @endif
         </div>
         <div class="card-footer bg-white d-sm-flex justify-content-sm-between align-items-sm-center py-sm-2">
             <button type="submit" class="btn btn-primary mt-3 mt-sm-0 w-100 w-sm-auto">Guardar</button>

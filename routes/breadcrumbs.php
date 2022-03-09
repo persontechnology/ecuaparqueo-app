@@ -85,3 +85,10 @@ Breadcrumbs::for('odernMovilizacionEditar', function (BreadcrumbTrail $trail, $o
     $trail->parent('odernMovilizacion');
     $trail->push('Editar', route('odernMovilizacionEditar',$orden->id));
 });
+
+// control orden de movilizacion
+Breadcrumbs::for('controlOdernMovilizacion', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Control orden de movilización', route('controlOdernMovilizacion'));
+});
+

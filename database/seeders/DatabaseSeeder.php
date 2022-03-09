@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             'Empresa',
             'Departamentos',
             'Vehículos',
-            'Orden de Movilización'
+            'Orden de Movilización',
+            'Control Orden de Movilización',
         );
         foreach ($permisos as $per) {
             Permission::updateOrCreate(['name' => $per]);    

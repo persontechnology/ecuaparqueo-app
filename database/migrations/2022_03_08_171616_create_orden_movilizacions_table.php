@@ -34,6 +34,10 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
 
+            $table->bigInteger('user_acepted')->nullable();
+            $table->bigInteger('user_denegated')->nullable();
+
+
         });
     }
 

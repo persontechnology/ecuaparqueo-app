@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EspacioController;
@@ -83,6 +84,11 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/odern-movilizacion-editar/{id}', [OrdenMovilizacionController::class, 'editar'])->name('odernMovilizacionEditar');
     Route::post('/odern-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
     Route::post('/odern-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
+
+    // control orden de mobilizacion
+    Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
+    Route::post('/control-odern-movilizacion-estado', [ControlOrdenMovilizacionController::class, 'estado'])->name('controlOdernMovilizacionEstado');
+    
     
     
     

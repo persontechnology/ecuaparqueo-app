@@ -145,7 +145,7 @@
                         </div>
                     @endif
 
-                    @foreach (['success', 'warning', 'info', 'error', 'default'] as $msg)
+                    @foreach (['success', 'warning', 'info', 'danger', 'primary'] as $msg)
                         @if (Session::has($msg))
                             @include('layouts.alert', ['type' => $msg, 'msg' => Session::get($msg)])
                         @endif

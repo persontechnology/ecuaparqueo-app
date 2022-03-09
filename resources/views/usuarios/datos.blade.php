@@ -45,7 +45,7 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="telefono">Teléfono:</label>
-                <input id="telefono" type="text" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono',$user->telefono??'') }}" required  >
+                <input id="telefono" type="number" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono',$user->telefono??'') }}" required  >
 
                 @error('telefono')
                     <span class="invalid-feedback" role="alert">
@@ -61,7 +61,7 @@
         <div class="col-lg-3">
             <div class="form-group">
                 <label for="documento">Documento #:</label>
-                <input id="documento" type="text" class="form-control @error('documento') is-invalid @enderror" name="documento" value="{{ old('documento',$user->documento??'') }}" required  >
+                <input id="documento" type="number" class="form-control @error('documento') is-invalid @enderror" name="documento" value="{{ old('documento',$user->documento??'') }}" required  >
 
                 @error('documento')
                     <span class="invalid-feedback" role="alert">
