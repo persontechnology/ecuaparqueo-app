@@ -14,4 +14,14 @@ class Vehiculo extends Model
     {
         return $this->belongsTo(TipoVehiculo::class,'tipo_vehiculo_id');
     }
+
+    public function kilometraje()
+    {
+        return $this->belongsTo(Kilometraje::class,'kilometraje_id');
+    }
+
+    public function kilometrajes()
+    {
+        return $this->hasMany(Kilometraje::class);
+    }
 }

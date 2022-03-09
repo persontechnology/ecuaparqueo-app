@@ -24,6 +24,7 @@ class CreateVehiculosTable extends Migration
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
 
             $table->foreignId('tipo_vehiculo_id')->constrained('tipo_vehiculos');
+            $table->integer('kilometraje_id')->nullable();
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             

@@ -1,7 +1,6 @@
 var lista_estacionamientos = [];
 
 function setListaEstablecimientos(establecimientos) {
-    debugger;
     return (lista_estacionamientos = establecimientos);
 }
 
@@ -14,11 +13,9 @@ function bbuu(params) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
     });
-    var type = "POST";
-    var ajaxurl = "/espacios-actualizar-todos";
     $.ajax({
-        type: type,
-        url: ajaxurl,
+        type: "POST",
+        url: "/espacios-actualizar-todos",
         data: {
             estacionamientos: getListaEstablecimientos(),
         },
@@ -34,25 +31,25 @@ function bbuu(params) {
     });
 }
 $("#btn-update").click(function (e) {
-    debugger;
     $.ajaxSetup({
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content"),
         },
     });
+
     e.preventDefault();
     var type = "POST";
-    var ajaxurl = "/eespacios-actualizar-todos";
+    var ajaxurl = "/todos";
     $.ajax({
         type: type,
         url: ajaxurl,
         data: {
-            estacionamientos: getListaEstablecimientos(),
+            espacios: getListaEstablecimientos(),
         },
         dataType: "json",
         success: function (data) {
             if (data?.tipo === "success") {
-                window.location = "listar-espacios/1";
+                window.location = "/listar-espacios/1";
             }
         },
         error: function (data) {
@@ -90,6 +87,7 @@ var JqueryUiInteractions = (function () {
             cursor: "move",
             scroll: true,
             stop: function (event, ui) {
+                $(this).addClass('bg-primary');
                 let numeroId = $(this).attr("id");
                 let numero = numeroId.split("-");
                 let data = {
@@ -100,37 +98,6 @@ var JqueryUiInteractions = (function () {
                 actualizarArray(data);
                 return;
             },
-        });
-
-        //
-        // Constrain movement
-        //
-
-        // Both
-        $("#draggable-move-both").draggable({
-            containment: "#draggable-containment-container",
-        });
-
-        // Vertical
-        $("#draggable-move-vertical").draggable({
-            containment: "#draggable-containment-container",
-            axis: "y",
-        });
-
-        // Horizontal
-        $("#draggable-move-horizontal").draggable({
-            containment: "#draggable-containment-container",
-            axis: "x",
-        });
-
-        //
-        // Revert position
-        //
-
-        // Element
-        $("#draggable-revert-element").draggable({
-            containment: "#draggable-revert-container",
-            revert: true,
         });
 
         // Clone helper
@@ -148,53 +115,6 @@ var JqueryUiInteractions = (function () {
             },
         });
 
-        // Speed
-        $("#draggable-revert-speed").draggable({
-            containment: "#draggable-revert-container",
-            revert: true,
-            revertDuration: 1500,
-        });
-
-        //
-        // Cursors
-        //
-
-        // Move cursor
-        $("#draggable-cursor-move").draggable({
-            containment: "#draggable-cursor-container",
-            cursor: "move",
-        });
-
-        // Crosshair cursor
-        $("#draggable-cursor-crosshair").draggable({
-            containment: "#draggable-cursor-container",
-            cursor: "crosshair",
-        });
-
-        // Bottom cursor
-        $("#draggable-cursor-bottom").draggable({
-            containment: "#draggable-cursor-container",
-            cursorAt: {
-                bottom: 0,
-            },
-        });
-
-        //
-        // Handles
-        //
-
-        // Text
-        $("#draggable-handle-text").draggable({
-            containment: "#draggable-handle-container",
-            handle: "span",
-        });
-
-        // Icon
-        $("#draggable-handle-icon").draggable({
-            containment: "#draggable-handle-container",
-            handle: ".handle-icon",
-        });
-
         // Exception
         $("#draggable-handle-exception").draggable({
             containment: "#draggable-handle-container",
@@ -208,7 +128,7 @@ var JqueryUiInteractions = (function () {
         // Define elements
         var $start_counter = $("#draggable-event-start"),
             $drag_counter = $("#draggable-event-drag"),
-            $stop_counter = $("#draggable-event-stop"),
+            $stop_counter = $("#draggable-revert-clone"),
             counts = [0, 0, 0];
 
         // Start event
@@ -231,8 +151,10 @@ var JqueryUiInteractions = (function () {
 
         // Stop event
         $stop_counter.draggable({
-            containment: "#draggable-events-container",
-            stop: function () {
+            containment: "#draggable-default-container",
+            stop: function (event, ui) {
+                $(".draggable-element").draggable("destroy");
+                debugger;
                 counts[2]++;
                 updateCounterStatus($stop_counter, counts[2]);
             },
@@ -240,7 +162,7 @@ var JqueryUiInteractions = (function () {
 
         // Update counter text
         function updateCounterStatus($event_counter, new_count) {
-            $(".event-count", $event_counter).text(new_count);
+            debugger;
         }
     };
 

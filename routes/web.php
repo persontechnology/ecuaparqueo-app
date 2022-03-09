@@ -91,7 +91,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     
     
     // espacios
-    Route::post('/espacios-actualizar-todos', [EspacioController::class, 'actualizarTodos'])->name('espaciosActualizarTodos');
+    Route::post('/todos', [EspacioController::class, 'actualizarTodos'])->name('parqueaderos.actualizar.todos');
     
     
     

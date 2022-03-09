@@ -10,10 +10,14 @@ class Parqueadero extends Model
     use HasFactory;
 
     #region relaciones
-    
+
     public function espacios()
     {
         return $this->hasMany(Espacio::class);
     }
 
+    public function vehiculos()
+    {
+        return $this->hasManyThrough(Vehiculo::class, Parqueadero::class);
+    }
 }
