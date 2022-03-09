@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
@@ -31,9 +31,9 @@ Breadcrumbs::for('departamentosNuevo', function (BreadcrumbTrail $trail) {
     $trail->parent('departamentos');
     $trail->push('Nuevo', route('departamentosNuevo'));
 });
-Breadcrumbs::for('departamentosEditar', function (BreadcrumbTrail $trail,$dep) {
+Breadcrumbs::for('departamentosEditar', function (BreadcrumbTrail $trail, $dep) {
     $trail->parent('departamentos');
-    $trail->push('Editar', route('departamentosEditar',$dep->id));
+    $trail->push('Editar', route('departamentosEditar', $dep->id));
 });
 
 
@@ -60,4 +60,14 @@ Breadcrumbs::for('vehiculos', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('vehiculosNuevo', function (BreadcrumbTrail $trail) {
     $trail->parent('vehiculos');
     $trail->push('Nuevo', route('vehiculosNuevo'));
+});
+
+// parqueaderos
+Breadcrumbs::for('parqueaderos', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Vehículos', route('parqueaderos'));
+});
+Breadcrumbs::for('parqueaderosNuevo', function (BreadcrumbTrail $trail) {
+    $trail->parent('parqueaderos');
+    $trail->push('Nuevo', route('parqueaderoNuevo'));
 });

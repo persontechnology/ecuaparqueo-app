@@ -8,7 +8,31 @@ function setListaEstablecimientos(establecimientos) {
 function getListaEstablecimientos() {
     return lista_estacionamientos;
 }
-
+function bbuu(params) {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+        },
+    });
+    var type = "POST";
+    var ajaxurl = "/espacios-actualizar-todos";
+    $.ajax({
+        type: type,
+        url: ajaxurl,
+        data: {
+            estacionamientos: getListaEstablecimientos(),
+        },
+        dataType: "json",
+        success: function (data) {
+            if (data?.tipo === "success") {
+                window.location = "listar-espacios/1";
+            }
+        },
+        error: function (data) {
+            console.log(data);
+        },
+    });
+}
 $("#btn-update").click(function (e) {
     debugger;
     $.ajaxSetup({
@@ -220,217 +244,6 @@ var JqueryUiInteractions = (function () {
         }
     };
 
-    // Droppable
-    var _componentUiDroppable = function () {
-        if (!$().draggable || !$().droppable) {
-            console.warn("Warning - jQuery UI components are not loaded.");
-            return;
-        }
-
-        //
-        // Basic functionality
-        //
-
-        // Drag
-        $("#droppable-basic-element").draggable({
-            containment: "#droppable-basic-container",
-        });
-
-        // Drop
-        $("#droppable-basic-target").droppable({
-            drop: function (event, ui) {
-                $(this)
-                    .addClass("bg-success border-success text-white")
-                    .html("<span>Dropped!</span>");
-            },
-        });
-
-        //
-        // Accept drop
-        //
-
-        // Drag
-        $("#droppable-accept-yes, #droppable-accept-no").draggable({
-            containment: "#droppable-accept-container",
-        });
-
-        // Drop
-        $("#droppable-accept-target").droppable({
-            accept: "#droppable-accept-yes",
-            drop: function (event, ui) {
-                $(this)
-                    .addClass("bg-success border-success text-white")
-                    .html("<span>Dropped!</span>");
-            },
-        });
-
-        //
-        // Revert draggable position
-        //
-
-        // Drag (revert on drop)
-        $("#droppable-revert-drop").draggable({
-            containment: "#droppable-revert-container",
-            revert: "valid",
-        });
-
-        // Drag (revert always except drop)
-        $("#droppable-revert-except").draggable({
-            containment: "#droppable-revert-container",
-            revert: "invalid",
-        });
-
-        // Drop
-        $("#droppable-revert-target").droppable({
-            drop: function (event, ui) {
-                $(this)
-                    .addClass("bg-success border-success text-white")
-                    .html("<span>Dropped!</span>");
-            },
-        });
-
-        //
-        // Visual feedback
-        //
-
-        // Drag
-        $("#droppable-visual-element").draggable({
-            containment: "#droppable-visual-container",
-        });
-
-        // Active drop
-        $("#droppable-visual-target-active").droppable({
-            containment: "#droppable-visual-container",
-            accept: "#droppable-visual-element",
-            activeClass: "bg-secondary border-secondary text-white",
-            drop: function (event, ui) {
-                $(this)
-                    .addClass("bg-success border-success text-white")
-                    .html("<span>Dropped!</span>");
-            },
-        });
-
-        // Hover drop
-        $("#droppable-visual-target-hover").droppable({
-            containment: "#droppable-visual-container",
-            hoverClass: "bg-primary border-primary text-white",
-            drop: function (event, ui) {
-                $(this)
-                    .addClass("bg-teal border-teal text-white")
-                    .html("<span>Dropped!</span>");
-            },
-        });
-    };
-
-    // Resizable
-    var _componentUiResizable = function () {
-        if (!$().resizable) {
-            console.warn("Warning - jQuery UI components are not loaded.");
-            return;
-        }
-
-        // Basic functionality
-        $("#resizable-basic-element").resizable({
-            minWidth: 50,
-            minHeight: 50,
-        });
-
-        // Animated resize
-        $("#resizable-animate-element").resizable({
-            minWidth: 50,
-            minHeight: 50,
-            animate: true,
-        });
-
-        // Preserve aspect ratio
-        $("#resizable-ratio-element").resizable({
-            minWidth: 50,
-            minHeight: 50,
-            aspectRatio: 16 / 9,
-        });
-
-        // Synchronous resize
-        $("#resizable-sync-element1").resizable({
-            minWidth: 50,
-            minHeight: 50,
-            alsoResize: "#resizable-sync-element2",
-        });
-        $("#resizable-sync-element2").resizable({
-            minWidth: 50,
-            minHeight: 50,
-            alsoResize: "#resizable-sync-element1",
-        });
-    };
-
-    // Selectable
-    var _componentUiSelectable = function () {
-        if (!$().selectable) {
-            console.warn("Warning - jQuery UI components are not loaded.");
-            return;
-        }
-
-        // Basic functionality
-        $("#selectable-basic").selectable();
-
-        // Serialize
-        $("#selectable-serialize").selectable({
-            stop: function () {
-                var result = $("#select-result").empty();
-                $(".ui-selected", this).each(function () {
-                    var index = $("#selectable-serialize li").index(this);
-                    result.append(" #" + (index + 1));
-                });
-            },
-        });
-    };
-
-    // Sortable
-    var _componentUiSortable = function () {
-        if (!$().sortable) {
-            console.warn("Warning - jQuery UI components are not loaded.");
-            return;
-        }
-
-        // Basic functionality
-        $("#sortable-list-basic").sortable();
-        $("#sortable-list-basic").disableSelection();
-
-        // Placeholder
-        $("#sortable-list-placeholder").sortable({
-            placeholder: "sortable-placeholder",
-            start: function (e, ui) {
-                ui.placeholder.height(ui.item.outerHeight());
-            },
-        });
-        $("#sortable-list-placeholder").disableSelection();
-
-        // Connected lists
-        $("#sortable-list-first, #sortable-list-second")
-            .sortable({
-                connectWith: ".selectable-demo-connected",
-            })
-            .disableSelection();
-
-        //
-        // Include/exclude items
-        //
-
-        // Specify sort items
-        $("#sortable-list-specify").sortable({
-            items: "li:not(.ui-handle-excluded)",
-        });
-
-        // Exclude items
-        $("#sortable-list-cancel").sortable({
-            cancel: ".ui-handle-excluded",
-        });
-
-        // Disable selections
-        $(
-            "#sortable-list-specify li, #sortable-list-cancel li"
-        ).disableSelection();
-    };
-
     //
     // Return objects assigned to module
     //
@@ -438,10 +251,6 @@ var JqueryUiInteractions = (function () {
     return {
         init: function () {
             _componentUiDraggable();
-            _componentUiDroppable();
-            _componentUiResizable();
-            _componentUiSelectable();
-            _componentUiSortable();
         },
     };
 })();

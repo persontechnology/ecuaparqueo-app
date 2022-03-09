@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdenMovilizacionController;
+use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\RolesPermisosController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
@@ -79,9 +81,17 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/odern-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
     
     
+    // parqueaderos
+    Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');
+    Route::get('/parqueadero-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderoNuevo');
+    Route::post('/parqueadero-guardar', [ParqueaderoController::class, 'guardar'])->name('guardarParqueadero');
+    Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
+    Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
+    Route::get('/listar-espacios/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
     
     
-    
+    // espacios
+    Route::post('/espacios-actualizar-todos', [EspacioController::class, 'actualizarTodos'])->name('espaciosActualizarTodos');
     
     
     
