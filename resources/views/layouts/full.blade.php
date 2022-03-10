@@ -8,21 +8,12 @@
 <body>
 
     <!-- Main navbar -->
-    @include('layouts.header')
+    {{-- @include('layouts.header') --}}
     <!-- /main navbar -->
 
 
     <!-- Page content -->
     <div class="page-content">
-
-        <!-- Main sidebar -->
-        @auth
-            @include('layouts.menu')
-        @endauth
-
-        <!-- /main sidebar -->
-
-
         <!-- Main content -->
         <div class="content-wrapper">
 
@@ -114,8 +105,9 @@
                             @include('layouts.alert', ['type' => $msg, 'msg' => Session::get($msg)])
                         @endif
                     @endforeach
-
+                    
                     @yield('content')
+                    
                 </div>
                 <!-- /content area -->
 
@@ -132,45 +124,7 @@
 
     </div>
     <!-- /page content -->
-    <script>
-        function eliminar(arg) {
 
-            var url = $(arg).data('url');
-            var id = $(arg).data('id');
-            var msg = $(arg).data('msg');
-
-            $.confirm({
-                theme: 'Modern',
-                type: 'red',
-                closeIcon: true,
-                icon: 'fa-regular fa-face-sad-tear fa-beat',
-                title: 'Confirmar!',
-                content: msg,
-                buttons: {
-                    confirmar: function() {
-                        var form = document.createElement("form");
-                        var element1 = document.createElement("input");
-                        var element2 = document.createElement("input");
-                        form.method = "POST";
-                        form.action = url;
-                        element1.value = "{{ csrf_token() }}";
-                        element1.name = "_token";
-                        form.appendChild(element1);
-                        element2.value = id;
-                        element2.name = "id";
-                        form.appendChild(element2);
-                        document.body.appendChild(form);
-                        form.submit();
-                    },
-                    cancelar: function() {
-
-                    }
-                }
-            });
-
-        }
-    </script>
-{{-- @stack('linksPie') --}}
 </body>
 
 </html>

@@ -192,6 +192,9 @@ var JqueryUiInteractions = (function () {
 document.addEventListener("DOMContentLoaded", function () {
     JqueryUiInteractions.init();
 });
+
+
+
 function actualizarArray(params) {
     if (params?.number && lista_estacionamientos?.length > 0) {
         let fl = lista_estacionamientos.find(

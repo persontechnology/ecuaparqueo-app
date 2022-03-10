@@ -8,6 +8,7 @@ use App\DataTables\OrdenMovilizacionDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
 use App\Models\OrdenMovilizacion;
+use App\Models\Parqueadero;
 use App\Models\User;
 use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Illuminate\Http\Request;
@@ -24,7 +25,10 @@ class OrdenMovilizacionController extends Controller
 
     public function index(OrdenMovilizacionDataTable $dataTable)
     {
-        return $dataTable->render('movilizacion.index');
+        $parqueaderos=Parqueadero::where('estado','Activo')->get();
+        $data = array('parqueaderos' => $parqueaderos );
+        return view('movilizacion.calendar.index',$data);
+        // return $dataTable->render('movilizacion.index');
     }
 
     public function nuevo(ConductorDataTable $conductorDataTable, VehiculoDataTable $vehiculoDataTable)
