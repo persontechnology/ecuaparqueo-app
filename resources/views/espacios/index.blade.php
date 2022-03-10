@@ -129,7 +129,7 @@
                                 </option>
                                 @if (count($vehiculos) > 0)
                                     @foreach ($vehiculos as $ve)
-                                        <option value="{{$ve->id}}" data-image="{{ Storage::url($espacio->vehiculo->foto) }}">
+                                        <option value="{{$ve->id}}" data-image="{{ Storage::url($ve->foto) }}">
                                             {{ $ve->placa }}-{{ $ve->descripcion }}
                                         </option>
                                     @endforeach
