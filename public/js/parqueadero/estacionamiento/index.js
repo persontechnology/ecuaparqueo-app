@@ -1,4 +1,5 @@
 var lista_estacionamientos = [];
+var parqueaderoId=null;
 
 function setListaEstablecimientos(establecimientos) {
     return (lista_estacionamientos = establecimientos);
@@ -7,7 +8,15 @@ function setListaEstablecimientos(establecimientos) {
 function getListaEstablecimientos() {
     return lista_estacionamientos;
 }
+function setIdParqueadero(parqueadero) {
+    return (parqueaderoId = parqueadero.id);
+}
+
+function getIdParqueadero() {
+    return parqueaderoId;
+}
 function bbuu(params) {
+    debugger
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -22,7 +31,7 @@ function bbuu(params) {
         dataType: "json",
         success: function (data) {
             if (data?.tipo === "success") {
-                window.location = "listar-espacios/1";
+                window.location = "listar-espacios/"+getIdParqueadero();
             }
         },
         error: function (data) {
@@ -49,7 +58,7 @@ $("#btn-update").click(function (e) {
         dataType: "json",
         success: function (data) {
             if (data?.tipo === "success") {
-                window.location = "/listar-espacios/1";
+                window.location = "/listar-estacionamientos/"+getIdParqueadero();
             }
         },
         error: function (data) {

@@ -7,6 +7,7 @@ use App\Http\Requests\Parqueaderos\RqActualizar;
 use App\Http\Requests\Parqueaderos\RqGuardar;
 use App\Models\Espacio;
 use App\Models\Parqueadero;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,8 +54,10 @@ class ParqueaderoController extends Controller
     }
     public function listarEspacios(Request $request, Parqueadero $parqueadero)
     {
-        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo','vehiculo.kilometraje'])->get();
-        
-        return view('espacios.index', ['espacios' => $espacios]);
+        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->get();
+        $estacionamiento = Espacio::get();
+        $vehiculos = Vehiculo::where('estado', 'ACTIVO')->whereNotIn('id', $estacionamiento->pluck('vehiculo_id'))->get();
+
+        return view('espacios.index', ['espacios' => $espacios, 'vehiculos' => $vehiculos, 'parqueadero' => $parqueadero]);
     }
 }

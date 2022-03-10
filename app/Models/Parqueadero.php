@@ -18,6 +18,6 @@ class Parqueadero extends Model
 
     public function vehiculos()
     {
-        return $this->hasManyThrough(Vehiculo::class, Parqueadero::class);
+        return $this->hasManyThrough(Vehiculo::class, Espacio::class);
     }
 }
