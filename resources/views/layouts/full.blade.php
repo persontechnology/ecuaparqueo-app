@@ -124,7 +124,7 @@
 
     </div>
     <!-- /page content -->
-
+    @stack('linksPie')
 </body>
 
 </html>

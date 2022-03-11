@@ -170,7 +170,7 @@
 
         }
     </script>
-{{-- @stack('linksPie') --}}
+@stack('linksPie')
 </body>
 
 </html>

@@ -34,4 +34,4 @@
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
 
     @stack('scripts')
-	{{-- @stack('linksCabeza') --}}
+	@stack('linksCabeza')

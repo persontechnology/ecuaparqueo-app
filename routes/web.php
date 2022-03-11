@@ -85,6 +85,9 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/odern-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
     Route::post('/odern-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
 
+    // REFACTOR
+    Route::post('/odern-movilizacion-obtener-vehiculos', [OrdenMovilizacionController::class, 'obtenerVehiculos'])->name('odernMovilizacionObtenerVehiculos');
+
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
     Route::post('/control-odern-movilizacion-estado', [ControlOrdenMovilizacionController::class, 'estado'])->name('controlOdernMovilizacionEstado');

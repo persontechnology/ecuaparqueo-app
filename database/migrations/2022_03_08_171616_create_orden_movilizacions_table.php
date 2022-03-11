@@ -18,14 +18,13 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->timestamps();
 
             $table->string('numero')->unique();
-            $table->date('fecha_salida');
+            $table->dateTime('fecha_salida');
 
             $table->string('servidor_publico');
             $table->string('direccion');
             $table->string('lugar_comision');
             $table->string('motivo');
-            $table->time('hora_salida');
-            $table->time('hora_retorno')->nullable();
+            $table->dateTime('fecha_retorno');
             $table->enum('estado',['ESPERA','ACEPTADA','DENEGADA'])->default('ESPERA');
 
             $table->foreignId('user_id')->constrained('users');

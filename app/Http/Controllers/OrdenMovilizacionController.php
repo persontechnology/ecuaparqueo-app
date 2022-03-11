@@ -11,6 +11,7 @@ use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\User;
 use App\Notifications\OrdenMovilizacionIngresadaNoty;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
@@ -23,11 +24,15 @@ class OrdenMovilizacionController extends Controller
         $this->middleware(['permission:Orden de Movilización']);
     }
 
-    public function index(OrdenMovilizacionDataTable $dataTable)
+    public function index(ConductorDataTable $dataTable)
     {
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
-        $data = array('parqueaderos' => $parqueaderos );
-        return view('movilizacion.calendar.index',$data);
+        $data = array(
+            'parqueaderos' => $parqueaderos,
+            'numero'=>OrdenMovilizacion::NumeroSiguente(),
+            'ordenesMovilizaciones'=>OrdenMovilizacion::get()
+        );
+        return $dataTable->render('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
     }
 
@@ -50,15 +55,14 @@ class OrdenMovilizacionController extends Controller
     {
         
         $orden =new OrdenMovilizacion();
-        $orden->fecha_salida=$request->fecha_salida;
+        $orden->fecha_salida=Carbon::parse($request->fecha_salida);
         $orden->user_id=$request->conductor;
         $orden->vehiculo_id=$request->vehiculo;
         $orden->servidor_publico=$request->servidor_publico;
         $orden->direccion=$request->direccion;
         $orden->lugar_comision=$request->lugar_comision;
         $orden->motivo=$request->motivo;
-        $orden->hora_salida=$request->hora_salida;
-        $orden->hora_retorno=$request->hora_retorno;
+        $orden->fecha_retorno=Carbon::parse($request->fecha_retorno);
         $orden->user_create=Auth::user()->id;
         $orden->save();
         
@@ -133,5 +137,13 @@ class OrdenMovilizacionController extends Controller
             request()->session()->flash('success','Ordén de movilización no eliminado');
         }
         return redirect()->route('odernMovilizacion');
+    }
+
+    public function obtenerVehiculos(Request $request)
+    {
+        $par=Parqueadero::find($request->id);
+        $espacios = $par->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->get();
+        return view('movilizacion.calendar.espacio',['espacios'=>$espacios]);
+         
     }
 }

@@ -42,6 +42,7 @@ class ConductorDataTable extends DataTable
         $no_roles = Role::whereNotIn('name', ['SuperAdmin', 'SiteAdmin'])->get();
 
         return $model->role($no_roles);
+        // return $model->newQuery();
     }
 
     /**
@@ -53,8 +54,10 @@ class ConductorDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('movilizacion-conductor-table')
+                    // ->setTableAttribute(['class'=>'table table-sm'])
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->pageLength(5)
                     ->ajax(['data' => 'function(d) { d.table = "table_conductor"; }'])
                     ->parameters($this->getBuilderParameters());
                     // ->dom('Bfrtip')
@@ -79,9 +82,11 @@ class ConductorDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(60)
+                  ->width(30)
                   ->searchable(false)
-                  ->title('Seleccionar')
+                  ->orderable(false)
+                  ->iconv(false)
+                  ->title('<i class="fa-solid fa-user"></i>')
                   ->addClass('text-center'),
             // Column::make('id'),
             Column::make('foto'),
