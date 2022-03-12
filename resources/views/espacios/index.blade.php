@@ -10,24 +10,55 @@
 
 @endsection
 @section('content')
-    <div class="text-right mb-1">
-        <button class="btn btn-info" id="btn-update">ACTUALIZAR</button>
+    <!-- Simple text stats with icons -->
+
+    <div class="row text-center">
+        <div class="col-sm-2">
+            <div class="d-flex align-items-center justify-content-center mb-2">
+                <a href="#" class="btn bg-transparent border-teal text-teal rounded-pill border-2 btn-icon mr-3">
+                    <i class="icon-road"></i>
+                </a>
+                <div>
+                    <div class="font-weight-semibold">
+                        {{ count($parqueadero->espacios) }}/{{ $parqueadero->numero_total ?? 0 }}</div>
+                    <span class="text-muted">Total</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 ">
+            <span class="badge badge-success badge-pill align-self-center ml-auto">Activo</span>
+            <span class="badge badge-danger badge-pill align-self-center ml-auto">Inactivo</span>
+            <span class="badge badge-info badge-pill align-self-center ml-auto">Presente</span>
+            <span class="badge badge-warning badge-pill align-self-center ml-auto">Ausente</span>
+            <span class="badge badge-pink badge-pill align-self-center ml-auto">Solicitado</span>
+            <span class="badge badge-primary badge-pill align-self-center ml-auto">Resevado</span>
+
+        </div>
+        <div class="col-sm-3">
+
+            <div class="text-right mb-0 mb-1">
+                <button class="btn btn-primary" id="btn-update"><i class="icon-rotate-ccw3 mr-1"></i>ACTUALIZAR
+                    POSICIÓN</button>
+            </div>
+        </div>
     </div>
+
+    <!-- /simple text stats with icons -->
     <div class="card" id="draggable-default-container"
-        style="overflow:scroll;height:1000px;border:1px solid rgb(218, 213, 213);background-color:lightblue; position: inherit;">
+        style="overflow:scroll;height:1000px;border:1px solid rgb(37 43 54 / 65%);background-color:#252b3675; position: inherit;">
         <div class="card-body">
             <div>
                 @if (count($espacios) > 0)
 
                     @foreach ($espacios as $espacio)
                         <div id="item-{!! json_encode($espacio->id) !!}-establecimiento"
-                            class=" draggable-element bg bg-primary rounded-5 text-center"
+                            class="shadow-sm  draggable-element rounded-5 text-center"
                             style="position: relative; left:{{ $espacio->left }}px; top: {{ $espacio->top }}px;">
 
                             <div class="card text-center">
                                 <div class="card-body ">
                                     <div class="media">
-                                        <div class=" mr-2">
+                                        <div class="mr-2">
 
                                             @if (Storage::exists($espacio->vehiculo->foto))
                                                 <a href="{{ Storage::url($espacio->vehiculo->foto) }}">
@@ -39,9 +70,9 @@
                                             @endif
                                             <br>
                                             <span
-                                                class="badge badge-flat border-success text-success rounded-0">{{ $espacio->vehiculo->estado }}</span>
+                                                class="badge {{ $espacio->estadosColor($espacio->estado) }} rounded-2">{{ $espacio->estado }}</span>
                                             <span style="padding: .7125rem .8375rem;"
-                                                class="position-absolute top-0 left-50 start-100 translate-middle badge rounded-pill bg-danger">{{ $espacio->numero }}</span>
+                                                class="position-absolute top-0 left-50 start-100 translate-middle badge rounded-pill {{ $espacio->estadosColor($espacio->estado) }}">{{ $espacio->numero }}</span>
                                         </div>
                                         <div class="media-body">
                                             <div class="media-title font-weight-semibold">{{ $espacio->vehiculo->placa }}
@@ -51,7 +82,7 @@
                                             </div>
                                             <div class="list-icons">
                                                 <span class="list-icons-item"> <i class="text-muted icon-road">km</i>
-                                                    {{ $espacio->vehiculo->kilometraje->numero??'' }}</span>
+                                                    {{ $espacio->vehiculo->kilometraje->numero ?? '' }}</span>
                                                 <span class="list-icons-item"><i class="text-muted icon-gas "></i>
                                                     50%</span>
                                             </div>
@@ -62,12 +93,14 @@
                                                 <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"
                                                     aria-expanded="false"></a>
                                                 <div class="dropdown-menu dropdown-menu-center" style="">
-                                                    <a href="#" class="dropdown-item"><i
-                                                            class="icon-comment-discussion"></i>
-                                                        Start
-                                                        chat</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-phone2"></i> Make a
-                                                        call</a>
+                                                    <a href="#" class="dropdown-item">
+                                                        <i class="icon-pencil4"></i>
+                                                        Editar
+                                                    </a>
+                                                    <a href="#" class="dropdown-item">
+                                                        <i class="icon-location4"></i> 
+                                                        Ver Localidad
+                                                    </a>
                                                     <a href="#" class="dropdown-item"><i
                                                             class="icon-comment-discussion"></i>
                                                         Start
@@ -111,8 +144,9 @@
                         <div class="form-group">
                             <label for="numero">Número:</label>
 
-                            <input id="numero" type="number" required class="form-control @error('numero') is-invalid @enderror"
-                                name="numero" value="{{ old('numero') }}">
+                            <input id="numero" type="number" required
+                                class="form-control @error('numero') is-invalid @enderror" name="numero"
+                                value="{{ old('numero') }}">
 
                             @error('numero')
                                 <span class="invalid-feedback" role="alert">
@@ -129,7 +163,7 @@
                                 </option>
                                 @if (count($vehiculos) > 0)
                                     @foreach ($vehiculos as $ve)
-                                        <option value="{{$ve->id}}" data-image="{{ Storage::url($ve->foto) }}">
+                                        <option value="{{ $ve->id }}" data-image="{{ Storage::url($ve->foto) }}">
                                             {{ $ve->placa }}-{{ $ve->descripcion }}
                                         </option>
                                     @endforeach
@@ -173,14 +207,15 @@
                         return opt.text;
                     } else {
                         var $opt = $(
-                            '<span><img src="' + optimage + '" width="50" height="40" class="rounded-circle mr-2" /> ' + opt.text +
+                            '<span><img src="' + optimage +
+                            '" width="50" height="40" class="rounded-circle mr-2" /> ' + opt.text +
                             '</span>'
                         );
                         return $opt;
                     }
                 };
             });
-            @if ($errors->has('number')||$errors->has('parqueadero_id')||$errors->has('vehiculo_id'))
+            @if ($errors->has('number') || $errors->has('parqueadero_id') || $errors->has('vehiculo_id'))
                 $('#exampleModal').modal('show');
             @endif
         </script>

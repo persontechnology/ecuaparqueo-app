@@ -32,6 +32,8 @@ class UsuarioController extends Controller
     }
     public function guardar(RqGuardarUsuario $request)
     {
+        return $request;
+
         try {
             DB::beginTransaction();
             $user=new User();

@@ -64,9 +64,9 @@
                         @if ($guardias->count() > 0)
                             @foreach ($guardias as $guardia)
                                 <div class="form-check">
-                                    <input type="checkbox" value="{{ $guardia->id }}"
+                                    <input type="checkbox"  value="{{ $guardia->id }}"
                                     {{ (is_array(old('guardias')) && in_array($guardia->id, old('guardias'))) ? ' checked' : '' }}
-                                        name="guardias[]"
+                                        name="guardias[]" 
                                         class="form-check-input @error('guardias.' . $guardia->id) is-invalid @enderror"
                                         id="guardia-{{ $guardia->id }}">
 

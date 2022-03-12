@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('departamentosEditar', $parqueadero))
+@section('breadcrumbs', Breadcrumbs::render('parqueaderosEditar', $parqueadero))
 @section('content')
 
 
@@ -87,23 +87,11 @@
                     <div class="col-sm-4">
                         <p>Guardias Encargados</p>
                         @if ($guardias->count() > 0)
-                            @foreach ($guardias as $guardia)
-                                <div class="form-check">
-                                    <input type="checkbox" value="{{ $guardia->id }}"
-                                        {{ is_array(old('guardias', )) && in_array($guardia->id, old('guardias')) ? ' checked' : '' }}
-                                        name="guardias[]" 
-                                        class="form-check-input @error('guardias.' . $guardia->id) is-invalid @enderror"
-                                        id="guardia-{{ $guardia->id }}">
-
-                                    <label class="form-check-label"
-                                        for="permi-0-{{ $guardia->id }}">{{ $guardia->email }}
-                                    </label>
-                                    <a href="#" data-popup="popover" data-trigger="hover"
-                                        title="{{ $guardia->apellidos }} {{ $guardia->nombres }}"
-                                        data-content="{{ $guardia->documento }}">
-                                        <i class="fa-solid fa-user"></i>
-                                    </a>
-                                </div>
+                            @foreach ($guardias as $rol)
+                            <div class="form-check">
+                                <input type="checkbox" value="{{ $rol->id }}" {{$rol->pivot->guardia_id??old('roles.'.$rol->id)==$rol->id?'checked':''}} name="roles[{{ $rol->id }}]"  class="form-check-input @error('roles.'.$rol->id) is-invalid @enderror" id="rol-{{ $rol->id }}">
+                                <label class="form-check-label" for="rol-{{ $rol->id }}">{{ $rol->name }}</label>
+                            </div>
                             @endforeach
                         @else
                             @include('layouts.alert', [
@@ -112,6 +100,8 @@
                             ])
                             <a href="{{ route('usuariosNuevo') }}">Crear uno nuevo</a>
                         @endif
+<br>    
+                     
                     </div>
                 </div>
             </div>

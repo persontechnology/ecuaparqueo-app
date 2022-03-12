@@ -16,8 +16,13 @@ class Parqueadero extends Model
         return $this->hasMany(Espacio::class);
     }
 
+    // public function guardias()
+    // {
+    //     return $this->hasMany(GuardiaParqueadero::class);
+    // }
+
     public function guardias()
     {
-        return $this->hasMany(GuardiaParqueadero::class);
+        return $this->belongsToMany(User::class,'guardia_parqueaderos','parqueadero_id','guardia_id');
     }
 }

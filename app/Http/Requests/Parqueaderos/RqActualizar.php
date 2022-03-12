@@ -24,10 +24,12 @@ class RqActualizar extends FormRequest
     public function rules()
     {
         return [
-            'nombre'=>'required|string|max:255|unique:parqueaderos,nombre,'.$this->input('id'),
+            'nombre'=>'required|string|max:2|unique:parqueaderos,nombre,'.$this->input('id'),
             'descripcion' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'numero_total'=>'required',
+            'roles'    => 'nullable|array',
+            'roles.*'  => ['nullable']
         ];
     }
 }
