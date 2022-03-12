@@ -1,27 +1,44 @@
-@extends('layouts.full')
+@extends('layouts.app')
 @section('breadcrumbs', Breadcrumbs::render('odernMovilizacion'))
-@section('content')
 
-<div class="card card-body">
+@section('barraLateral')
+<div class="breadcrumb justify-content-center">
+    <h1 class="text-danger"><strong id="numero">{{ $numero }}</strong></h1>
+</div>
+@endsection
+
+@section('content')
+@if ($errors->any())
+<div class="alert alert-danger border-0 alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+    <button type="button" class="btn btn-danger btn-block " data-toggle="modal" data-target="#modal_full">Correguir errores <i class="fa-solid fa-pen-to-square"></i></button>
+</div>
+
+@endif
+
     <div class="row">
         <div class="col-lg-4">
-            <div class="form-group">
-                <label for="parqueadero">Selecione parqueadero:</label>
-                <select name="parqueadero" id="parqueadero" class="form-control" onchange="cargarVehiculos(this)">
-                    @foreach ($parqueaderos as $par)
-                        <option value="{{ $par->id }}">{{ $par->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div id="external-events">
-                <div id='external-events-list'>
-                    <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>
-                        <div class='fc-event-main'>
-                            XVA-0458
-                        </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-group">
+                        <label for="parqueadero">Selecione parqueadero:</label>
+                        <select name="parqueadero" id="parqueadero" class="form-control" onchange="cargarVehiculos(this)">
+                            @foreach ($parqueaderos as $par)
+                                <option value="{{ $par->id }}" {{ old('idParqueadero')==$par->id?'selected':'' }} >{{ $par->nombre }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
+
+                <div class="card-body">
+                    <ul class="media-list media-list-bordered" id="external-events">
+                        <div id="external-events-list">
+                        </div>
+                    </ul>
+                </div>
             </div>
+
             
         </div>
         <div class="col-lg-8">
@@ -29,150 +46,375 @@
         </div>
     </div>
     
-</div>
+
+     <!-- Full width modal -->
+     <div id="modal_full" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-full modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <form action="{{ route('odernMovilizacionGuardar') }}" method="POST" autocomplete="off">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right">{{ $numero }}</strong></h1>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                        
+                    <div class="modal-body">
+
+                        <input type="hidden" type="text" id="accionForm">
+                        <input type="hidden" type="text" id="idEventoCalendar">
+                        <input type="hidden" type="text" id="idParqueadero" name="idParqueadero" value="{{ old('idParqueadero') }}">
+                        
+                        <div class="row">
+                            <div class="col-lg-6">
+                                
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="fecha_salida">Fecha y hora de salida:</label>
+                                    <div class="col-lg-10">
+                                        
+                                        <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                            
+                                            <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1'/>
+                                            <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
+                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                            </span>
+                                            @error('fecha_salida')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror    
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2" for="conductorUser">Conductor</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group">
+                                            
+                                            <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor') }}" required>
+                                            <input type="text" onkeydown="event.preventDefault()" name="conductorUser" value="{{ old('conductorUser') }}" class="form-control @error('conductor') is-invalid @enderror" id="conductorUser" placeholder="Selecione un conductor de la tabla derecha!" required autocomplete="">
+                                            
+                                            @error('conductor')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-form-label col-lg-2" for="marcaVehiculo">Marca y N° de Vehículo</label>
+                                    <div class="col-lg-10">
+                                        <div class="input-group">
+                                            
+                                            <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo') }}" required>
+                                            <input type="text" onkeydown="event.preventDefault()" name="marcaVehiculo" value="{{ old('marcaVehiculo') }}" class="form-control @error('vehiculo') is-invalid @enderror" id="marcaVehiculo" placeholder="Vehículo sin selecionar.!" required>
+                                            
+                                            @error('vehiculo')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="servidor_publico">Servidor Público:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control @error('servidor_publico') is-invalid @enderror" name="servidor_publico" value="{{ old('servidor_publico') }}" id="servidor_publico" required>
+                                        @error('servidor_publico')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="direccion">Dirección:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" id="direccion" required>
+                                        @error('direccion')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="lugar_comision">Lugar de Comisión:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control @error('lugar_comision') is-invalid @enderror" name="lugar_comision" id="lugar_comision" value="{{ old('lugar_comision') }}" required >
+                                        @error('lugar_comision')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="motivo">Motivo:</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control @error('motivo') is-invalid @enderror" name="motivo" id="motivo" value="{{ old('motivo') }}" required>
+                                        @error('motivo')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-2 col-form-label" for="fecha_retorno">Fecha y hora de retorno:</label>
+                                    <div class="col-lg-10">
+                                        
+                                        <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                            <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2'/>
+                                            <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
+                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                            </span>
+                                        </div>
+                                        @error('fecha_retorno')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                                                            
+                                        
+                                <button type="submit" class="btn btn-primary btn-lg">GUardar</button>
+                                <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cerrar</button>
+                            </div>
+                            <div class="col-lg-6">
+                                Selecionar conductor
+                                <div class="table-responsive table-sm">
+                                    {{$dataTable->table()}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /full width modal -->
+
 @push('scripts')
+    {{$dataTable->scripts()}}
+@endpush
+
+@push('linksCabeza')
+    
+    {{-- calendar --}}
     <link href='{{ asset('js/fullcalendar-5.10.2/lib/main.min.css') }}' rel='stylesheet' />
     <script src='{{ asset('js/fullcalendar-5.10.2/lib/main.min.js') }}'></script>
     <script src="{{ asset('js/fullcalendar-5.10.2/lib/locales/es.js') }}"></script>
 
+    <!-- Popperjs -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Tempus Dominus JavaScript -->
+    <script src="{{ asset('js/tempus-dominus/dist/js/tempus-dominus.js') }}"></script>
+
+    <!-- Tempus Dominus Styles -->
+    <link rel="stylesheet" href="{{ asset('js/tempus-dominus/dist/css/tempus-dominus.css') }}">
+    <script src="{{ asset('js/monent.js') }}"></script>
+
+@endpush
+
+@prepend('linksPie')
+<script>
+
+@if ($errors->any())
+    $('#modal_full').modal('show');
+@endif
+
+    var parqueadero=$("#parqueadero option:first").val()
+
+    if($("#idParqueadero").val().replace(/\s/g,"") != ""){
+        parqueadero=$("#idParqueadero").val();
+    }
+
+
+    function cargarVehiculos(arg){
+        obtenerVehiculos($(arg).val());
+        parqueadero=$(arg).val();
+        $('#idParqueadero').val(parqueadero);
+    }
+    function obtenerVehiculos(id){
+        var url='{{ route("odernMovilizacionObtenerVehiculos") }}';
+        $( "#external-events-list" ).load( url, { '_token':"{{ csrf_token() }}",id: id }, function() {
+            // console.log("VEHICULOS CARGADOS")
+            
+        });
+    }
+
+    obtenerVehiculos(parqueadero);
+
+    
+    function seleccionarConductor(arg){
+        var str=$(arg).data('user');
+        if(str.replace(/\s/g,"") == ""){
+            $('#conductorUser').val($(arg).data('email'));
+        }else{
+            $('#conductorUser').val(str);
+        }
+        
+        $('#conductor').val($(arg).data('id'));
+    }
+    
+    
+
+    function generateStringRamdon(length) {
+        const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = ' ';
+        const charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+
+        return result;
+    }
+
+    // calendar
+   var containerEl = document.getElementById('external-events-list');
+        new FullCalendar.Draggable(containerEl, {
+        itemSelector: '.media',
+        eventData: function(eventEl) {
+            return {
+                title: $(eventEl).data('placa'),
+                'id':generateStringRamdon(100)
+            }
+        }
+    });
+
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'bootstrap',
+        headerToolbar: {
+        left: 'prev,next,today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+        },
+
+        // timeZone: 'local',
+        initialView: 'timeGridDay',
+        slotDuration: '00:15:00',
+        defaultTimedEventDuration: '00:15:00',
+        locale: 'es',
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        dayMaxEvents: true, // allow "more" link when too many events
+        selectable: true,
+        nowIndicator: true,
+        dayMaxEvents: true,
+        selectMirror: true,
+        droppable: true,
+        select: function(arg) {
+            console.log(arg)
+            console.log(arg.end)
+            calendar.unselect()
+        },
+        eventClick: function(arg) {
+            // if (confirm('Está seguro de eliminar ordén')) {
+            //     arg.event.remove()
+            // }
+            // console.log(arg.event)
+        },
+        
+        eventDrop: function(info) {
+            console.log(info.event.end)
+        },
+        eventReceive:function(event,relatedEvents,revert,draggedEl,view){
+            guardarOrdenMovilizacion(event)
+        },
+        eventResize: function(arg) {
+            // console.log(arg.event.end)
+        },
+        
+        events: [
+            @foreach ($ordenesMovilizaciones as $ordenM)
+            {
+                id:'{{ $ordenM->id }}',
+                title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->vehiculo->placa }}',
+                start: '{{ $ordenM->fecha_salida }}',
+                end:'{{ $ordenM->fecha_retorno }}'
+            },
+            @endforeach
+        ]
+    });
 
     
 
-    <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
-
-            var containerEl = document.getElementById('external-events-list');
-            new FullCalendar.Draggable(containerEl, {
-            itemSelector: '.fc-event',
-            eventData: function(eventEl) {
-                return {
-                title: eventEl.innerText.trim()
-                }
+    // fechas inicializacion
+    const picker= new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+            display: {
+                buttons:{
+                    close:true,
+                },
+                
+            },
+            hooks:{
+                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
             }
-            });
-
-
-          var calendarEl = document.getElementById('calendar');
-      
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            themeSystem: 'bootstrap',
-            headerToolbar: {
-              left: 'prevYear,prev,next,nextYear today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+    });
+    const picker2= new tempusDominus.TempusDominus(document.getElementById('datetimepicker2'),{
+            display: {
+                buttons:{
+                    close:true,
+                },
+                
             },
+            hooks:{
+                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
+            }
+    });
 
-            timeZone: 'local',
-            initialView: 'timeGridDay',
-            locale: 'es',
-            navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            dayMaxEvents: true, // allow "more" link when too many events
-            selectable: true,
-            nowIndicator: true,
-            dayMaxEvents: true,
-            select: function(arg) {
-                console.log(arg.start)
-                console.log(arg.end)
-                calendar.unselect()
-            },
-            events: [
-              {
-                title: 'All Day Event',
-                start: '2022-03-01'
-              },
-              {
-                title: 'Long Event',
-                start: '2022-03-07',
-                end: '2022-03-10'
-              },
-              {
-                groupId: 999,
-                title: 'Repeating Event',
-                start: '2022-03-09T16:00:00'
-              },
-              {
-                groupId: 999,
-                title: 'Repeating Event',
-                start: '2022-03-16T16:00:00'
-              },
-              {
-                title: 'Conference',
-                start: '2022-03-11',
-                end: '2022-03-13'
-              },
-              {
-                title: 'Meeting',
-                start: '2022-03-12T10:30:00',
-                end: '2022-03-12T12:30:00'
-              },
-              {
-                title: 'Lunch',
-                start: '2022-03-12T12:00:00'
-              },
-              {
-                title: 'Meeting',
-                start: '2022-03-12T14:30:00'
-              },
-              {
-                title: 'Happy Hour',
-                start: '2022-03-12T17:30:00'
-              },
-              {
-                title: 'Dinner',
-                start: '2022-03-12T20:00:00'
-              },
-              {
-                title: 'Birthday Party',
-                start: '2022-03-13T07:00:00'
-              },
-              {
-                title: 'Click for Google',
-                url: 'http://google.com/',
-                start: '2022-03-28'
-              }
-            ]
-          });
-      
-          calendar.render();
-          
-        });
-      
-    </script>
-    <style>
-        #external-events {
-            /* position: fixed;
-            left: 20px;
-            top: 20px;
-            width: 150px; */
-            padding: 0 10px;
-            border: 1px solid #ccc;
-            background: #eee;
-            text-align: left;
+    // funcion guardar
+    function guardarOrdenMovilizacion(event){
+
+        picker.dates.set(event.event.start);
+        var newDateObj = moment(event.event.start).add(15, 'm').toDate();
+        if(event.event.allDay){
+            newDateObj = moment(event.event.start).add(12, 'h').toDate();
         }
-
-       
-
-        #external-events .fc-event {
-            margin: 3px 0;
-            cursor: move;
-        }
-
-        #external-events p {
-            margin: 1.5em 0;
-            font-size: 11px;
-            color: #666;
-        }
-
-    </style>
-@endpush
-
-<script>
-    var parqueadero=$("#parqueadero option:first").val();
-    function cargarVehiculos(arg){
-        console.log(arg)
+        picker2.dates.set(newDateObj);
+        $('#accionForm').val('nuevoOrden');
+        $('#idEventoCalendar').val(event.event.id);
+        $('#modal_full').modal('show');
+        $('#vehiculo').val($(event.draggedEl).data('id'));
+        $('#marcaVehiculo').val($(event.draggedEl).data('placa'));
     }
-</script>
+    
+    $('#modal_full').on('hidden.bs.modal', function (event) {
+        
+        if($('#accionForm').val()==='nuevoOrden'){
+            var eventCalendar = calendar.getEventById($('#idEventoCalendar').val());
+            eventCalendar.remove();
+        }
+    })
 
+   
+    calendar.render();
+
+
+    
+   
+</script>
+@endprepend
+    
+    
 @endsection

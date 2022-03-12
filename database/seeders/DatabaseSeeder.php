@@ -42,6 +42,11 @@ class DatabaseSeeder extends Seeder
             Permission::updateOrCreate(['name' => $per]);    
         }
 
+        for ($i=0; $i <50 ; $i++) { 
+            User::updateOrCreate(
+                ['email'=>$i.'@gmail.com','password'=>$i,'name'=>$i]
+            );
+        }
         // crear super admin user
         $email_admin=env('SUPER_ADMIN_EMAIL','admin@ecuaparqueo.com');
         $user=User::where('email',$email_admin)->first();
