@@ -61,6 +61,10 @@ Breadcrumbs::for('vehiculosNuevo', function (BreadcrumbTrail $trail) {
     $trail->parent('vehiculos');
     $trail->push('Nuevo', route('vehiculosNuevo'));
 });
+Breadcrumbs::for('vehiculosEditar', function (BreadcrumbTrail $trail,$vehiculo) {
+    $trail->parent('vehiculos');
+    $trail->push('Editar', route('vehiculosEditar',$vehiculo->id));
+});
 
 // parqueaderos
 Breadcrumbs::for('parqueaderos', function (BreadcrumbTrail $trail) {

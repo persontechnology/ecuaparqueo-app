@@ -56,7 +56,6 @@ class OrdenMovilizacionController extends Controller
         
         $orden =new OrdenMovilizacion();
         $orden->fecha_salida=Carbon::parse($request->fecha_salida);
-        $orden->user_id=$request->conductor;
         $orden->vehiculo_id=$request->vehiculo;
         $orden->servidor_publico=$request->servidor_publico;
         $orden->direccion=$request->direccion;

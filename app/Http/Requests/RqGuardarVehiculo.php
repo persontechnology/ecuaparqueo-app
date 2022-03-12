@@ -32,7 +32,7 @@ class RqGuardarVehiculo extends FormRequest
             'descripcion'=>'required|string|max:255',
             'foto'=>'nullable|image',
             'tipo'=>'required|exists:tipo_vehiculos,id',
-            'kilometraje'=>'required|string|max:255',
+            'kilometraje'=>'required|numeric|gt:0',
         ];
     }
 }

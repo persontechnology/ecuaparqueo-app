@@ -49,165 +49,137 @@
 
      <!-- Full width modal -->
      <div id="modal_full" class="modal fade" tabindex="-1">
-        <div class="modal-dialog modal-full modal-dialog-scrollable">
-            <div class="modal-content">
-
-                <form action="{{ route('odernMovilizacionGuardar') }}" method="POST" autocomplete="off">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right">{{ $numero }}</strong></h1>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                        
-                    <div class="modal-body">
-
-                        <input type="hidden" type="text" id="accionForm">
-                        <input type="hidden" type="text" id="idEventoCalendar">
-                        <input type="hidden" type="text" id="idParqueadero" name="idParqueadero" value="{{ old('idParqueadero') }}">
-                        
-                        <div class="row">
-                            <div class="col-lg-6">
-                                
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="fecha_salida">Fecha y hora de salida:</label>
-                                    <div class="col-lg-10">
-                                        
-                                        <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                            
-                                            <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1'/>
-                                            <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
-                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                            </span>
-                                            @error('fecha_salida')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror    
-                                        </div>
-
-                                        
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group row">
-                                    <label class="col-form-label col-lg-2" for="conductorUser">Conductor</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group">
-                                            
-                                            <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor') }}" required>
-                                            <input type="text" onkeydown="event.preventDefault()" name="conductorUser" value="{{ old('conductorUser') }}" class="form-control @error('conductor') is-invalid @enderror" id="conductorUser" placeholder="Selecione un conductor de la tabla derecha!" required autocomplete="">
-                                            
-                                            @error('conductor')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-form-label col-lg-2" for="marcaVehiculo">Marca y N° de Vehículo</label>
-                                    <div class="col-lg-10">
-                                        <div class="input-group">
-                                            
-                                            <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo') }}" required>
-                                            <input type="text" onkeydown="event.preventDefault()" name="marcaVehiculo" value="{{ old('marcaVehiculo') }}" class="form-control @error('vehiculo') is-invalid @enderror" id="marcaVehiculo" placeholder="Vehículo sin selecionar.!" required>
-                                            
-                                            @error('vehiculo')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="servidor_publico">Servidor Público:</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control @error('servidor_publico') is-invalid @enderror" name="servidor_publico" value="{{ old('servidor_publico') }}" id="servidor_publico" required>
-                                        @error('servidor_publico')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="direccion">Dirección:</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" id="direccion" required>
-                                        @error('direccion')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="lugar_comision">Lugar de Comisión:</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control @error('lugar_comision') is-invalid @enderror" name="lugar_comision" id="lugar_comision" value="{{ old('lugar_comision') }}" required >
-                                        @error('lugar_comision')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                            
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="motivo">Motivo:</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control @error('motivo') is-invalid @enderror" name="motivo" id="motivo" value="{{ old('motivo') }}" required>
-                                        @error('motivo')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label class="col-lg-2 col-form-label" for="fecha_retorno">Fecha y hora de retorno:</label>
-                                    <div class="col-lg-10">
-                                        
-                                        <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                            <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2'/>
-                                            <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
-                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                            </span>
-                                        </div>
-                                        @error('fecha_retorno')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-                                                                            
-                                        
-                                <button type="submit" class="btn btn-primary btn-lg">GUardar</button>
-                                <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cerrar</button>
-                            </div>
-                            <div class="col-lg-6">
-                                Selecionar conductor
-                                <div class="table-responsive table-sm">
-                                    {{$dataTable->table()}}
-                                </div>
-                            </div>
+        <form action="{{ route('odernMovilizacionGuardar') }}" method="POST" autocomplete="off">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                        @csrf
+                        <div class="modal-header">
+                            <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right">{{ $numero }}</strong></h1>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
-                    </div>
+                            
+                        <div class="modal-body">
 
+                            <input type="hidden" type="text" id="accionForm">
+                            <input type="hidden" type="text" id="idEventoCalendar">
+                            <input type="hidden" type="text" id="idParqueadero" name="idParqueadero" value="{{ old('idParqueadero') }}">
+                            
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="fecha_salida">Fecha y hora de salida:</label>
+                                <div class="col-lg-10">
+                                    
+                                    <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                        
+                                        <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1'/>
+                                        <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
+                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                        </span>
+                                        @error('fecha_salida')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror    
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-2" for="marcaVehiculo">Marca y N° de Vehículo</label>
+                                <div class="col-lg-10">
+                                    <div class="input-group">
+                                        
+                                        <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo') }}" required>
+                                        <input type="text" onkeydown="event.preventDefault()" name="marcaVehiculo" value="{{ old('marcaVehiculo') }}" class="form-control @error('vehiculo') is-invalid @enderror" id="marcaVehiculo" placeholder="Vehículo sin selecionar.!" required>
+                                        
+                                        @error('vehiculo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="servidor_publico">Servidor Público:</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control @error('servidor_publico') is-invalid @enderror" name="servidor_publico" value="{{ old('servidor_publico') }}" id="servidor_publico" required>
+                                    @error('servidor_publico')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="direccion">Dirección:</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" id="direccion" required>
+                                    @error('direccion')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="lugar_comision">Lugar de Comisión:</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control @error('lugar_comision') is-invalid @enderror" name="lugar_comision" id="lugar_comision" value="{{ old('lugar_comision') }}" required >
+                                    @error('lugar_comision')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="motivo">Motivo:</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control @error('motivo') is-invalid @enderror" name="motivo" id="motivo" value="{{ old('motivo') }}" required>
+                                    @error('motivo')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-lg-2 col-form-label" for="fecha_retorno">Fecha y hora de retorno:</label>
+                                <div class="col-lg-10">
+                                    
+                                    <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                        <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2'/>
+                                        <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
+                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                        </span>
+                                    </div>
+                                    @error('fecha_retorno')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="modal-footer pt-3">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            
+                        </div>
                     
-                </form>
 
+                </div>
             </div>
-        </div>
+        </form>
     </div>
     <!-- /full width modal -->
 

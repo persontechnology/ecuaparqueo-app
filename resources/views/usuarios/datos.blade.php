@@ -45,8 +45,9 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label for="telefono">Teléfono:</label>
-                <input id="telefono" type="number" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono',$user->telefono??'') }}" required  >
-
+                <input id="telefono" type="tel" class="form-control @error('telefono') is-invalid @enderror" name="telefono" value="{{ old('telefono',$user->telefono??'') }}" required  >
+                <span id="valid-msg" class="hide"></span>
+                <span id="error-msg" class="hide text-danger" role="alert"></span>
                 @error('telefono')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>

@@ -24,4 +24,11 @@ class Vehiculo extends Model
     {
         return $this->hasMany(Kilometraje::class);
     }
+
+
+    // Deivid, un vehiculo esta en espacios de un parquadero
+    public function espacios()
+    {
+        return $this->hasMany(Espacio::class);
+    }
 }

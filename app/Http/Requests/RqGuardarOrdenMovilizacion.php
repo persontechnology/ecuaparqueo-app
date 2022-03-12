@@ -27,12 +27,10 @@ class RqGuardarOrdenMovilizacion extends FormRequest
     public function rules()
     {
         $no_roles = Role::where('name', ['SuperAdmin', 'SiteAdmin'])->get();
-        $model=User::role($no_roles)->pluck('id');
         return [
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
-            'conductor'=>['required','exists:users,id',Rule::notIn($model)],
+            
             'conductorUser'=>'required|string',
-            'vehiculo'=>['required',Rule::exists('vehiculos','id')->where('estado','Activo')],
             'marcaVehiculo'=>'required|string',
             'servidor_publico'=>'required|string|max:255',
             'direccion'=>'required|string|max:255',
@@ -40,13 +38,6 @@ class RqGuardarOrdenMovilizacion extends FormRequest
             'motivo'=>'required|string|max:255',
             'fecha_retorno'=>'required|date_format:Y/m/d H:i'
 
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'vehiculo.exists'=>'El campo vehiculo seleccionado no existe, o está Inactivo'
         ];
     }
 }

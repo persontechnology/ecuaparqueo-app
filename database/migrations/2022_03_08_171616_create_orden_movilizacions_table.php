@@ -14,6 +14,7 @@ class CreateOrdenMovilizacionsTable extends Migration
     public function up()
     {
         Schema::create('orden_movilizacions', function (Blueprint $table) {
+            
             $table->id();
             $table->timestamps();
 
@@ -27,7 +28,7 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->dateTime('fecha_retorno');
             $table->enum('estado',['ESPERA','ACEPTADA','DENEGADA'])->default('ESPERA');
 
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users')->nullable();
             $table->foreignId('vehiculo_id')->constrained('vehiculos');
 
             $table->bigInteger('user_create')->nullable();
@@ -35,8 +36,7 @@ class CreateOrdenMovilizacionsTable extends Migration
 
             $table->bigInteger('user_acepted')->nullable();
             $table->bigInteger('user_denegated')->nullable();
-
-
+            
         });
     }
 

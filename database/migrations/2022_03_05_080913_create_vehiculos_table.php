@@ -21,7 +21,7 @@ class CreateVehiculosTable extends Migration
             $table->string('numero_chasis');
             $table->string('foto')->nullable();
             $table->string('descripcion')->nullable();
-            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
+            $table->enum('estado',['Activo','Inactivo','Presente','Ausente'])->default('Activo');
 
             $table->foreignId('tipo_vehiculo_id')->constrained('tipo_vehiculos');
             $table->integer('kilometraje_id')->nullable();

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('usuariosNuevo'))
+@section('breadcrumbs', Breadcrumbs::render('vehiculosEditar',$vehiculo))
 
 
 @section('content')
