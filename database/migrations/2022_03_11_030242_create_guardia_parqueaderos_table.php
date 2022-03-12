@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParqueaderosTable extends Migration
+class CreateGuardiaParqueaderosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateParqueaderosTable extends Migration
      */
     public function up()
     {
-        Schema::create('parqueaderos', function (Blueprint $table) {
+        Schema::create('guardia_parqueaderos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('direccion');
-            $table->string('descripcion');
-            $table->integer('numero_total');
-            $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
+            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
+            $table->foreignId('parqueadero_id')->constrained('parqueaderos');
+            $table->foreignId('guardia_id')->constrained('users');
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             $table->timestamps();
@@ -33,6 +31,6 @@ class CreateParqueaderosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parqueaderos');
+        Schema::dropIfExists('guardia_parqueaderos');
     }
 }

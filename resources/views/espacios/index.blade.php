@@ -51,7 +51,7 @@
                                             </div>
                                             <div class="list-icons">
                                                 <span class="list-icons-item"> <i class="text-muted icon-road">km</i>
-                                                    {{ $espacio->vehiculo->kilometraje->numero }}</span>
+                                                    {{ $espacio->vehiculo->kilometraje->numero??'' }}</span>
                                                 <span class="list-icons-item"><i class="text-muted icon-gas "></i>
                                                     50%</span>
                                             </div>

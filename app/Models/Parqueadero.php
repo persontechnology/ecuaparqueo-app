@@ -16,8 +16,8 @@ class Parqueadero extends Model
         return $this->hasMany(Espacio::class);
     }
 
-    public function vehiculos()
+    public function guardias()
     {
-        return $this->hasManyThrough(Vehiculo::class, Espacio::class);
+        return $this->hasMany(GuardiaParqueadero::class);
     }
 }

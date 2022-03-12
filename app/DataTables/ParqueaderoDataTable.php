@@ -21,9 +21,12 @@ class ParqueaderoDataTable extends DataTable
     public function dataTable($query)
     {
         return datatables()
-            ->eloquent($query)          
-            ->addColumn('action', function($parqueadero){
-                return view('parqueaderos.action',['parqueadero'=>$parqueadero])->render();
+            ->eloquent($query)
+            ->addColumn('action', function ($parqueadero) {
+                return view('parqueaderos.action', ['parqueadero' => $parqueadero])->render();
+            })
+            ->addColumn('guardias', function ($parqueadero) {
+                return count($parqueadero->guardias);
             });
     }
 
@@ -46,19 +49,19 @@ class ParqueaderoDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    // ->setTableId('users-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    // ->dom('Bfrtip')
-                    // ->orderBy(1)
-                    // ->buttons(
-                    //     Button::make('create'),
-                    //     Button::make('export'),
-                    //     Button::make('print'),
-                    //     Button::make('reset'),
-                    //     Button::make('reload')
-                    // );
-                    ->parameters($this->getBuilderParameters());
+            // ->setTableId('users-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            // ->dom('Bfrtip')
+            // ->orderBy(1)
+            // ->buttons(
+            //     Button::make('create'),
+            //     Button::make('export'),
+            //     Button::make('print'),
+            //     Button::make('reset'),
+            //     Button::make('reload')
+            // );
+            ->parameters($this->getBuilderParameters());
     }
 
     /**
@@ -70,15 +73,22 @@ class ParqueaderoDataTable extends DataTable
     {
         return [
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->searchable(false)
-                  ->title('Acción')
-                  ->addClass('text-center'),
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->searchable(false)
+                ->title('Acción')
+                ->addClass('text-center'),
             // Column::make('id'),
             Column::make('nombre'),
             Column::make('descripcion')->title('Descripción'),
+            Column::computed('guardias')
+                ->exportable(false)
+                ->printable(false)
+                ->width(60)
+                ->searchable(false)
+                ->title('Guardias')
+                ->addClass('text-center'),
             Column::make('numero_total')->title('Número de espacios'),
             // Column::make('created_at'),
             // Column::make('updated_at'),

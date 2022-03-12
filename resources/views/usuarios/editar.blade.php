@@ -21,7 +21,7 @@
                     <fieldset>
                         @foreach ($roles as $rol    )
                             <div class="form-check">
-                                <input type="checkbox" value="{{ $rol->id }}" {{ $user->hasRole($rol)?'checked':'' }} {{ old('roles.'.$rol->id)==$rol->id ?'checked':'' }} name="roles[{{ $rol->id }}]"  class="form-check-input @error('roles.'.$rol->id) is-invalid @enderror" id="rol-{{ $rol->id }}">
+                                <input type="checkbox" value="{{ $rol->id }}"  {{ old('roles.'.$rol->id)==$rol->id ?'checked':'' }} name="roles[{{ $rol->id }}]"  class="form-check-input @error('roles.'.$rol->id) is-invalid @enderror" id="rol-{{ $rol->id }}">
                                 <label class="form-check-label" for="rol-{{ $rol->id }}">{{ $rol->name }}</label>
                             </div>
                             
