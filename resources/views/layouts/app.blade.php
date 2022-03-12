@@ -3,6 +3,14 @@
 
 <head>
     @include('layouts.head')
+
+    @if (!request()->routeIs(['login']))
+        <style>
+            form .form-control{
+                text-transform: uppercase
+            }
+        </style>
+    @endif
 </head>
 
 <body>
