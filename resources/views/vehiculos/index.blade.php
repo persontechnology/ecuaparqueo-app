@@ -15,7 +15,7 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-right mr-2">
-            <form action="{{ route('vehiculosGuardarTipo') }}" class="mx-1">
+            <form action="{{ route('vehiculosGuardarTipo') }}" class="mx-1" autocomplete="off">
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre:</label>

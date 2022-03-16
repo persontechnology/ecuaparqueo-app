@@ -78,12 +78,13 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
 
     // orden de movilizacion
-    Route::get('/odern-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
-    Route::get('/odern-movilizacion-nuevo', [OrdenMovilizacionController::class, 'nuevo'])->name('odernMovilizacionNuevo');
-    Route::post('/odern-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
-    Route::get('/odern-movilizacion-editar/{id}', [OrdenMovilizacionController::class, 'editar'])->name('odernMovilizacionEditar');
-    Route::post('/odern-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
-    Route::post('/odern-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
+    Route::get('/orden-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
+    Route::get('/orden-movilizacion-nuevo', [OrdenMovilizacionController::class, 'nuevo'])->name('odernMovilizacionNuevo');
+    Route::post('/orden-movilizacion-guardar', [OrdenMovilizacionController::class, 'guardar'])->name('odernMovilizacionGuardar');
+    Route::get('/orden-movilizacion-editar/{id}', [OrdenMovilizacionController::class, 'editar'])->name('odernMovilizacionEditar');
+    Route::post('/orden-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
+    Route::post('/orden-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
+    Route::post('/orden-movilizacion-obtener', [OrdenMovilizacionController::class, 'obtener'])->name('odernMovilizacionObtener');
 
     // REFACTOR
     Route::post('/odern-movilizacion-obtener-vehiculos', [OrdenMovilizacionController::class, 'obtenerVehiculos'])->name('odernMovilizacionObtenerVehiculos');

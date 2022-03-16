@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('breadcrumbs', Breadcrumbs::render('parqueaderosNuevo'))
 @section('content')
-    <form action="{{ route('guardarParqueadero') }}" method="POST">
+    <form action="{{ route('guardarParqueadero') }}" method="POST" autocomplete="off">
         @csrf
         <div class="card">
             <div class="card-body">
@@ -9,10 +9,7 @@
                     <div class="col-sm-8">
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
-
-                            <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                name="nombre" value="{{ old('nombre') }}" required autofocus>
-
+                            <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autofocus>
                             @error('nombre')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -21,11 +18,9 @@
                         </div>
                         <div class="form-group">
                             <label for="descripcion">Descripción:</label>
-
                             <input id="descripcion" type="text"
                                 class="form-control @error('descripcion') is-invalid @enderror" name="descripcion"
                                 value="{{ old('descripcion') }}">
-
                             @error('descripcion')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

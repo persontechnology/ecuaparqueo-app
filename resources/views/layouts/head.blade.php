@@ -1,4 +1,4 @@
-<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- CSRF Token -->
@@ -32,6 +32,14 @@
     {{-- datatable --}}
     <script src="{{ asset('global_assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 
     @stack('scripts')
 	@stack('linksCabeza')

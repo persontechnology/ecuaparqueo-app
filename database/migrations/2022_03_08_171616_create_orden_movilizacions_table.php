@@ -28,7 +28,7 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->dateTime('fecha_retorno');
             $table->enum('estado',['ESPERA','ACEPTADA','DENEGADA'])->default('ESPERA');
 
-            $table->foreignId('user_id')->constrained('users')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('vehiculo_id')->constrained('vehiculos');
 
             $table->bigInteger('user_create')->nullable();

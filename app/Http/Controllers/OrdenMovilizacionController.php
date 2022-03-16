@@ -24,7 +24,7 @@ class OrdenMovilizacionController extends Controller
         $this->middleware(['permission:Orden de Movilización']);
     }
 
-    public function index(ConductorDataTable $dataTable)
+    public function index()
     {
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
         $data = array(
@@ -32,7 +32,7 @@ class OrdenMovilizacionController extends Controller
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
             'ordenesMovilizaciones'=>OrdenMovilizacion::get()
         );
-        return $dataTable->render('movilizacion.calendar.index',$data);
+        return view('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
     }
 
@@ -95,19 +95,17 @@ class OrdenMovilizacionController extends Controller
 
     public function actualizar(RqActualizarOrdenMovilizacion $request)
     {
-        $orden =OrdenMovilizacion::find($request->id);
+        $orden =OrdenMovilizacion::find($request->id_orden_parqueadero);
         $orden->fecha_salida=$request->fecha_salida;
-        $orden->user_id=$request->conductor;
+        $orden->fecha_retorno=$request->fecha_retorno;
         $orden->vehiculo_id=$request->vehiculo;
         $orden->servidor_publico=$request->servidor_publico;
         $orden->direccion=$request->direccion;
         $orden->lugar_comision=$request->lugar_comision;
         $orden->motivo=$request->motivo;
-        $orden->hora_salida=$request->hora_salida;
-        $orden->hora_retorno=$request->hora_retorno;
-        $orden->estado=$request->estado;
         $orden->user_update=Auth::user()->id;
         $orden->save();
+        
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
             Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
@@ -144,5 +142,11 @@ class OrdenMovilizacionController extends Controller
         $espacios = $par->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->get();
         return view('movilizacion.calendar.espacio',['espacios'=>$espacios]);
          
+    }
+
+    public function obtener(Request $request)
+    {
+        $orden=OrdenMovilizacion::with('vehiculo')->find($request->id);
+        return $orden;
     }
 }

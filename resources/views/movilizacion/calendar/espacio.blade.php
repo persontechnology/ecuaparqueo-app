@@ -22,8 +22,7 @@
                 <span class="badge badge-{{ $esp->vehiculo->estado=='Activo'?'success':'warning' }} badge-pill">
                     {{ $esp->vehiculo->estado }}
                 </span>
-                
-                
             </div>
+            
         </li>
     @endforeach
