@@ -46,7 +46,8 @@ class RqActualizarVehiculo extends FormRequest
             'descripcion'=>'required|string|max:255',
             'foto'=>'nullable|image',
             'tipo'=>'required|exists:tipo_vehiculos,id',
-            'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio'
+            'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio',
+            'imei'=>'nullable|string|max:255'
         ];
     }
 

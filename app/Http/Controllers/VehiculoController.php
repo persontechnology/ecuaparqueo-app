@@ -67,6 +67,7 @@ class VehiculoController extends Controller
         $ve->estado=$request->estado;
         $ve->tipo_vehiculo_id=$request->tipo;
         $ve->user_create=Auth::user()->id;
+        $ve->imei=$request->imei;
         $ve->save();
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
@@ -105,6 +106,7 @@ class VehiculoController extends Controller
         $ve->descripcion=$request->descripcion;
         $ve->estado=$request->estado;
         $ve->tipo_vehiculo_id=$request->tipo;
+        $ve->imei=$request->imei;
         $ve->user_update=Auth::user()->id;
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');

@@ -104,8 +104,17 @@
                 @enderror
             </div>
         </div>
+    </div>
 
-        
+    <div class="form-group">
+        <label for="imei">Número IMEI:</label>
+        <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei" value="{{ old('imei', $vehiculo->imei ?? '') }}">
+
+        @error('imei')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+        @enderror
     </div>
 
 </fieldset>

@@ -13,17 +13,14 @@
                 <div class="col-lg-8">
                     <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle de vehículo</legend>
                     @include('vehiculos.datos',['vehiculo'=>null])
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label for="kilometraje">Kilometraje:</label>
-                            <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $vehiculo->kilometraje ?? '') }}" required />
-                            @error('kilometraje')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-            
+                    <div class="form-group">
+                        <label for="kilometraje">Kilometraje:</label>
+                        <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $vehiculo->kilometraje ?? '') }}" required />
+                        @error('kilometraje')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
 

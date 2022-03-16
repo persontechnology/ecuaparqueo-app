@@ -105,7 +105,17 @@
                 </div>
                 @endrole
             
-            
+                
+                <div class="form-group">
+                    <label for="token">Token:</label>
+                    <input id="token" type="text" class="form-control @error('token') is-invalid @enderror" name="token" value="{{ old('token',$empresa->token) }}" />
+                    @error('token')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">

@@ -91,7 +91,7 @@
 
 
                 <!-- Content area -->
-                <div class="content">
+                <div class="content {{ request()->routeIs(['welcome'])?'d-flex justify-content-center align-items-center':'' }}">
                     @if ($errors->any())
                         <div class="alert alert-danger border-0 alert-dismissible">
                             <button type="button" class="close"

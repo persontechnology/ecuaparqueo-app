@@ -92,7 +92,7 @@ class VehiculoDataTable extends DataTable
             Column::make('numero_chasis')->title('Número de chasis'),
             Column::make('tipo_vehiculo_id')->title('Tipo'),
             Column::make('estado'),
-            Column::make('descripcion')->title('Descripción'),
+            Column::make('imei')->title('IMEI'),
             // Column::make('foto'),
 
         ];

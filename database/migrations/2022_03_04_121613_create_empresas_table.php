@@ -24,6 +24,7 @@ class CreateEmpresasTable extends Migration
             $table->date('fecha_caducidad_fin')->default(now());
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
             $table->enum('tipo',['Pública','Privada'])->default('Pública');
+            $table->string('token')->nullable();
 
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();

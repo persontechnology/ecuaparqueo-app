@@ -34,6 +34,7 @@ class RqGuardarVehiculo extends FormRequest
             'foto'=>'nullable|image',
             'tipo'=>'required|exists:tipo_vehiculos,id',
             'kilometraje'=>'required|numeric|gt:0',
+            'imei'=>'nullable|string|max:255'
         ];
     }
     public function messages()

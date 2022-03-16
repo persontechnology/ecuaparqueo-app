@@ -21,6 +21,7 @@ class EmpresaController extends Controller
 
     public function actualizar(Request $request)
     {
+        
 
         if(Auth::user()->hasRole('SuperAdmin')){
             $request->validate([
@@ -30,14 +31,16 @@ class EmpresaController extends Controller
                 'fecha_caducidad_fin'=>'required|date|after_or_equal:fecha_caducidad_inicio',
                 'estado'=>'required|in:Activo,Inactivo',
                 'descripcion'=>'required|string|max:255',
-                'foto'=>'nullable|image'
+                'foto'=>'nullable|image',
+                'token'=>'nullable|string|max:225'
             ]); 
         }else{
             $request->validate([
                 'tipo'=>'required|in:Pública,Privada',
                 'nombre'=>'required|string|max:255',
                 'descripcion'=>'required|string|max:255',
-                'foto'=>'nullable|image'
+                'foto'=>'nullable|image',
+                'token'=>'nullable|string|max:225'
             ]); 
         }
 
@@ -45,6 +48,7 @@ class EmpresaController extends Controller
         $empresa->tipo=$request->tipo;
         $empresa->nombre=$request->nombre;
         $empresa->descripcion=$request->descripcion;
+        $empresa->token=$request->token;
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
             if ($archivo->isValid()) {
