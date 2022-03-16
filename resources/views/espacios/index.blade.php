@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('parqueaderos'))
+@section('breadcrumbs', Breadcrumbs::render('estacionamientos', $parqueadero))
 
 @section('barraLateral')
     <div class="breadcrumb justify-content-center">
@@ -26,12 +26,12 @@
             </div>
         </div>
         <div class="col-sm-7 ">
-            <span class="badge badge-success badge-pill align-self-center ml-auto">Activo</span>
+            {{-- <span class="badge badge-success badge-pill align-self-center ml-auto">Activo</span> --}}
             <span class="badge badge-danger badge-pill align-self-center ml-auto">Inactivo</span>
             <span class="badge badge-info badge-pill align-self-center ml-auto">Presente</span>
             <span class="badge badge-warning badge-pill align-self-center ml-auto">Ausente</span>
-            <span class="badge badge-pink badge-pill align-self-center ml-auto">Solicitado</span>
-            <span class="badge badge-primary badge-pill align-self-center ml-auto">Resevado</span>
+            {{-- <span class="badge badge-pink badge-pill align-self-center ml-auto">Solicitado</span>
+            <span class="badge badge-primary badge-pill align-self-center ml-auto">Resevado</span> --}}
 
         </div>
         <div class="col-sm-3">
@@ -97,16 +97,18 @@
                                                         <i class="icon-pencil4"></i>
                                                         Editar
                                                     </a>
-                                                    <a href="#" class="dropdown-item">
-                                                        <i class="icon-location4"></i> 
+                                                    <a href="{{route('verVehiculoMapa',$espacio->id)}}" class="dropdown-item">
+                                                        <i class="icon-location4"></i>
                                                         Ver Localidad
                                                     </a>
-                                                    <a href="#" class="dropdown-item"><i
-                                                            class="icon-comment-discussion"></i>
-                                                        Start
-                                                        chat</a>
-                                                    <a href="#" class="dropdown-item"><i class="icon-phone2"></i> Make a
-                                                        call</a>
+                                                    <a href="{{route('listarReservaVehiculo',$espacio->id)}}" class="dropdown-item">
+                                                        <i class="icon-calendar2"></i>
+                                                        Ver reservas
+                                                    </a>
+                                                    <a href="#" class="dropdown-item">
+                                                        <i class="icon-list"></i>
+                                                        Ingreso del vehículo
+                                                    </a>
 
                                                 </div>
                                             </div>

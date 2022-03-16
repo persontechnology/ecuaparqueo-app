@@ -13,6 +13,10 @@ class Espacio extends Model
     {
         return $this->belongsTo(Vehiculo::class);
     }
+    public function parqueadero()
+    {
+        return $this->belongsTo(Parqueadero::class);
+    }
     public function estadosColor($estado)
     {
         $colorEstado = null;

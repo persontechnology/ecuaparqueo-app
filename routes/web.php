@@ -105,10 +105,12 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
     
     
+    
     // espacios
     Route::post('/todos', [EspacioController::class, 'actualizarTodos'])->name('parqueaderos.actualizar.todos');
     Route::post('/estacionamiento-guardar', [EspacioController::class, 'guardar'])->name('estacionamientoNuevo');
-    
+    Route::get('/listar-reserva-vehiculo/{espacio}', [EspacioController::class, 'listarReservaVehiculo'])->name('listarReservaVehiculo');
+    Route::get('/mapa-vehiculo/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('verVehiculoMapa');
     
     
     
