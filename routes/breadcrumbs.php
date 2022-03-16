@@ -81,6 +81,19 @@ Breadcrumbs::for('parqueaderosEditar', function (BreadcrumbTrail $trail,$parquea
     $trail->push('Editar', route('parqueaderoEditar', $parqueadero->id));
 });
 
+Breadcrumbs::for('estacionamientos', function (BreadcrumbTrail $trail,$parqueadero) {
+    $trail->parent('parqueaderos');
+    $trail->push('Estacionamientos', route('parqueaderosListaEspacios', $parqueadero->id));
+});
+
+Breadcrumbs::for('estacionamientosReservas', function (BreadcrumbTrail $trail,$espacio) {
+    $trail->parent('estacionamientos',$espacio->parqueadero);
+    $trail->push('Reservas ', route('listarReservaVehiculo', $espacio->id));
+});
+Breadcrumbs::for('verVehiculoMapa', function (BreadcrumbTrail $trail,$espacio) {
+    $trail->parent('estacionamientos',$espacio->parqueadero);
+    $trail->push('Mapa Vehículo ', route('verVehiculoMapa', $espacio->id));
+});
 
 // orden de movilización
 Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
