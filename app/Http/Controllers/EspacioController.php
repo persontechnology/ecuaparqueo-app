@@ -63,7 +63,7 @@ class EspacioController extends Controller
         $lon = null;
         try {
             $client = new \SoapClient($url);
-            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => "864802030794840"]);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => "864802030522050"]);
             $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
 
             $lat = $xml->Table->Lat;
