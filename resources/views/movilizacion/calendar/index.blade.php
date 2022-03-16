@@ -171,6 +171,7 @@
 
                         <div class="modal-footer pt-3">
                             <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" onclick="eliminar(this)" data-msg="" class="btn btn-warning" data-id="" data-url="{{ route('odernMovilizacionEliminar') }}" id="buttonEliminar" style="display: none;">Eliminar</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                             
                         </div>
@@ -397,6 +398,7 @@
         $('#motivo').val(data.motivo);
         $('#numero_orden_movilizacion').html(data.numero);
         $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionActualizar') }}");
+        $('#buttonEliminar').attr('data-id',data.id).attr('data-msg',"Está seguro de eliminar Orden de Movilización "+data.numero).show();
 
     }
 
@@ -416,6 +418,7 @@
         $('#lugar_comision').val('');
         $('#motivo').val('');
         $('#numero_orden_movilizacion').html('');
+        $('#buttonEliminar').attr('data-id','').attr('data-msg','').hide();
     })
     calendar.render();
 
