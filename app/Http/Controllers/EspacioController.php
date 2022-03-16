@@ -6,8 +6,11 @@ use App\Http\Requests\Espacios\RqGuardar;
 use App\Models\Espacio;
 use App\Models\OrdenMovilizacion;
 use Carbon\Carbon;
+use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SimpleXMLElement;
+
 class EspacioController extends Controller
 {
     public function guardar(RqGuardar $request)
@@ -55,15 +58,20 @@ class EspacioController extends Controller
 
     public function verVehiculoMapa(Request $request, Espacio $espacio)
     {
-        $url = "http://ws.cdyne.com/ip2geo/ip2geo.asmx?wsdl";
+        $url = "https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl";
+        $lat = null;
+        $lon = null;
         try {
-            $client = new \SoapClient($url, ["trace" => 1]);
-            $result = $client->ResolveIP(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => "864802030794840"]);
-            return ($result);
+            $client = new \SoapClient($url);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => "864802030794840"]);
+            $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
+
+            $lat = $xml->Table->Lat;
+            $lon = $xml->Table->Lon;
+            //return (str_ireplace('><', ">\n<",$result->GetAllCompaniesResult));
         } catch (\SoapFault $e) {
             return  $e->getMessage();
         }
-        echo PHP_EOL;
-        return view('espacios.mapa', ['espacio' => $espacio]);
+        return view('espacios.mapa', ['espacio' => $espacio, 'lat' => $lat, 'lon' => $lon]);
     }
 }

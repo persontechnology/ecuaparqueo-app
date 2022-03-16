@@ -23,8 +23,8 @@
 
             function initMap() {
                 var myLatLng = {
-                    lat: -2.282374000000000,
-                    lng: -78.122086999999993
+                    lat: {{ $lat ?? -2.282374 }},
+                    lng: {{ $lon ?? -78.122086999999993 }}
                 }
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: myLatLng,
@@ -45,20 +45,21 @@
                     var destinationLng = marker.getPosition().lng();
                 });
                 var geocoder = new google.maps.Geocoder;
-                var infowindow = new google.maps.InfoWindow;                
+                var infowindow = new google.maps.InfoWindow;
 
             }
         </script>
         <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&callback=initMap">
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Ko6qUa0EFuDWr77BpNJOdxD-QLstjBk&callback=initMap">
         </script>
 
-<style type="text/css">
-    #map {
-      height: 400px;
-      width: auto;
-    }
-  </style>
+        <style type="text/css">
+            #map {
+                height: 400px;
+                width: auto;
+            }
+
+        </style>
     @endprepend
 
 @endsection
