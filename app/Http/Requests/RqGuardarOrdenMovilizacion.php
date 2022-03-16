@@ -26,11 +26,9 @@ class RqGuardarOrdenMovilizacion extends FormRequest
      */
     public function rules()
     {
-        $no_roles = Role::where('name', ['SuperAdmin', 'SiteAdmin'])->get();
         return [
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
-            
-            'conductorUser'=>'required|string',
+            'vehiculo'=>['required',Rule::exists('vehiculos','id')->where('estado','Activo')],
             'marcaVehiculo'=>'required|string',
             'servidor_publico'=>'required|string|max:255',
             'direccion'=>'required|string|max:255',

@@ -7,7 +7,7 @@
 <!-- 2 columns form -->
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('actualizarUsuario') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('actualizarUsuario') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
             <input type="hidden" name="id" value="{{ $user->id }}" required>
             <div class="row">

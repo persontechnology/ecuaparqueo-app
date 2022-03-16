@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Role;
 
 class RqActualizarOrdenMovilizacion extends FormRequest
 {
@@ -16,23 +14,16 @@ class RqActualizarOrdenMovilizacion extends FormRequest
      */
     public function rules()
     {
-        $no_roles = Role::where('name', ['SuperAdmin', 'SiteAdmin'])->get();
-        $model=User::role($no_roles)->pluck('id');
         return [
-            'id'=>'required|exists:orden_movilizacions,id',
-            'fecha_salida'=>'required|date',
-            'conductor'=>['required','exists:users,id',Rule::notIn($model)],
-            'conductorUser'=>'required|string',
+            'id_orden_parqueadero'=>'required|exists:orden_movilizacions,id',
+            'fecha_salida'=>'required|date_format:Y/m/d H:i',
             'vehiculo'=>['required',Rule::exists('vehiculos','id')->where('estado','Activo')],
             'marcaVehiculo'=>'required|string',
             'servidor_publico'=>'required|string|max:255',
             'direccion'=>'required|string|max:255',
             'lugar_comision'=>'required|string|max:255',
             'motivo'=>'required|string|max:255',
-            'hora_salida'=>'required|date_format:H:i',
-            'hora_retorno'=>'required|date_format:H:i|after_or_equal:hora_salida',
-            'estado'=>'required|in:ESPERA,ACEPTADA,DENEGADA'
-
+            'fecha_retorno'=>'required|date_format:Y/m/d H:i'
         ];
     }
 

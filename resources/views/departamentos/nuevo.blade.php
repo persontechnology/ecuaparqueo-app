@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('breadcrumbs', Breadcrumbs::render('departamentosNuevo'))
 @section('content')
-<form action="{{ route('guardarDepartamento') }}" method="POST">
+<form action="{{ route('guardarDepartamento') }}" method="POST" autocomplete="off">
     @csrf
     <div class="card">
         <div class="card-body">

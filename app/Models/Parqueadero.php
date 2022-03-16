@@ -23,6 +23,6 @@ class Parqueadero extends Model
 
     public function guardias()
     {
-        return $this->belongsToMany(User::class,'guardia_parqueaderos','parqueadero_id','guardia_id');
+        return $this->belongsToMany(User::class,'guardia_parqueaderos','parqueadero_id','guardia_id')->wherePivot('estado','Activo');
     }
 }

@@ -26,8 +26,7 @@ class ParqueaderoDataTable extends DataTable
                 return view('parqueaderos.action', ['parqueadero' => $parqueadero])->render();
             })
             ->addColumn('guardias', function ($parqueadero) {
-                $parqueaderoGua=collect($parqueadero->guardias);
-                return count($parqueaderoGua->where('estado','Activo'));
+                return count( $parqueadero->guardias);
             });
     }
 

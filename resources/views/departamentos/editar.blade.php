@@ -3,7 +3,7 @@
 @section('content')
 
 
-<form action="{{ route('actualizarDepartamento') }}" method="POST">
+<form action="{{ route('actualizarDepartamento') }}" method="POST" autocomplete="off">
     @csrf
     <input type="hidden" name="id" value="{{ $dep->id }}">
     <div class="card">

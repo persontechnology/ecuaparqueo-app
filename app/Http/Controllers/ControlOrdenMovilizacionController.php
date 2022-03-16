@@ -34,7 +34,6 @@ class ControlOrdenMovilizacionController extends Controller
             $orden->user_denegated=Auth::user()->id;
         }
         $orden->save();
-
         
         return redirect()->route('controlOdernMovilizacion');
 

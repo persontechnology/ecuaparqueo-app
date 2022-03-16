@@ -3,7 +3,7 @@
 
 @section('barraLateral')
 <div class="breadcrumb justify-content-center">
-    <h1 class="text-danger"><strong id="numero">{{ $numero }}</strong></h1>
+    <h1 class="text-danger"><strong id="numeroSiguenteOrdenMovilizacion">{{ $numero }}</strong></h1>
 </div>
 @endsection
 
@@ -18,27 +18,26 @@
 
     <div class="row">
         <div class="col-lg-4">
+            
+                <div class="card">
+                    <div class="card-header">
+                        <div class="form-group">
+                            <label for="parqueadero">Selecione parqueadero:</label>
+                            <select name="parqueadero" id="parqueadero" class="form-control" onchange="cargarVehiculos(this)">
+                                @foreach ($parqueaderos as $par)
+                                    <option value="{{ $par->id }}" {{ old('idParqueadero')==$par->id?'selected':'' }} >{{ $par->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <div class="form-group">
-                        <label for="parqueadero">Selecione parqueadero:</label>
-                        <select name="parqueadero" id="parqueadero" class="form-control" onchange="cargarVehiculos(this)">
-                            @foreach ($parqueaderos as $par)
-                                <option value="{{ $par->id }}" {{ old('idParqueadero')==$par->id?'selected':'' }} >{{ $par->nombre }}</option>
-                            @endforeach
-                        </select>
+                    <div class="card-body">
+                        <ul class="media-list media-list-bordered" id="external-events">
+                            <div id="external-events-list">
+                            </div>
+                        </ul>
                     </div>
                 </div>
-
-                <div class="card-body">
-                    <ul class="media-list media-list-bordered" id="external-events">
-                        <div id="external-events-list">
-                        </div>
-                    </ul>
-                </div>
-            </div>
-
             
         </div>
         <div class="col-lg-8">
@@ -49,19 +48,19 @@
 
      <!-- Full width modal -->
      <div id="modal_full" class="modal fade" tabindex="-1">
-        <form action="{{ route('odernMovilizacionGuardar') }}" method="POST" autocomplete="off">
+        <form action="{{ route('odernMovilizacionGuardar') }}" id="formOrdenMovilizacion" method="POST" autocomplete="off">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                         @csrf
                         <div class="modal-header">
-                            <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right">{{ $numero }}</strong></h1>
+                            <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right" id="numero_orden_movilizacion">{{ $numero }}</strong></h1>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                             
                         <div class="modal-body">
 
                             <input type="hidden" type="text" id="accionForm">
-                            <input type="hidden" type="text" id="idEventoCalendar">
+                            <input type="hidden" type="text" id="idEventoCalendar" name="id_orden_parqueadero" value="{{ old('id_orden_parqueadero') }}">
                             <input type="hidden" type="text" id="idParqueadero" name="idParqueadero" value="{{ old('idParqueadero') }}">
                             
                             <div class="form-group row">
@@ -172,6 +171,7 @@
 
                         <div class="modal-footer pt-3">
                             <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="button" onclick="eliminar(this)" data-msg="" class="btn btn-warning" data-id="" data-url="{{ route('odernMovilizacionEliminar') }}" id="buttonEliminar" style="display: none;">Eliminar</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                             
                         </div>
@@ -182,10 +182,6 @@
         </form>
     </div>
     <!-- /full width modal -->
-
-@push('scripts')
-    {{$dataTable->scripts()}}
-@endpush
 
 @push('linksCabeza')
     
@@ -259,6 +255,30 @@
         return result;
     }
 
+
+    // fechas inicializacion
+    const picker= new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+        display: {
+            buttons:{
+                close:true,
+            },
+        },
+        hooks:{
+            inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
+        }
+    });
+    const picker2= new tempusDominus.TempusDominus(document.getElementById('datetimepicker2'),{
+        display: {
+            buttons:{
+                close:true,
+            },
+        },
+        hooks:{
+            inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
+        }
+    });
+
+
     // calendar
    var containerEl = document.getElementById('external-events-list');
         new FullCalendar.Draggable(containerEl, {
@@ -300,20 +320,29 @@
             calendar.unselect()
         },
         eventClick: function(arg) {
-            // if (confirm('Está seguro de eliminar ordén')) {
-            //     arg.event.remove()
-            // }
-            // console.log(arg.event)
+            var id=arg.event.id;
+            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
+            .done(function( data ) {
+                actualizarOrdenMovilizacion(arg,data);
+            });
         },
         
-        eventDrop: function(info) {
-            console.log(info.event.end)
+        eventDrop: function(arg) {
+            var id=arg.event.id;
+            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
+            .done(function( data ) {
+                actualizarOrdenMovilizacion(arg,data);
+            });
         },
         eventReceive:function(event,relatedEvents,revert,draggedEl,view){
             guardarOrdenMovilizacion(event)
         },
         eventResize: function(arg) {
-            // console.log(arg.event.end)
+            var id=arg.event.id;
+            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
+            .done(function( data ) {
+                actualizarOrdenMovilizacion(arg,data);
+            });
         },
         
         events: [
@@ -331,33 +360,10 @@
     
 
 
-    // fechas inicializacion
-    const picker= new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
-            display: {
-                buttons:{
-                    close:true,
-                },
-                
-            },
-            hooks:{
-                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
-            }
-    });
-    const picker2= new tempusDominus.TempusDominus(document.getElementById('datetimepicker2'),{
-            display: {
-                buttons:{
-                    close:true,
-                },
-                
-            },
-            hooks:{
-                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
-            }
-    });
+    
 
-    // funcion guardar
+    // funcion guardar actualizar orden de movilizacion
     function guardarOrdenMovilizacion(event){
-
         picker.dates.set(event.event.start);
         var newDateObj = moment(event.event.start).add(15, 'm').toDate();
         if(event.event.allDay){
@@ -369,22 +375,53 @@
         $('#modal_full').modal('show');
         $('#vehiculo').val($(event.draggedEl).data('id'));
         $('#marcaVehiculo').val($(event.draggedEl).data('placa'));
+        $('#numero_orden_movilizacion').html($('#numeroSiguenteOrdenMovilizacion').html());
     }
     
-    $('#modal_full').on('hidden.bs.modal', function (event) {
+    // funcion guardar
+    function actualizarOrdenMovilizacion(event,data){
         
+        picker.dates.set(event.event.start);
+        var newDateObj =event.event.end;
+        if(event.event.allDay){
+            newDateObj = moment(event.event.start).add(12, 'h').toDate();
+        }
+        picker2.dates.set(newDateObj);
+        $('#accionForm').val('editarOrden');
+        $('#idEventoCalendar').val(data.id);
+        $('#modal_full').modal('show');
+        $('#vehiculo').val(data.vehiculo.id);
+        $('#marcaVehiculo').val(data.vehiculo.placa+"-"+data.vehiculo.numero_chasis);
+        $('#servidor_publico').val(data.servidor_publico);
+        $('#direccion').val(data.direccion);
+        $('#lugar_comision').val(data.lugar_comision);
+        $('#motivo').val(data.motivo);
+        $('#numero_orden_movilizacion').html(data.numero);
+        $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionActualizar') }}");
+        $('#buttonEliminar').attr('data-id',data.id).attr('data-msg',"Está seguro de eliminar Orden de Movilización "+data.numero).show();
+
+    }
+
+
+    $('#modal_full').on('hidden.bs.modal', function (event) {
         if($('#accionForm').val()==='nuevoOrden'){
             var eventCalendar = calendar.getEventById($('#idEventoCalendar').val());
             eventCalendar.remove();
         }
-    })
 
-   
+        $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionGuardar') }}");
+        $('#idEventoCalendar').val('');
+        $('#vehiculo').val('');
+        $('#marcaVehiculo').val('');
+        $('#servidor_publico').val('');
+        $('#direccion').val('');
+        $('#lugar_comision').val('');
+        $('#motivo').val('');
+        $('#numero_orden_movilizacion').html('');
+        $('#buttonEliminar').attr('data-id','').attr('data-msg','').hide();
+    })
     calendar.render();
 
-
-    
-   
 </script>
 @endprepend
     
