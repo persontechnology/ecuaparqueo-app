@@ -11,115 +11,90 @@
 @endsection
 @section('content')
     <!-- Simple text stats with icons -->
+    <div class="card p-3">
+        <form class="form-inline" method="GET">
+            <div class="d-sm-flex">
+                <div class="form-group-feedback form-group-feedback-left flex-grow-1 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-lg" name="placa" value="" placeholder="Buscar Placa">
+                    <div class="form-control-feedback form-control-feedback-lg">
+                        <i class="icon-search4 text-muted"></i>
+                    </div>
+                </div>
 
-    <div class="row text-center">
-        <div class="col-sm-2">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-                <a href="#" class="btn bg-transparent border-teal text-teal rounded-pill border-2 btn-icon mr-3">
-                    <i class="icon-road"></i>
-                </a>
-                <div>
-                    <div class="font-weight-semibold">
-                        {{ count($parqueadero->espacios) }}/{{ $parqueadero->numero_total ?? 0 }}</div>
-                    <span class="text-muted">Total</span>
+                <div class="ml-sm-3">
+                    <select name="estados" class="custom-select custom-select-lg wmin-sm-200 mb-3 mb-sm-0">
+                        <option value="">Todos Estados</option>
+                        <option value="Presente">Presente</option>
+                        <option value="Ausente">Ausente</option>
+                    </select>
+                </div>
+                <div class="ml-sm-3">
+                    <select name="tipos" class="custom-select custom-select-lg wmin-sm-200 mb-3 mb-sm-0">
+                        <option value="">Todos </option>
+                        @if (count($tipos) > 0)
+                            @foreach ($tipos as $item)
+                                <option value="{{ $item->id }}">{{ $item->nombre }} </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+
+                <div class="ml-sm-3">
+                    <button type="submit" class="btn btn-teal btn-ladda btn-ladda-progress ladda-button"
+                        data-style="slide-down">
+                        <span class="ladda-label">Buscar</span>
+                        <span class="ladda-spinner"></span>
+                        <div class="ladda-progress" style="width: 148px;"></div>
+                    </button>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-7 ">
-            {{-- <span class="badge badge-success badge-pill align-self-center ml-auto">Activo</span> --}}
-            <span class="badge badge-danger badge-pill align-self-center ml-auto">Inactivo</span>
-            <span class="badge badge-info badge-pill align-self-center ml-auto">Presente</span>
-            <span class="badge badge-warning badge-pill align-self-center ml-auto">Ausente</span>
-            {{-- <span class="badge badge-pink badge-pill align-self-center ml-auto">Solicitado</span>
-            <span class="badge badge-primary badge-pill align-self-center ml-auto">Resevado</span> --}}
-
-        </div>
-        <div class="col-sm-3">
-
-            <div class="text-right mb-0 mb-1">
-                <button class="btn btn-primary" id="btn-update"><i class="icon-rotate-ccw3 mr-1"></i>ACTUALIZAR
-                    POSICIÓN</button>
-            </div>
-        </div>
+        </form>
     </div>
-
     <!-- /simple text stats with icons -->
-    <div class="card" id="draggable-default-container"
-        style="overflow:scroll;height:1000px;border:1px solid rgb(37 43 54 / 65%);background-color:#252b3675; position: inherit;">
+    <div class="card">
         <div class="card-body">
-            <div>
+            <div class="table-responsive-lg">
                 @if (count($espacios) > 0)
-
-                    @foreach ($espacios as $espacio)
-                        <div id="item-{!! json_encode($espacio->id) !!}-establecimiento"
-                            class="shadow-sm  draggable-element rounded-5 text-center"
-                            style="position: relative; left:{{ $espacio->left }}px; top: {{ $espacio->top }}px;">
-
-                            <div class="card text-center">
-                                <div class="card-body ">
-                                    <div class="media">
-                                        <div class="mr-2">
-
-                                            @if (Storage::exists($espacio->vehiculo->foto))
-                                                <a href="{{ Storage::url($espacio->vehiculo->foto) }}">
-                                                    <img src="{{ Storage::url($espacio->vehiculo->foto) }}"
-                                                        class="rounded-circle" width="80" height="60" alt="">
-                                                </a>
-                                            @else
-                                                <i id="icon" class="icon-car"></i>
-                                            @endif
-                                            <br>
-                                            <span
-                                                class="badge {{ $espacio->estadosColor($espacio->estado) }} rounded-2">{{ $espacio->estado }}</span>
-                                            <span style="padding: .7125rem .8375rem;"
-                                                class="position-absolute top-0 left-50 start-100 translate-middle badge rounded-pill {{ $espacio->estadosColor($espacio->estado) }}">{{ $espacio->numero }}</span>
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="media-title font-weight-semibold">{{ $espacio->vehiculo->placa }}
-                                            </div>
-                                            <div><span
-                                                    class="text-muted">{{ $espacio->vehiculo->tipoVehiculo->nombre }}</span></span>
-                                            </div>
-                                            <div class="list-icons">
-                                                <span class="list-icons-item"> <i class="text-muted icon-road">km</i>
-                                                    {{ $espacio->vehiculo->kilometraje->numero ?? '' }}</span>
-                                                <span class="list-icons-item"><i class="text-muted icon-gas "></i>
-                                                    50%</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="ml-1">
-                                            <div class="list-icons position-static">
-                                                <a href="#" class="list-icons-item dropdown-toggle" data-toggle="dropdown"
-                                                    aria-expanded="false"></a>
-                                                <div class="dropdown-menu dropdown-menu-center" style="">
-                                                    <a href="#" class="dropdown-item">
-                                                        <i class="icon-pencil4"></i>
-                                                        Editar
-                                                    </a>
-                                                    <a href="{{route('verVehiculoMapa',$espacio->id)}}" class="dropdown-item">
-                                                        <i class="icon-location4"></i>
-                                                        Ver Localidad
-                                                    </a>
-                                                    <a href="{{route('listarReservaVehiculo',$espacio->id)}}" class="dropdown-item">
-                                                        <i class="icon-calendar2"></i>
-                                                        Ver reservas
-                                                    </a>
-                                                    <a href="#" class="dropdown-item">
-                                                        <i class="icon-list"></i>
-                                                        Ingreso del vehículo
-                                                    </a>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    @endforeach
+                    <table class="table table-bordered table-sm">
+                        <thead style="font-size: 11px; text-align: center;">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Placa</th>
+                                <th scope="col">Km</th>
+                                <th scope="col">% Combustible</th>
+                                <th scope="col">Fecha de ingreso: </th>
+                                <th scope="col">Fecha de salida:</th>
+                                <th scope="col">Ver posición</th>
+                                <th scope="col">No. orden </th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 12px; text-align: center;">
+                            @foreach ($espacios as $espacio)
+                                <tr>
+                                    <th scope="row"><span
+                                            class="badge rounded-pill {{ $espacio->estadosColor($espacio->estado) }}">{{ $espacio->numero }}</span>
+                                    </th>
+                                    <td>
+                                        <span
+                                            class="badge rounded-3 {{ $espacio->estadosColor($espacio->estado) }}">{{ $espacio->estado }}</span>
+                                    </td>
+                                    <td>{{ $espacio->vehiculo->placa }}</td>
+                                    <td>{{ $espacio->vehiculo->kilometraje->numero ?? '' }}</td>
+                                    <td>5435</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a target="_baxk" href="{{ route('verVehiculoMapa', $espacio->id) }}"
+                                            class="btn btn-outline-success btn-icon border-2 ml-2">
+                                            <i class="icon-location4"></i>
+                                        </a>
+                                    </td>
+                                    <td>-</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 @endif
 
             </div>
@@ -185,7 +160,9 @@
         </div>
     </div>
     @push('linksCabeza')
-        <script src="{{ asset('global_assets/js/plugins/extensions/jquery_ui/interactions.min.js') }}"></script>
+        <script src="{{ asset('global_assets/js/plugins/buttons/spin.min.js') }}"></script>
+        <script src="{{ asset('global_assets/js/plugins/buttons/ladda.min.js') }}"></script>
+        <script src="{{ asset('global_assets/js/demo_pages/components_buttons.js') }}"></script>
         <script src="{{ asset('assets/select2/js/select2.full.min.js') }}"></script>
         <script src="{{ asset('assets/select2/js/select2.js') }}"></script>
     @endpush
@@ -225,6 +202,10 @@
         <style>
             #icon {
                 font-size: 55px;
+            }
+
+            td {
+                white-space: nowrap;
             }
 
             .draggable-element {

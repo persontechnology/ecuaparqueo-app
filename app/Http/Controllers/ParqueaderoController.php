@@ -9,6 +9,7 @@ use App\Models\Espacio;
 use App\Models\GuardiaParqueadero;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
+use App\Models\TipoVehiculo;
 use App\Models\User;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class ParqueaderoController extends Controller
     }
     public function guardar(RqGuardar $request)
     {
-       
+
         $idsUser = $this->idsGuardiasActivos();
         try {
             DB::transaction(function () use ($request,  $idsUser) {
@@ -68,13 +69,13 @@ class ParqueaderoController extends Controller
     public function editar($id)
     {
         $paraqueadero = Parqueadero::find($id);
-        $ids= $paraqueadero->guardias->pluck('id');
+        $ids = $paraqueadero->guardias->pluck('id');
         $usuarios = User::role('Guardia')->whereNotIn('id', $ids->merge($this->idsGuardiasActivos()))->get();
-        return view('parqueaderos.editar', ['parqueadero' => $paraqueadero, 'guardias' => $paraqueadero->guardias->merge($usuarios), 'ids'=>$ids]);
+        return view('parqueaderos.editar', ['parqueadero' => $paraqueadero, 'guardias' => $paraqueadero->guardias->merge($usuarios), 'ids' => $ids]);
     }
     public function actualizar(RqActualizar $request)
     {
-        
+
         $idsUser = $this->idsGuardiasActivos();
         try {
             DB::transaction(function () use ($request,  $idsUser) {
@@ -85,17 +86,17 @@ class ParqueaderoController extends Controller
                 $parqueadero->numero_total = $request->numero_total;
                 $parqueadero->user_create = Auth::user()->id;
                 $parqueadero->save();
-          
-                    GuardiaParqueadero::where('parqueadero_id',$parqueadero->id)->update(['estado'=>'Inactivo']);
-              
+
+                GuardiaParqueadero::where('parqueadero_id', $parqueadero->id)->update(['estado' => 'Inactivo']);
+
                 if ($request->has('guardias')) {
-                    
+
                     foreach ($request->guardias as $guardia) {
-                        $guardiaEncontrado=GuardiaParqueadero::where(['guardia_id'=>$guardia,'estado'=>'Inactivo'])->first();
-                        if($guardiaEncontrado){
-                            $guardiaEncontrado->estado='Activo';
+                        $guardiaEncontrado = GuardiaParqueadero::where(['guardia_id' => $guardia, 'estado' => 'Inactivo'])->first();
+                        if ($guardiaEncontrado) {
+                            $guardiaEncontrado->estado = 'Activo';
                             $guardiaEncontrado->save();
-                        }else{
+                        } else {
                             $key = array_search($guardia, $idsUser);
                             if (!$key) {
                                 $guardiaParqueadero = new GuardiaParqueadero();
@@ -110,21 +111,26 @@ class ParqueaderoController extends Controller
                 DB::commit();
             });
             request()->session()->flash('success', 'Parqueadero actualizado');
-        return redirect()->route('parqueaderos');
+            return redirect()->route('parqueaderos');
         } catch (\Exception $e) {
             DB::rollback();
             request()->session()->flash('danger', $e);
-            return redirect()->route('parqueaderoEditar',$request->id);
+            return redirect()->route('parqueaderoEditar', $request->id);
         }
-      
     }
     public function listarEspacios(Request $request, Parqueadero $parqueadero)
     {
-        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->get();
+        $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje']);
+        $tipos = TipoVehiculo::get();
         $estacionamiento = Espacio::get();
+        if($request->has('estados')&& $request->estados){
+            $espacios=$espacios->where('espacios.estado',$request->estado);
+           
+        }
+        $espacios=$espacios->get();
         $vehiculos = Vehiculo::where('estado', 'ACTIVO')->whereNotIn('id', $estacionamiento->pluck('vehiculo_id'))->get();
 
-        return view('espacios.index', ['espacios' => $espacios, 'vehiculos' => $vehiculos, 'parqueadero' => $parqueadero]);
+        return view('espacios.index', ['espacios' => $espacios, 'vehiculos' => $vehiculos, 'parqueadero' => $parqueadero, 'tipos' => $tipos]);
     }
     public function idsGuardiasActivos()
     {
@@ -140,6 +146,4 @@ class ParqueaderoController extends Controller
         }
         return $ids;
     }
-
-   
 }
