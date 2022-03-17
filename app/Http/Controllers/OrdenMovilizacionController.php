@@ -6,6 +6,7 @@ use App\DataTables\Movilizacion\ConductorDataTable;
 use App\DataTables\Movilizacion\VehiculoDataTable;
 use App\DataTables\OrdenMovilizacionDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
+use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
@@ -30,7 +31,7 @@ class OrdenMovilizacionController extends Controller
         $data = array(
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
-            'ordenesMovilizaciones'=>OrdenMovilizacion::get()
+            'ordenesMovilizaciones'=>OrdenMovilizacion::whereMonth('fecha_salida',Carbon::now()->month)->get()
         );
         return view('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
@@ -68,7 +69,7 @@ class OrdenMovilizacionController extends Controller
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
             Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
-            request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado. Se envió un correo a los usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
+            request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado. Se envió un correo a los '.$usuariosControlOrdenMovilizacion->count().' usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
         }else{
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
         }
@@ -116,19 +117,12 @@ class OrdenMovilizacionController extends Controller
         return redirect()->route('odernMovilizacion');
     }
 
-    public function eliminar(Request $request)
+    public function eliminar(RqEliminarOrdenMOvilizacion $request)
     {
-        $request->validate([
-            'id'=>'required|exists:orden_movilizacions,id'
-        ]);
+        
         $or=OrdenMovilizacion::find($request->id);
         try {
-            if($or->estado=='ESPERA'){
-                $or->delete();
-                request()->session()->flash('success','Ordén de Movilización eliminado');
-            }else{
-                request()->session()->flash('success','No se puede eliminar Ordén de Movilización, en estado '.$or->estado);
-            }
+            $or->delete();
             
         } catch (\Throwable $th) {
             request()->session()->flash('success','Ordén de movilización no eliminado');

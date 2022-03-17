@@ -16,6 +16,8 @@
 
 @endif
 
+
+
     <div class="row">
         <div class="col-lg-4">
             
@@ -41,7 +43,18 @@
             
         </div>
         <div class="col-lg-8">
-            <div id='calendar'></div>
+            
+            <div class="card card-body">
+                <div class="container mb-1 text-right">
+                    <span class="badge badge-primary">SOLICITADO</span>
+                    <span class="badge badge-secondary">DENEGADA</span>
+                    <span class="badge badge-success">ACEPTADA</span>
+                    <span class="badge badge-danger">OCUPADO</span>
+                    <span class="badge badge-warning">FINALIZADO</span>
+                    
+                </div>
+                <div id='calendar'></div>
+            </div>
         </div>
     </div>
     
@@ -286,7 +299,7 @@
         eventData: function(eventEl) {
             return {
                 title: $(eventEl).data('placa'),
-                'id':generateStringRamdon(100)
+                'id':generateStringRamdon(100),
             }
         }
     });
@@ -314,9 +327,9 @@
         dayMaxEvents: true,
         selectMirror: true,
         droppable: true,
+        scrollTime:"07:00:00",
         select: function(arg) {
-            console.log(arg)
-            console.log(arg.end)
+           
             calendar.unselect()
         },
         eventClick: function(arg) {
@@ -351,14 +364,38 @@
                 id:'{{ $ordenM->id }}',
                 title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->vehiculo->placa }}',
                 start: '{{ $ordenM->fecha_salida }}',
-                end:'{{ $ordenM->fecha_retorno }}'
+                end:'{{ $ordenM->fecha_retorno }}',
+                image_url:'{{ Storage::url($ordenM->vehiculo->foto) }}',
+                classNames:'{{ $ordenM->color_estado }}',
+                image_url: '{{ Storage::exists($ordenM->vehiculo->foto)?Storage::url($ordenM->vehiculo->foto):'' }}',
+                
             },
             @endforeach
-        ]
+        ],
+        eventContent: function(arg) {
+                let arrayOfDomNodes = []
+                // title event
+                let titleEvent = document.createElement('div')
+                if(arg.event._def.title) {
+                  titleEvent.innerHTML = arg.event._def.title
+                  titleEvent.classList = "fc-event-title fc-sticky"
+                }
+    
+                // image event
+                let imgEventWrap = document.createElement('div')
+                if(arg.event.extendedProps.image_url) {
+                  let imgEvent = '<img src="'+arg.event.extendedProps.image_url+'" class="img-flag" >'
+                  imgEventWrap.classList = "fc-event-img"
+                  imgEventWrap.innerHTML = imgEvent;
+                }
+    
+                arrayOfDomNodes = [ titleEvent,imgEventWrap ]
+    
+                return { domNodes: arrayOfDomNodes }
+              }
     });
 
     
-
 
     
 
@@ -382,10 +419,11 @@
     function actualizarOrdenMovilizacion(event,data){
         
         picker.dates.set(event.event.start);
-        var newDateObj =event.event.end;
+        var newDateObj =event.event.end?event.event.end:event.event.start;
         if(event.event.allDay){
             newDateObj = moment(event.event.start).add(12, 'h').toDate();
         }
+
         picker2.dates.set(newDateObj);
         $('#accionForm').val('editarOrden');
         $('#idEventoCalendar').val(data.id);

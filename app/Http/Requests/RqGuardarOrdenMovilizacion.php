@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Models\OrdenMovilizacion;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Permission\Models\Role;
-
+use Illuminate\Support\Facades\Validator;
 class RqGuardarOrdenMovilizacion extends FormRequest
 {
     /**
@@ -26,9 +26,20 @@ class RqGuardarOrdenMovilizacion extends FormRequest
      */
     public function rules()
     {
+        Validator::extend('verificarExistencia', function($attribute, $value, $parameters){
+            $orden=OrdenMovilizacion::whereBetween('fecha_salida', [Carbon::parse($this->input('fecha_salida')), Carbon::parse($this->input('fecha_retorno'))])->first();  
+            if($orden){
+                if($orden->vehiculo->id==$this->input('vehiculo')){
+                    return false;
+                }
+            }
+            return true;
+
+        },"No se puede ingresar orden de movilización con el vehículo, porque ya está asignada hasta esa hora.!");
+
         return [
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
-            'vehiculo'=>['required',Rule::exists('vehiculos','id')->where('estado','Activo')],
+            'vehiculo'=>['required','verificarExistencia',Rule::exists('vehiculos','id')->where('estado','Activo')],
             'marcaVehiculo'=>'required|string',
             'servidor_publico'=>'required|string|max:255',
             'direccion'=>'required|string|max:255',

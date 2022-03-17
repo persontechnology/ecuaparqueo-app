@@ -26,7 +26,7 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->string('lugar_comision');
             $table->string('motivo');
             $table->dateTime('fecha_retorno');
-            $table->enum('estado',['ESPERA','ACEPTADA','DENEGADA'])->default('ESPERA');
+            $table->enum('estado',['SOLICITADO','ACEPTADA','DENEGADA','OCUPADO','FINALIZADO'])->default('SOLICITADO');
 
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('vehiculo_id')->constrained('vehiculos');

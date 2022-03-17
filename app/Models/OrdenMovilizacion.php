@@ -92,5 +92,27 @@ class OrdenMovilizacion extends Model
         return $this->belongsTo(User::class,'user_denegated');
     }
 
+    public function getColorEstadoAttribute()
+    {   
+        $color='bg-primary';
+        switch ($this->estado) {
+            case 'SOLICITADO':
+                $color='bg-primary';
+                break;
+            case 'DENEGADA':
+                $color='bg-secondary';
+                break;
+            case 'ACEPTADA':
+                $color='bg-success';
+                break;
+            case 'OCUPADO':
+                $color='bg-danger';
+                break;
+            case 'FINALIZADO':
+                $color='bg-warning';
+                break;
+        }
+        return $color;
+    }
 
 }
