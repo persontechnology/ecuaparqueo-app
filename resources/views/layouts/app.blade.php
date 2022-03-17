@@ -22,6 +22,9 @@
 
         <!-- /main sidebar -->
 
+        <!-- Secondary sidebar -->
+        @yield('secondarySidebar')
+		<!-- /secondary sidebar -->
 
         <!-- Main content -->
         <div class="content-wrapper">
@@ -170,7 +173,8 @@
 
         }
     </script>
-@stack('linksPie')
+    @stack('linksPie')
+    @livewireScripts
 </body>
 
 </html>

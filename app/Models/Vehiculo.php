@@ -31,4 +31,28 @@ class Vehiculo extends Model
     {
         return $this->hasMany(Espacio::class);
     }
+    //DEivid, funcion para retornar color segun a lso estado
+    public function getColorEstadoAttribute()
+    {   
+        
+
+
+
+        $color='border-success';
+        switch ($this->estado) {
+            case 'Activo':
+                $color='primary';
+                break;
+            case 'Inactivo':
+                $color='secondary';
+                break;
+            case 'Presente':
+                $color='success';
+                break;
+            case 'Ausente':
+                $color='danger';
+                break;
+        }
+        return $color;
+    }
 }

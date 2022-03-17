@@ -23,7 +23,8 @@ class RqGuardarVehiculo extends FormRequest
      */
     public function rules()
     {
-        $regPlaca="/[A-Z]{3}-[0-9]{4}/";
+        
+        $regPlaca="/^([A-Z]){3}-[0-9]{4}$/";
         return [
             
             'placa'=>'required|string|max:255|unique:vehiculos,placa|regex:'.$regPlaca,

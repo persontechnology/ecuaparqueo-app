@@ -7,6 +7,15 @@
 				<button class="navbar-toggler sidebar-mobile-main-toggle" type="button">
 					<i class="icon-transmission"></i>
 				</button>
+
+				{{-- para hacer pequeño el menu  add class --}}
+				@if (request()->routeIs('odernMovilizacion'))
+					<button type="button" class="navbar-toggler sidebar-mobile-secondary-toggle">
+						<i class="icon-arrow-right8"></i>
+					</button>	
+				@endif
+				
+
 			@endauth
 		</div>
 

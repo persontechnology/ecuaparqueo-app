@@ -43,3 +43,4 @@
 
     @stack('scripts')
 	@stack('linksCabeza')
+    @livewireStyles

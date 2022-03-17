@@ -1,4 +1,5 @@
-<div class="sidebar sidebar-dark sidebar-main sidebar-expand-lg">
+{{-- para hacer pequeño el menu  add class = sidebar-main-resized--}}
+<div class="sidebar sidebar-dark sidebar-main sidebar-expand-lg {{ request()->routeIs('odernMovilizacion')?'sidebar-main-resized':'' }}">
 
     <!-- Sidebar content -->
     <div class="sidebar-content">
