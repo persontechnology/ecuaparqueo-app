@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Espacios\RqGuardar;
 use App\Models\Espacio;
 use App\Models\OrdenMovilizacion;
+use App\Models\Vehiculo;
 use Carbon\Carbon;
 use DOMDocument;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class EspacioController extends Controller
         $espacio = new Espacio();
         $espacio->numero = $request->numero;
         $espacio->vehiculo_id = $request->vehiculo_id;
+        $espacio->estado = 'Presente';
         $espacio->parqueadero_id = $request->parqueadero_id;
         $espacio->left = $espacioObj->left ?? 26;
         $espacio->top = $espacioObj->top ?? 10;
@@ -58,12 +60,13 @@ class EspacioController extends Controller
 
     public function verVehiculoMapa(Request $request, Espacio $espacio)
     {
+        $vehiculo=Vehiculo::find($espacio->vehiculo_id);
         $url = "https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl";
         $lat = null;
         $lon = null;
         try {
             $client = new \SoapClient($url);
-            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => "864802030794840"]);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => $vehiculo->imei]);
             $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
 
             $lat = $xml->Table->Lat;
