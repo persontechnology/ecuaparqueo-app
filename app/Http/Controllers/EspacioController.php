@@ -60,7 +60,7 @@ class EspacioController extends Controller
 
     public function verVehiculoMapa(Request $request, Espacio $espacio)
     {
-        $vehiculo=Vehiculo::find($espacio->vehiculo_id);
+        $vehiculo = Vehiculo::find($espacio->vehiculo_id);
         $url = "https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl";
         $lat = null;
         $lon = null;
@@ -71,7 +71,6 @@ class EspacioController extends Controller
 
             $lat = $xml->Table->Lat;
             $lon = $xml->Table->Lon;
-            //return (str_ireplace('><', ">\n<",$result->GetAllCompaniesResult));
         } catch (\SoapFault $e) {
             return  $e->getMessage();
         }
