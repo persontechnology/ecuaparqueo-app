@@ -9,7 +9,6 @@
 </div>
 @endsection
 @section('content')
-
 <div class="card card-body">
     {{$dataTable->table()}}
 </div>
