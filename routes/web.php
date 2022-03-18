@@ -11,6 +11,7 @@ use App\Http\Controllers\RolesPermisosController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
 use App\Http\Controllers\VehiculoController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +27,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+
+    // Artisan::call('cache:clear');
+    // Artisan::call('config:clear');
+    // Artisan::call('config:cache');
+	// Artisan::call('storage:link');
+	// Artisan::call('key:generate');
+	// Artisan::call('migrate:fresh --seed');
+
+
 })->name('welcome');
 
 Auth::routes(['verify' => true,'register' => false]);
