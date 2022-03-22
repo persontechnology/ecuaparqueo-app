@@ -32,8 +32,6 @@ class UsuarioController extends Controller
     }
     public function guardar(RqGuardarUsuario $request)
     {
-
-
         try {
             DB::beginTransaction();
             $user=new User();
@@ -82,6 +80,7 @@ class UsuarioController extends Controller
 
     public function actualizar(RqActualizarUsuario $request)
     {
+        
         try {
             DB::beginTransaction();
             $user=User::find($request->id);

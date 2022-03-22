@@ -49,7 +49,11 @@ class OrdenMovilizacion extends Model
     // Deivid, formateando informacion del conductor
     public function getInfoConductorAttribute()
     {
-        return "{$this->conductor->apellidos} {$this->conductor->nombres}";
+        if($this->conductor){
+            return "{$this->conductor->apellidos} {$this->conductor->nombres}";
+        }
+        return '';
+        
     }
 
     // Deivid, formateando informacion del vehiculo

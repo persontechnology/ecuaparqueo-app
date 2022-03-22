@@ -13,29 +13,8 @@ class ControlOrdenMovilizacionController extends Controller
     {
         $this->middleware(['permission:Control Orden de Movilización']);
     }
-    public function index(OrdenMovilizacionDataTable $dataTable)
+    public function index()
     {
-        return $dataTable->render('movilizacion.control.index');
-    }
-    public function estado(Request  $request)
-    {
-        $request->validate([
-            'id'=>'required|exists:orden_movilizacions,id'
-        ]);
-        $orden=OrdenMovilizacion::find($request->id);
-
-        if($orden->estado=='ESPERA' || $orden->estado=='DENEGADA'){
-            $orden->estado='ACEPTADA';
-            request()->session()->flash('success',"Orden de movilización {$orden->numero} {$orden->estado}");
-            $orden->user_acepted=Auth::user()->id;
-        }else{
-            $orden->estado='DENEGADA';
-            request()->session()->flash('warning',"Orden de movilización {$orden->numero} {$orden->estado}");
-            $orden->user_denegated=Auth::user()->id;
-        }
-        $orden->save();
-        
-        return redirect()->route('controlOdernMovilizacion');
-
+        return view('movilizacion.control.index');
     }
 }

@@ -1,10 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\DataTables\Movilizacion\ConductorDataTable;
-use App\DataTables\Movilizacion\VehiculoDataTable;
-use App\DataTables\OrdenMovilizacionDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
@@ -37,21 +33,6 @@ class OrdenMovilizacionController extends Controller
         // return $dataTable->render('movilizacion.index');
     }
 
-    public function nuevo(ConductorDataTable $conductorDataTable, VehiculoDataTable $vehiculoDataTable)
-    {
-        $numero = OrdenMovilizacion::NumeroSiguente();
-        $data = array(
-            'conductorDataTable' => $conductorDataTable,
-            'vehiculoDataTable'=>$vehiculoDataTable,
-            'numero'=>$numero
-         );
-        if(request()->get('table')=='table_conductor'){
-            return $conductorDataTable->render('movilizacion.nuevo',$data);
-        }
-        
-        return $vehiculoDataTable->render('movilizacion.nuevo',$data);
-    }
-
     public function guardar(RqGuardarOrdenMovilizacion $request)
     {
         
@@ -78,21 +59,6 @@ class OrdenMovilizacionController extends Controller
 
     }
 
-    public function editar(ConductorDataTable $conductorDataTable, VehiculoDataTable $vehiculoDataTable,$id)
-    {
-
-        $orden = OrdenMovilizacion::find($id);
-        $data = array(
-            'conductorDataTable' => $conductorDataTable,
-            'vehiculoDataTable'=>$vehiculoDataTable,
-            'orden'=>$orden
-         );
-        if(request()->get('table')=='table_conductor'){
-            return $conductorDataTable->render('movilizacion.editar',$data);
-        }
-        
-        return $vehiculoDataTable->render('movilizacion.editar',$data);
-    }
 
     public function actualizar(RqActualizarOrdenMovilizacion $request)
     {
@@ -128,14 +94,6 @@ class OrdenMovilizacionController extends Controller
             request()->session()->flash('success','Ordén de movilización no eliminado');
         }
         return redirect()->route('odernMovilizacion');
-    }
-
-    public function obtenerVehiculos(Request $request)
-    {
-        $par=Parqueadero::find($request->id);
-        $espacios = $par->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->get();
-        return view('movilizacion.calendar.espacio',['espacios'=>$espacios]);
-         
     }
 
     public function obtener(Request $request)

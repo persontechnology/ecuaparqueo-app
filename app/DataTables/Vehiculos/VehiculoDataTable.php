@@ -1,16 +1,15 @@
 <?php
 
-namespace App\DataTables\Movilizacion;
+namespace App\DataTables\Vehiculos;
 
-use App\Models\User;
-use Spatie\Permission\Models\Role;
+use App\Models\Vehiculo;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ConductorDataTable extends DataTable
+class VehiculoDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,27 +21,31 @@ class ConductorDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->editColumn('foto',function($user){
-                return view('usuarios.foto',['user'=>$user])->render();
+            ->editColumn('foto',function($vehiculo){
+                return view('vehiculos.foto',['vehiculo'=>$vehiculo])->render();
             })
-            ->addColumn('action', function($user){
-                return view('movilizacion.actionConductor',['user'=>$user])->render();
+            ->editColumn('tipo_vehiculo_id',function($vehiculo){
+                return $vehiculo->tipoVehiculo->nombre;
             })
-            ->rawColumns(['foto','action']);
+            ->filterColumn('tipo_vehiculo_id',function($query,$keyword){
+                $query->whereHas('tipoVehiculo',function($query) use ($keyword){
+                    $query->whereRaw('nombre like ?',["%{$keyword}%"]);
+                });
+            })
+            ->addColumn('action', function($vehiculo){
+                return view('vehiculos.action',['vehiculo'=>$vehiculo])->render();
+            })->rawColumns(['action','foto']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Movilizacion/Conductor $model
+     * @param \App\Models\Vehiculo $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Vehiculo $model)
     {
-        $no_roles = Role::whereNotIn('name', ['SuperAdmin', 'SiteAdmin'])->get();
-
-        return $model->role($no_roles);
-        // return $model->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -53,13 +56,9 @@ class ConductorDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('movilizacion-conductor-table')
-                    // ->setTableAttribute(['class'=>'table table-sm'])
+                    // ->setTableId('vehiculo-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->pageLength(5)
-                    ->ajax(['data' => 'function(d) { d.table = "table_conductor"; }'])
-                    ->parameters($this->getBuilderParameters());
                     // ->dom('Bfrtip')
                     // ->orderBy(1)
                     // ->buttons(
@@ -69,6 +68,7 @@ class ConductorDataTable extends DataTable
                     //     Button::make('reset'),
                     //     Button::make('reload')
                     // );
+                    ->parameters($this->getBuilderParameters());
     }
 
     /**
@@ -82,18 +82,22 @@ class ConductorDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(30)
+                  ->width(60)
+                  ->title('Acción')
                   ->searchable(false)
-                  ->orderable(false)
-                  ->iconv(false)
-                  ->title('<i class="fa-solid fa-user"></i>')
                   ->addClass('text-center'),
-            // Column::make('id'),
-            Column::make('foto'),
-            Column::make('apellidos'),
-            Column::make('nombres'),
-            Column::make('email'),
-            Column::make('documento'),
+            Column::make('foto')->searchable(false),
+            Column::make('numero_movil')->title('N° Móvil'),
+            Column::make('numero_movil')->title('Modelo'),
+            Column::make('numero_movil')->title('Marca'),
+            
+            Column::make('placa'),
+            Column::make('color'),
+            Column::make('tipo_vehiculo_id')->title('Tipo'),
+            Column::make('estado'),
+            // Column::make('imei')->title('IMEI'),
+            // Column::make('foto'),
+
         ];
     }
 
@@ -104,6 +108,6 @@ class ConductorDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Movilizacion_Conductor_' . date('YmdHis');
+        return 'Vehiculo_' . date('YmdHis');
     }
 }

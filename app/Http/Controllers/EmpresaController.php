@@ -25,30 +25,39 @@ class EmpresaController extends Controller
 
         if (Auth::user()->hasRole('SuperAdmin')) {
             $request->validate([
-                'tipo' => 'required|in:Pública,Privada',
-                'nombre' => 'required|string|max:255',
-                'fecha_caducidad_inicio' => 'required',
-                'fecha_caducidad_fin' => 'required|date|after_or_equal:fecha_caducidad_inicio',
-                'estado' => 'required|in:Activo,Inactivo',
-                'descripcion' => 'required|string|max:255',
-                'foto' => 'nullable|image',
-                'token' => 'nullable|string|max:225',
-                'url_web_gps' => 'nullable|string|max:225'
-            ]);
-        } else {
+                'tipo'=>'required|in:Pública,Privada',
+                'nombre'=>'required|string|max:255',
+                'fecha_caducidad_inicio'=>'required',
+                'fecha_caducidad_fin'=>'required|date|after_or_equal:fecha_caducidad_inicio',
+                'estado'=>'required|in:Activo,Inactivo',
+                'descripcion'=>'required|string|max:255',
+                'foto'=>'nullable|image',
+                'token'=>'nullable|string|max:225',
+                'codigo'=>'required|string|max:255',
+                'version'=>'required|string|max:255',
+                'norma'=>'required|string|max:255'
+            ]); 
+        }else{
             $request->validate([
-                'tipo' => 'required|in:Pública,Privada',
-                'nombre' => 'required|string|max:255',
-                'descripcion' => 'required|string|max:255',
-                'foto' => 'nullable|image',
-                'token' => 'nullable|string|max:225'
-            ]);
+                'tipo'=>'required|in:Pública,Privada',
+                'nombre'=>'required|string|max:255',
+                'descripcion'=>'required|string|max:255',
+                'foto'=>'nullable|image',
+                'token'=>'nullable|string|max:225',
+                'codigo'=>'required|string|max:255',
+                'version'=>'required|string|max:255',
+                'norma'=>'required|string|max:255'
+            ]); 
         }
 
-        $empresa = Empresa::first();
-        $empresa->tipo = $request->tipo;
-        $empresa->nombre = $request->nombre;
-        $empresa->descripcion = $request->descripcion;
+        $empresa=Empresa::first();
+        $empresa->tipo=$request->tipo;
+        $empresa->nombre=$request->nombre;
+        $empresa->descripcion=$request->descripcion;
+        $empresa->token=$request->token;
+        $empresa->codigo=$request->codigo;
+        $empresa->version=$request->version;
+        $empresa->norma=$request->norma;
         if ($request->hasFile('foto')) {
             $archivo = $request->file('foto');
             if ($archivo->isValid()) {
