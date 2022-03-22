@@ -1,6 +1,5 @@
 @section('content')
-    <div id='calendar'></div>
-
+    @livewire('estacionamientos.calendario',['vehiculo'=>$espacio->vehiculo])
     @push('scripts')
     @endpush
 
@@ -21,45 +20,5 @@
     @endpush
 
     @prepend('linksPie')
-        <script>
-            var calendarEl = document.getElementById('calendar');
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                themeSystem: 'bootstrap',
-                headerToolbar: {
-                    left: 'prev,next,today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-                },
-
-                // timeZone: 'local',
-                initialView: 'timeGridDay',
-                slotDuration: '00:15:00',
-                defaultTimedEventDuration: '00:15:00',
-                locale: 'es',
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                dayMaxEvents: true, // allow "more" link when too many events
-                selectable: true,
-                nowIndicator: true,
-                dayMaxEvents: true,
-                selectMirror: true,
-                droppable: true,
-                select: function(arg) {
-                    console.log(arg)
-                    console.log(arg.end)
-                    calendar.unselect()
-                },
-                eventClick: function(arg) {
-                    // if (confirm('Está seguro de eliminar ordén')) {
-                    //     arg.event.remove()
-                    // }
-                    // console.log(arg.event)
-                },
-
-            });
-
-            calendar.render();
-        </script>
     @endprepend
 @endsection

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrazoController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
@@ -41,6 +42,8 @@ Route::get('/', function () {
 Auth::routes(['verify' => true,'register' => false]);
 
 
+Route::get('/obtener-brazo', [BrazoController::class, 'obtenerBrazo'])->name('obtenerBazo');
+Route::get('/cerrar-brazo', [BrazoController::class, 'cerrarBrazo'])->name('cerrarBrazo');
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');

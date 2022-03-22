@@ -123,14 +123,18 @@ class ParqueaderoController extends Controller
         $espacios = $parqueadero->espacios()->with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje']);
         $tipos = TipoVehiculo::get();
         $estacionamiento = Espacio::get();
-        if($request->has('estados')&& $request->estados){
-            $espacios=$espacios->where('espacios.estado',$request->estado);
-           
+        if ($request->has('estados') && $request->estados) {
+            $espacios = $espacios->where('espacios.estado', $request->estado);
         }
-        $espacios=$espacios->get();
+        $espacios = $espacios->get();
         $vehiculos = Vehiculo::where('estado', 'ACTIVO')->whereNotIn('id', $estacionamiento->pluck('vehiculo_id'))->get();
 
         return view('espacios.index', ['espacios' => $espacios, 'vehiculos' => $vehiculos, 'parqueadero' => $parqueadero, 'tipos' => $tipos]);
+    }
+    public function listarBrazos(Request $request, Parqueadero $parqueadero)
+    {
+
+        return view('espacios.index', ['parqueadero' => $parqueadero]);
     }
     public function idsGuardiasActivos()
     {
