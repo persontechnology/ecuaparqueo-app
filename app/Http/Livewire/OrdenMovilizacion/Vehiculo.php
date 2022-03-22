@@ -9,8 +9,8 @@ use Livewire\Component;
 
 class Vehiculo extends Component
 {
-    public $parqueaderos;
-    public $espacios;
+    // public $parqueaderos;
+    // public $espacios;
     public $idPar;
 
     public $foo;
@@ -25,20 +25,24 @@ class Vehiculo extends Component
 
     public function render()
     {
-        $this->parqueaderos=Parqueadero::get();
+        $parqueaderos=Parqueadero::get();
         
         if($this->idPar){
             $ex=Parqueadero::find($this->idPar)->espacios;
         }else{
-            $ex=$this->parqueaderos->first()->espacios;
+            $ex=$parqueaderos->first()->espacios??null;
+        }
+        if($ex){
+            $espacios=ModelsVehiculo::whereIn('id',$ex->pluck('vehiculo_id'))
+            ->where('placa','like','%'.$this->search.'%')->get();
+        }else{
+            $espacios=ModelsVehiculo::where('placa','like','%'.$this->search.'%')->get();
         }
         
-        $this->espacios=ModelsVehiculo::whereIn('id',$ex->pluck('vehiculo_id'))
-        ->where('placa','like','%'.$this->search.'%')->get();
         
         $data = array(
-            'parqueaderos'=>$this->parqueaderos,
-            'espacios'=>$this->espacios,
+            'parqueaderos'=>$parqueaderos,
+            'espacios'=>$espacios,
         );
         return view('livewire.orden-movilizacion.vehiculo',$data);
     }

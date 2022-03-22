@@ -16,15 +16,17 @@ class CreateVehiculosTable extends Migration
         Schema::create('vehiculos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('placa');
-            $table->string('color');
-            $table->string('numero_chasis');
+            $table->string('numero_movil')->unique();
+            $table->string('placa')->nullable();
+            $table->string('color')->nullable();
+            $table->string('modelo')->nullable();
+            $table->string('marca')->nullable();
             $table->string('foto')->nullable();
             $table->string('descripcion')->nullable();
             $table->string('imei')->nullable();
             $table->enum('estado',['Activo','Inactivo','Presente','Ausente'])->default('Activo');
 
-
+            $table->foreignId('conductor_id')->nullable()->constrained('users');
             $table->foreignId('tipo_vehiculo_id')->constrained('tipo_vehiculos');
             $table->integer('kilometraje_id')->nullable();
             $table->bigInteger('user_create')->nullable();

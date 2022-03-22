@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\VehiculoDataTable;
+
+use App\DataTables\Vehiculos\ConductorDataTable;
+use App\DataTables\Vehiculos\VehiculoDataTable;
 use App\Http\Requests\RqActualizarVehiculo;
 use App\Http\Requests\RqGuardarVehiculo;
 use App\Models\Kilometraje;
@@ -52,22 +54,27 @@ class VehiculoController extends Controller
         return redirect()->route('vehiculos');
     }
 
-    public function nuevo()
+    public function nuevo(ConductorDataTable $dataTable)
     {
-        return view('vehiculos.nuevo',['tipoVehiculos'=>TipoVehiculo::get()]);
+        return $dataTable->render('vehiculos.nuevo',['tipoVehiculos'=>TipoVehiculo::get()]);
     }
 
     public function guardar(RqGuardarVehiculo $request)
     {
         $ve=new Vehiculo();
+
+        $ve->numero_movil=$request->numero_movil;
+        $ve->modelo=$request->modelo;
+        $ve->marca=$request->marca;
         $ve->placa=$request->placa;
         $ve->color=$request->color;
-        $ve->numero_chasis=$request->numero_chasis;
-        $ve->descripcion=$request->descripcion;
+        $ve->conductor_id=$request->conductor;
         $ve->estado=$request->estado;
-        $ve->tipo_vehiculo_id=$request->tipo;
-        $ve->user_create=Auth::user()->id;
+        $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
+        $ve->tipo_vehiculo_id=$request->tipo;
+
+        $ve->user_create=Auth::user()->id;
         $ve->save();
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
@@ -91,23 +98,27 @@ class VehiculoController extends Controller
         return redirect()->route('vehiculos');
     }
 
-    public function editar($id)
+    public function editar(ConductorDataTable $dataTable,$id)
     {
         $ve=Vehiculo::find($id);
         $tipo=TipoVehiculo::get();
-        return view('vehiculos.editar',['vehiculo'=>$ve,'tipoVehiculos'=>$tipo]);
+        return $dataTable->render('vehiculos.editar',['vehiculo'=>$ve,'tipoVehiculos'=>$tipo]);
     }
     public function actualizar(RqActualizarVehiculo $request)
     {
         $ve=Vehiculo::find($request->id);
+        $ve->numero_movil=$request->numero_movil;
+        $ve->modelo=$request->modelo;
+        $ve->marca=$request->marca;
         $ve->placa=$request->placa;
         $ve->color=$request->color;
-        $ve->numero_chasis=$request->numero_chasis;
-        $ve->descripcion=$request->descripcion;
+        $ve->conductor_id=$request->conductor;
         $ve->estado=$request->estado;
-        $ve->tipo_vehiculo_id=$request->tipo;
+        $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
+        $ve->tipo_vehiculo_id=$request->tipo;
         $ve->user_update=Auth::user()->id;
+        
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
             if ($archivo->isValid()) {

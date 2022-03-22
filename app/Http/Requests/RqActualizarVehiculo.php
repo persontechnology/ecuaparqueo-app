@@ -38,16 +38,21 @@ class RqActualizarVehiculo extends FormRequest
         },"El vehículo no se puede cambiar el estado a Inactivo, ya que está asignado a un espacio.");
 
         $regPlaca="/^([A-Z]){3}-[0-9]{4}$/";
-        return [
+        return [    
             'id'=>'required|exists:vehiculos,id',
+            'numero_movil'=>'required|numeric|gt:0|unique:vehiculos,numero_movil,'.$this->input('id'),
+            'modelo'=>'nullable|string|max:255',
+            'marca'=>'required|string|max:255',
             'placa'=>'required|string|max:255|unique:vehiculos,placa,'.$this->input('id').'|regex:'.$regPlaca,
-            'color'=>'required',
-            'numero_chasis'=>'required|string|max:255',
-            'descripcion'=>'required|string|max:255',
+            'color'=>'nullable|string|max:255',
+            'conductor'=>'nullable|exists:users,id',
+            'conductorInfo'=>'nullable|string|max:255',
+            'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio',
+            'descripcion'=>'nullable|string|max:255',
             'foto'=>'nullable|image',
             'tipo'=>'required|exists:tipo_vehiculos,id',
-            'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio',
             'imei'=>'nullable|string|max:255'
+            
         ];
     }
 

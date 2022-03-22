@@ -32,7 +32,10 @@ class EmpresaController extends Controller
                 'estado'=>'required|in:Activo,Inactivo',
                 'descripcion'=>'required|string|max:255',
                 'foto'=>'nullable|image',
-                'token'=>'nullable|string|max:225'
+                'token'=>'nullable|string|max:225',
+                'codigo'=>'required|string|max:255',
+                'version'=>'required|string|max:255',
+                'norma'=>'required|string|max:255'
             ]); 
         }else{
             $request->validate([
@@ -40,7 +43,10 @@ class EmpresaController extends Controller
                 'nombre'=>'required|string|max:255',
                 'descripcion'=>'required|string|max:255',
                 'foto'=>'nullable|image',
-                'token'=>'nullable|string|max:225'
+                'token'=>'nullable|string|max:225',
+                'codigo'=>'required|string|max:255',
+                'version'=>'required|string|max:255',
+                'norma'=>'required|string|max:255'
             ]); 
         }
 
@@ -49,6 +55,9 @@ class EmpresaController extends Controller
         $empresa->nombre=$request->nombre;
         $empresa->descripcion=$request->descripcion;
         $empresa->token=$request->token;
+        $empresa->codigo=$request->codigo;
+        $empresa->version=$request->version;
+        $empresa->norma=$request->norma;
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
             if ($archivo->isValid()) {

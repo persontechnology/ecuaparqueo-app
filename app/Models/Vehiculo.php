@@ -34,10 +34,6 @@ class Vehiculo extends Model
     //DEivid, funcion para retornar color segun a lso estado
     public function getColorEstadoAttribute()
     {   
-        
-
-
-
         $color='border-success';
         switch ($this->estado) {
             case 'Activo':
@@ -54,5 +50,21 @@ class Vehiculo extends Model
                 break;
         }
         return $color;
+    }
+
+    // Deivid, un vehiculo tiene un conductor
+    public function conductor()
+    {
+        return $this->belongsTo(User::class,'conductor_id');
+    }
+
+    // Deivid, apellidos y nombre concatenados
+    public function getInfoConductorAttribute()
+    {
+        if($this->conductor){
+            return "{$this->conductor->apellidos} {$this->conductor->nombres}";
+        }
+        return '';
+        
     }
 }

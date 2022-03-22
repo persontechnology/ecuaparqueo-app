@@ -20,6 +20,9 @@ class CreateEmpresasTable extends Migration
             $table->string('nombre')->default('nombre');
             $table->string('logo')->default('logo');
             $table->string('descripcion')->default('descripcion');
+            $table->string('codigo')->default('codigo');
+            $table->string('version')->default('1.0');
+            $table->string('norma')->default('ISO 9001:2015');
             $table->date('fecha_caducidad_inicio')->default(now());
             $table->date('fecha_caducidad_fin')->default(now());
             $table->enum('estado',['Activo','Inactivo'])->default('Activo');
