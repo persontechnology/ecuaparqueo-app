@@ -90,6 +90,10 @@ Breadcrumbs::for('estacionamientosReservas', function (BreadcrumbTrail $trail,$e
     $trail->parent('estacionamientos',$espacio->parqueadero);
     $trail->push('Reservas ', route('listarReservaVehiculo', $espacio->id));
 });
+Breadcrumbs::for('parqueaderoListarBrazos', function (BreadcrumbTrail $trail,$parqueadero) {
+    $trail->parent('parqueaderos');
+    $trail->push('Brazos de '. $parqueadero->nombre, route('parqueaderoListarBrazos', $parqueadero->id));
+});
 Breadcrumbs::for('verVehiculoMapa', function (BreadcrumbTrail $trail,$espacio) {
     $trail->parent('estacionamientos',$espacio->parqueadero);
     $trail->push('Mapa Vehículo ', route('verVehiculoMapa', $espacio->id));

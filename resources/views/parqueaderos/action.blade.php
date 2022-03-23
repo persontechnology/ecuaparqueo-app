@@ -19,6 +19,11 @@
                 <i class="icon-road text-pink"></i>
                 Estacionamientos
             </a>
+            <a href="{{ route('parqueaderoListarBrazos', $parqueadero->id) }}" class="dropdown-item">
+                <i class=" icon-enter3 text-info"></i>
+                Brazos
+            </a>
+            
         </div>
     </div>
 </div>

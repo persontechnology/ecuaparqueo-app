@@ -9,6 +9,7 @@ class BrazoController extends Controller
 {
     public function index()
     {
+        
     }
     public function obtenerBrazo(Request $request)
     {

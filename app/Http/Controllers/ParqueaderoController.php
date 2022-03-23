@@ -134,7 +134,7 @@ class ParqueaderoController extends Controller
     public function listarBrazos(Request $request, Parqueadero $parqueadero)
     {
 
-        return view('espacios.index', ['parqueadero' => $parqueadero]);
+        return view('brazos.index', ['parqueadero' => $parqueadero]);
     }
     public function idsGuardiasActivos()
     {

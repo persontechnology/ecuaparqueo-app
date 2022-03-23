@@ -16,7 +16,9 @@ class CreateBrazosTable extends Migration
         Schema::create('brazos', function (Blueprint $table) {
             $table->id();
             $table->string('codigo');
-            $table->boolean('estado')->default(false);
+            $table->boolean('estado_brazo')->default(false);
+            $table->string('descripcion');
+            $table->enum('estado',['Activo','Inactivo'])->default('Activo');
             $table->foreignId('parqueadero_id')->constrained('parqueaderos');
             $table->timestamps();
         });

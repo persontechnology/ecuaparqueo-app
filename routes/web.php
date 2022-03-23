@@ -110,6 +110,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
     Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
     Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
+    Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderoListarBrazos');
     
     
     
