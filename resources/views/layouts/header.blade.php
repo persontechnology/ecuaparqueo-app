@@ -1,4 +1,7 @@
-<div class="navbar navbar-expand-lg navbar-dark navbar-static">
+@php
+	$bgtema=Auth::user()->configuracion->tema??'';
+@endphp
+<div class="navbar navbar-expand-lg navbar-dark bg-{{ $bgtema }} navbar-static">
 		<div class="d-flex flex-1 d-lg-none">
 			@auth
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
@@ -8,7 +11,7 @@
 					<i class="icon-transmission"></i>
 				</button>
 
-				{{-- para hacer pequeño el menu  add class --}}
+				{{-- para hacer pequeño el menu  add class, poner aqui las rutas que requieren menu secundario --}}
 				@if (request()->routeIs('odernMovilizacion'))
 					<button type="button" class="navbar-toggler sidebar-mobile-secondary-toggle">
 						<i class="icon-arrow-right8"></i>
@@ -321,7 +324,7 @@
 						{{-- <a href="#" class="dropdown-item"><i class="icon-coins"></i> My balance</a>
 						<a href="#" class="dropdown-item"><i class="icon-comment-discussion"></i> Messages <span class="badge badge-primary badge-pill ml-auto">58</span></a> --}}
 						<div class="dropdown-divider"></div>
-						<a href="#" class="dropdown-item"><i class="icon-office"></i> Mi empresa</a>
+						<a href="{{ route('configuracion') }}" class="dropdown-item"><i class="fa-solid fa-gear"></i> Configuración</a>
 						<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="dropdown-item"><i class="icon-switch2"></i> Salir</a>
 						<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
 							@csrf

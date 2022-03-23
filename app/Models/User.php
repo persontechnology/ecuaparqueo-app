@@ -47,5 +47,9 @@ class User extends Authenticatable
         return $this->belongsTo(Parqueadero::class);
     }
 
-    
+    // Un usuario tiene una sola configuracion
+    public function configuracion()
+    {
+        return $this->hasOne(Configuracion::class);
+    }
 }

@@ -51,6 +51,8 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
     Route::post('/perfil-actualizar', [PerfilController::class, 'actualizar'])->name('actualizarPerfil');
     Route::post('/perfil-actualizar-contrasena', [PerfilController::class, 'actualizarContrasena'])->name('actualizarContrasena');
+    Route::get('/configuracion', [PerfilController::class, 'configuracion'])->name('configuracion');
+    Route::post('/perfil-actualizar-configuracion', [PerfilController::class, 'actualizarConfiguracion'])->name('actualizarConfiguracion');
     
     // roles y permisos
     Route::get('/roles', [RolesPermisosController::class, 'index'])->name('roles');

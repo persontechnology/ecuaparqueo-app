@@ -516,28 +516,7 @@
                 
             },
             @endforeach
-        ],
-        eventContent: function(arg) {
-                let arrayOfDomNodes = []
-                // title event
-                let titleEvent = document.createElement('div')
-                if(arg.event._def.title) {
-                  titleEvent.innerHTML = arg.event._def.title
-                  titleEvent.classList = "fc-event-title fc-sticky"
-                }
-    
-                // image event
-                let imgEventWrap = document.createElement('div')
-                if(arg.event.extendedProps.image_url) {
-                  let imgEvent = '<img src="'+arg.event.extendedProps.image_url+'" class="img-flag" >'
-                  imgEventWrap.classList = "fc-event-img"
-                  imgEventWrap.innerHTML = imgEvent;
-                }
-    
-                arrayOfDomNodes = [ titleEvent,imgEventWrap ]
-    
-                return { domNodes: arrayOfDomNodes }
-              }
+        ]
     });
 
     
@@ -620,7 +599,7 @@
         $('#accionForm').val('editarOrden');
         $('#modal_full').modal('show');
         $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionActualizar') }}");
-
+        
     }
 
     $('#modal_full').on('hidden.bs.modal', function (event) {
@@ -630,15 +609,29 @@
         }
 
         $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionGuardar') }}");
-        $('#idEventoCalendar').val('');
-        $('#vehiculo').val('');
-        $('#marcaVehiculo').val('');
-        $('#servidor_publico').val('');
-        $('#direccion').val('');
-        $('#lugar_comision').val('');
-        $('#motivo').val('');
         $('#numero_orden_movilizacion').html('');
         $('#buttonEliminar').attr('data-id','').attr('data-msg','').hide();
+
+
+        $('#idEventoCalendar').val('');
+        $('#numero_ocupantes').val('');
+        $('#vehiculo').val('');
+        $('#numeroMovil').val('');
+        $('#marca').val('');
+        $('#modelo').val('');
+        $('#placa').val('');
+        $('#tipo').val('');
+        $('#color').val('');
+        $('#procedencia').val('');
+        $('#destino').val('');
+        $('#comision_cumplir').val('');
+        $('#conductor').val('');
+        $('#conductor_info').val('');
+        $('#solicitante').val('');
+        $('#solicitante_info').val('');
+        
+        
+
     })
     calendar.render();
 

@@ -1,5 +1,10 @@
 {{-- para hacer pequeño el menu  add class = sidebar-main-resized--}}
-<div class="sidebar sidebar-dark sidebar-main sidebar-expand-lg {{ request()->routeIs(['odernMovilizacion','controlOdernMovilizacion'])?'sidebar-main-resized':'' }}">
+@php
+	$bgtemareduccion=Auth::user()->configuracion->reduccion??'';
+    $bgtemamenu=Auth::user()->configuracion->menu??'dark';
+@endphp
+
+<div class="sidebar sidebar-{{ $bgtemamenu }} sidebar-main sidebar-expand-lg {{  $bgtemareduccion?'sidebar-main-resized':'' }}">
 
     <!-- Sidebar content -->
     <div class="sidebar-content">

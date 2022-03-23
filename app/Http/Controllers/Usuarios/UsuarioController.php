@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Usuarios\RqActualizarUsuario;
 use App\Http\Requests\Usuarios\RqEliminarUsuario;
 use App\Http\Requests\Usuarios\RqGuardarUsuario;
+use App\Models\Configuracion;
 use App\Models\User;
 use App\Notifications\RegistroUsuarioNoty;
 use Illuminate\Http\Request;
@@ -58,6 +59,9 @@ class UsuarioController extends Controller
                     $user->foto=$path;
                 }
             }
+            $conf=new Configuracion();
+            $conf->user_id=$user->save();
+            $conf->save();
             $user->save();
             $user->assignRole($request->roles);
             DB::commit();
