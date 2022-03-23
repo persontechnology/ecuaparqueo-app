@@ -15,15 +15,15 @@ class EmpresaController extends Controller
     }
     public function index()
     {
-        $empresa=Empresa::first();
-        return view('empresa.index',['empresa'=>$empresa]);
+        $empresa = Empresa::first();
+        return view('empresa.index', ['empresa' => $empresa]);
     }
 
     public function actualizar(Request $request)
     {
-        
 
-        if(Auth::user()->hasRole('SuperAdmin')){
+
+        if (Auth::user()->hasRole('SuperAdmin')) {
             $request->validate([
                 'tipo'=>'required|in:Pública,Privada',
                 'nombre'=>'required|string|max:255',
@@ -59,25 +59,27 @@ class EmpresaController extends Controller
         $empresa->version=$request->version;
         $empresa->norma=$request->norma;
         if ($request->hasFile('foto')) {
-            $archivo=$request->file('foto');
+            $archivo = $request->file('foto');
             if ($archivo->isValid()) {
                 Storage::delete($empresa->logo);
                 $path = Storage::putFileAs(
-                    'public/empresa', $archivo, $empresa->id.'.'.$archivo->extension()
+                    'public/empresa',
+                    $archivo,
+                    $empresa->id . '.' . $archivo->extension()
                 );
-                $empresa->logo=$path;
+                $empresa->logo = $path;
             }
         }
-        if(Auth::user()->hasRole('SuperAdmin')){
-            $empresa->fecha_caducidad_inicio=$request->fecha_caducidad_inicio;
-            $empresa->fecha_caducidad_fin=$request->fecha_caducidad_fin;
-            $empresa->estado=$request->estado;
+        if (Auth::user()->hasRole('SuperAdmin')) {
+            $empresa->fecha_caducidad_inicio = $request->fecha_caducidad_inicio;
+            $empresa->fecha_caducidad_fin = $request->fecha_caducidad_fin;
+            $empresa->estado = $request->estado;
+            $empresa->url_web_gps = $request->url_web_gps;
+            $empresa->token = $request->token;
         }
-        $empresa->user_update=Auth::user()->id;
+        $empresa->user_update = Auth::user()->id;
         $empresa->save();
-        request()->session()->flash('success','Empresa actualizado');
+        request()->session()->flash('success', 'Empresa actualizado');
         return redirect()->route('empresa');
-
-
     }
 }

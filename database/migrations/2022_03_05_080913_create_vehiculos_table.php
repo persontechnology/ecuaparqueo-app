@@ -24,6 +24,7 @@ class CreateVehiculosTable extends Migration
             $table->string('foto')->nullable();
             $table->string('descripcion')->nullable();
             $table->string('imei')->nullable();
+            $table->string('codigo_tarjeta')->nullable();
             $table->enum('estado',['Activo','Inactivo','Presente','Ausente'])->default('Activo');
 
             $table->foreignId('conductor_id')->nullable()->constrained('users');

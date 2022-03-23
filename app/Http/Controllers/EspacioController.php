@@ -55,7 +55,7 @@ class EspacioController extends Controller
         /*         ->whereDate("events.start_date_time", ">=", $startDate)
         ->whereDate("events.end_date_time", "<=", $endDate)->get(); */
 
-        return view('espacios.reservas', ['reservas' => $reservas, 'espacio' => $espacio]);
+        return view('espacios.reservas', ['espacio' => $espacio]);
     }
 
     public function verVehiculoMapa(Request $request, Espacio $espacio)

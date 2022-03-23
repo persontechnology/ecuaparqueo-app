@@ -1,5 +1,12 @@
 <div>
     @include('livewire.estacionamientos.map')
+
+    @if ($mensaje)
+        <div class="alert alert-danger border-0 alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+            <span class="font-weight-semibold">SIN DIRECCIÓN!</span> {{ $mensaje }}
+        </div>
+    @endif
     <div class="card">
         <div class="card-body">
             <div class="d-sm-flex pb-3">
@@ -37,6 +44,7 @@
                     <table class="table table-bordered table-sm">
                         <thead style="font-size: 11px; text-align: center;">
                             <tr>
+                                <th scope="col">Acciones</th>
                                 <th scope="col">#</th>
                                 <th scope="col">Estado</th>
                                 <th scope="col">Placa</th>
@@ -51,8 +59,30 @@
                         <tbody style="font-size: 12px; text-align: center;">
                             @foreach ($espacios as $espacio)
                                 <tr>
-                                    <th scope="row"><span
-                                            class="badge rounded-pill {{ $espacio->estadosColor($espacio->estado) }}">{{ $espacio->numero }}</span>
+                                    <td>
+                                        <div class="ml-1">
+                                            <div class="list-icons position-static">
+                                                <a href="#" class="list-icons-item dropdown-toggle"
+                                                    data-toggle="dropdown" aria-expanded="false"></a>
+                                                <div class="dropdown-menu dropdown-menu-center" style="">
+                                                    <a href="#" class="dropdown-item">
+                                                        <i class="icon-pencil4"></i>
+                                                        Editar
+                                                    </a>
+                                                    <a href="{{ route('listarReservaVehiculo', $espacio->id) }}"
+                                                        class="dropdown-item">
+                                                        <i class="icon-calendar2"></i>
+                                                        Ver reservas
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <th scope="row">
+                                        <span
+                                            class="badge rounded-pill {{ $espacio->estadosColor($espacio->estado) }}">
+                                            {{ $espacio->numero }}
+                                        </span>
                                     </th>
                                     <td>
                                         <span
@@ -64,16 +94,16 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                          
-                                        <button data-toggle="modal" data-target="#updateModal"
-                                            wire:click="showMap(2)"
-                                            class="btn btn-outline-success btn-icon border-2 ml-2">
-                                            <i class="icon-location4"></i>
+                                        <button wire:click="showMap({{ $espacio->vehiculo->id }})" type="button"
+                                            class="btn btn-teal btn-ladda btn-ladda-progress ladda-button"
+                                            data-style="slide-left">
+                                            <span class="ladda-label"><i class="icon-location4"></i></span>
+                                            <span class="ladda-spinner"></span>
+                                            <div class="ladda-progress" style="width: 148px;">
+                                            </div>
                                         </button>
 
-                                        <button data-toggle="modal" data-target="#updateModal"
-                                            wire:click="edit({{ $espacio->id }})"
-                                            class="btn btn-primary btn-sm">Edit</button>
+
                                     </td>
                                     <td>-</td>
                                 </tr>
@@ -91,3 +121,11 @@
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('openPagamentoLongModal', event => {
+        $("#PagamentoLongModal").modal('show');
+    })
+    window.addEventListener('cargarMapaEvent', event => {
+        cargarMapa();
+    })
+</script>

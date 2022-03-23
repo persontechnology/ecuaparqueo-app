@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Estacionamientos;
 
-
+use App\Models\Empresa;
 use App\Models\Espacio;
 use App\Models\Parqueadero;
 use App\Models\TipoVehiculo;
@@ -24,8 +24,10 @@ class Index extends Component
         $espacioId,
         $btnClear = false,
         $btnText = 'Registrar';
-    public $lat = 'da',
-        $lon = 'dsa';
+    public $lat = null,
+        $lon = null,
+        $vehiculo,
+        $mensaje;
 
     public $updateMode = false;
     protected $paginationTheme = 'bootstrap';
@@ -44,7 +46,8 @@ class Index extends Component
     public function render()
     {
         $tipos = TipoVehiculo::get();
-        $espacios = Espacio::with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->where('estado', '!=', 'Inactivo');
+        $espacios = Espacio::with(['vehiculo.tipoVehiculo', 'vehiculo.kilometraje'])->where('estado', '!=', 'Inactivo')
+            ->where('parqueadero_id', $this->parqueadero->id);
         if ($this->search && strlen($this->search) > 1) {
             $espacios = $espacios->whereHas('vehiculo', function ($q) {
                 $q->where('placa', 'like', '%' . $this->search . '%');
@@ -72,17 +75,27 @@ class Index extends Component
     public function showMap($id)
     {
 
-        $vehiculo = Vehiculo::find($id);
-        $url = "https://www.ecuatrack.com/WS/WSTrack2.asmx?wsdl";
+        $this->vehiculo = Vehiculo::with('tipoVehiculo')->find($id);
+        $empresa = Empresa::first();
+        $url =  $empresa->url_web_gps;
         try {
 
             $client = new \SoapClient($url);
-            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => 'a1bc4322-6c7e-4b02-9ff7-fe1904884257', "IMEI" => $vehiculo->imei]);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => $empresa->token ?? '', "IMEI" => $this->vehiculo->imei]);
             $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
-            $this->lat = $xml->Table->Lat;
+            $this->lat = strval($xml->Table->Lat);
+            $this->lon = strval($xml->Table->Lon);
         } catch (\SoapFault $e) {
-            $this->lon =  $e->getMessage();
+            $this->mensaje = "No se puede mostrar  la información de la ubicación verifíque los datos de conexión y vuelava ha intentar";
+            return;
         }
+        $this->dispatchBrowserEvent('openPagamentoLongModal');
+        $this->dispatchBrowserEvent('cargarMapaEvent');
+    }
+    public function updatingLon($event)
+    {
+        $this->mensaje = "noo";
+        //$this->dispatchBrowserEvent('openPagamentoLongModal');
     }
     public function cancel()
     {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrazoController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
@@ -41,6 +42,8 @@ Route::get('/', function () {
 Auth::routes(['verify' => true,'register' => false]);
 
 
+Route::get('/obtener-brazo', [BrazoController::class, 'obtenerBrazo'])->name('obtenerBazo');
+Route::get('/cerrar-brazo', [BrazoController::class, 'cerrarBrazo'])->name('cerrarBrazo');
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -107,6 +110,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
     Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
     Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
+    Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderoListarBrazos');
     
     
     
