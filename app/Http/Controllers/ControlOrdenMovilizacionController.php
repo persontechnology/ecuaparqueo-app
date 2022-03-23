@@ -17,4 +17,10 @@ class ControlOrdenMovilizacionController extends Controller
     {
         return view('movilizacion.control.index');
     }
+
+    public function AprobarReprobar($id)
+    {
+        $orden=OrdenMovilizacion::find($id);
+        return view('movilizacion.control.aprobarReprobar',['orden'=>$orden]);
+    }
 }

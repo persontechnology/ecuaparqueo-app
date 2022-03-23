@@ -59,7 +59,12 @@ class OrdenMovilizacion extends Model
     // Deivid, formateando informacion del vehiculo
     public function getInfoVehiculoAttribute()
     {
-        return "{$this->vehiculo->numero_movil} {$this->vehiculo->placa}";   
+        if($this->vehiculo){
+            return "{$this->vehiculo->numero_movil} {$this->vehiculo->placa}";   
+        }else{
+            return '';
+        }
+        
     }
 
     // Deivid, una orden tiene un usuario conductor
@@ -104,19 +109,19 @@ class OrdenMovilizacion extends Model
         $color='bg-primary';
         switch ($this->estado) {
             case 'SOLICITADO':
-                $color='bg-primary';
+                $color='primary';
                 break;
             case 'DENEGADA':
-                $color='bg-secondary';
+                $color='secondary';
                 break;
             case 'ACEPTADA':
-                $color='bg-success';
+                $color='success';
                 break;
             case 'OCUPADO':
-                $color='bg-danger';
+                $color='danger';
                 break;
             case 'FINALIZADO':
-                $color='bg-warning';
+                $color='warning';
                 break;
         }
         return $color;

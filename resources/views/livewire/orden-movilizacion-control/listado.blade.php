@@ -43,14 +43,18 @@
     <div class="card-body">
         <div class="table-responsive">
             @if ($ordenMovilizaciones->count()>0)
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover table-sm">
                     <thead>
                         <tr>
                             <th>Aprobar/Reprobar</th>
-                            <th>#</th>
-                            <th>Vehículo</th>
-                            <th>Servidor público</th>
-                            <th>Fecha Salida & Retorno</th>
+                            <th>N° orden</th>
+                            <th>N° ocupantes</th>
+                            <th>N° movil placa</th>
+                            <th>Fecha salida</th>
+                            <th>Fecha retorno</th>
+                            <th>Procedencia</th>
+                            <th>Destino</th>
+                            <th>Comisión a cumplir</th>
                             <th>Estado</th>
                             <th>Chofer</th>
                         </tr>
@@ -59,25 +63,32 @@
                         @foreach ($ordenMovilizaciones as $com)
                             <tr>
                                 <td class="text-center">
-                                    
+                                    <a href="{{ route('controlOdernMovilizacionAprobarReprobar',$com->id) }}" class="btn btn-block"><i class="fa-solid fa-toggle-off fa-2x"></i></a>
                                 </td>
                                 <td>{{ $com->numero }}</td>
+                                <td>{{ $com->numero_ocupantes }}</td>
                                 <td>
                                     @if (Storage::exists($com->vehiculo->foto))
-                                        <img src="{{ Storage::url($com->vehiculo->foto) }}" class="rounded-circle" width="32" height="32" alt="">    
+                                        <a href="{{ Storage::url($com->vehiculo->foto) }}"><img src="{{ Storage::url($com->vehiculo->foto) }}" class="rounded-circle" width="32" height="32" alt="">    </a>
                                     @endif
                                     
-                                    {{ $com->vehiculo->placa }}
+                                    {{ $com->info_vehiculo }}
                                 </td>
-                                <td>{{ $com->servidor_publico }}</td>
+                                
                                 <td>
-                                    {{ $com->fecha_salida }} - {{ $com->fecha_retorno }}
-                                </td>
-                                <td>
-                                    {{ $com->estado }}
+                                    {{ $com->fecha_salida }}
                                 </td>
                                 <td>
-                                    {{ $com->info_onductor }}
+                                    {{ $com->fecha_retorno }}
+                                </td>
+                                <td>{{ $com->procedencia }}</td>
+                                <td>{{ $com->destino }}</td>
+                                <td>{{ Str::limit($com->comision_cumplir, 25, '...') }}</td>
+                                <td>
+                                   <span class="badge badge-{{ $com->color_estado }}">{{ $com->estado }}</span>
+                                </td>
+                                <td>
+                                    {{ $com->info_conductor }}
                                 </td>
                             </tr>
                         @endforeach

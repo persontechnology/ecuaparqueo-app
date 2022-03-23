@@ -19,7 +19,6 @@ class Listado extends Component
     public $EstadoOrdenMovilizacion;
     public $NumeroOrden;
     public $IdParqueadero;
-    public $page = 1;
 
     // querys
     protected $queryString = [
@@ -27,7 +26,7 @@ class Listado extends Component
         'IdTipoVehiculo'=>['except' => '','as'=>'tipovehiculo'],
         'EstadoOrdenMovilizacion'=>['except' => '','as'=>'estado'],
         'IdParqueadero'=>['except' => '','as'=>'parqueadero'],
-        'page' => ['except' => 1,'as'=>'pagina'],
+        'page'=>['as'=>'pagina']
     ];
 
     public function render()
@@ -40,7 +39,7 @@ class Listado extends Component
         ->where('estado','like','%'.$this->EstadoOrdenMovilizacion.'%')
         ->whereHas('vehiculo',function($query) {
             $query->whereRaw("tipo_vehiculo_id like ?",["%{$this->IdTipoVehiculo}%"]);
-        })->paginate($this->page);
+        })->paginate(10);
 
         //$this->ordenMovilizaciones=OrdenMovilizacion::paginate(10);
         $tipoVehiculos=TipoVehiculo::get();
@@ -57,7 +56,11 @@ class Listado extends Component
         return view('livewire.orden-movilizacion-control.listado',$data);
     }
 
-
+    public function updatingNumeroOrden()
+    {
+        $this->resetPage();
+    }
+    
 
     public function updatedIdTipoVehiculo($value)
     {

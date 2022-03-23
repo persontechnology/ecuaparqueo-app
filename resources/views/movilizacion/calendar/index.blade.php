@@ -485,6 +485,7 @@
         selectMirror: true,
         droppable: true,
         scrollTime:"07:00:00",
+        
         select: function(arg) {
            
             calendar.unselect()
@@ -629,11 +630,14 @@
         $('#conductor_info').val('');
         $('#solicitante').val('');
         $('#solicitante_info').val('');
-        
-        
 
     })
     calendar.render();
+
+
+    $('#modal_full').on('shown.bs.modal	', function (e) {
+        $('#numero_ocupantes').attr("autofocus","autofocus").focus();
+    });
 
 
     // seleciona conductor o solicitante
