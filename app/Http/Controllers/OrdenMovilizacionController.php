@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\DataTables\OrdenMovilizacion\ConductorSolicitanteDataTable;
 use App\Http\Requests\RqActualizarOrdenMovilizacion;
 use App\Http\Requests\RqEliminarOrdenMOvilizacion;
 use App\Http\Requests\RqGuardarOrdenMovilizacion;
+use App\Models\Empresa;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\User;
@@ -21,29 +24,33 @@ class OrdenMovilizacionController extends Controller
         $this->middleware(['permission:Orden de Movilización']);
     }
 
-    public function index()
+    public function index(ConductorSolicitanteDataTable $dataTable)
     {
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
         $data = array(
+            'empresa'=>Empresa::first(),
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
             'ordenesMovilizaciones'=>OrdenMovilizacion::whereMonth('fecha_salida',Carbon::now()->month)->get()
         );
-        return view('movilizacion.calendar.index',$data);
+        return $dataTable->render('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
     }
 
     public function guardar(RqGuardarOrdenMovilizacion $request)
     {
-        
-        $orden =new OrdenMovilizacion();
+        $orden =new OrdenMovilizacion();        
         $orden->fecha_salida=Carbon::parse($request->fecha_salida);
-        $orden->vehiculo_id=$request->vehiculo;
-        $orden->servidor_publico=$request->servidor_publico;
-        $orden->direccion=$request->direccion;
-        $orden->lugar_comision=$request->lugar_comision;
-        $orden->motivo=$request->motivo;
         $orden->fecha_retorno=Carbon::parse($request->fecha_retorno);
+        $orden->numero_ocupantes=$request->numero_ocupantes;
+        $orden->procedencia=$request->procedencia;
+        $orden->destino=$request->destino;
+        $orden->comision_cumplir=$request->comision_cumplir;
+        $orden->estado='SOLICITADO';
+        $orden->conductor_id=$request->conductor;
+        $orden->solicitante_id=$request->solicitante;
+        $orden->vehiculo_id=$request->vehiculo;
+
         $orden->user_create=Auth::user()->id;
         $orden->save();
         
@@ -63,13 +70,15 @@ class OrdenMovilizacionController extends Controller
     public function actualizar(RqActualizarOrdenMovilizacion $request)
     {
         $orden =OrdenMovilizacion::find($request->id_orden_parqueadero);
-        $orden->fecha_salida=$request->fecha_salida;
-        $orden->fecha_retorno=$request->fecha_retorno;
+        $orden->fecha_salida=Carbon::parse($request->fecha_salida);
+        $orden->fecha_retorno=Carbon::parse($request->fecha_retorno);
+        $orden->numero_ocupantes=$request->numero_ocupantes;
+        $orden->procedencia=$request->procedencia;
+        $orden->destino=$request->destino;
+        $orden->comision_cumplir=$request->comision_cumplir;
+        $orden->conductor_id=$request->conductor;
+        $orden->solicitante_id=$request->solicitante;
         $orden->vehiculo_id=$request->vehiculo;
-        $orden->servidor_publico=$request->servidor_publico;
-        $orden->direccion=$request->direccion;
-        $orden->lugar_comision=$request->lugar_comision;
-        $orden->motivo=$request->motivo;
         $orden->user_update=Auth::user()->id;
         $orden->save();
         
@@ -98,7 +107,7 @@ class OrdenMovilizacionController extends Controller
 
     public function obtener(Request $request)
     {
-        $orden=OrdenMovilizacion::with('vehiculo')->find($request->id);
+        $orden=OrdenMovilizacion::with(['vehiculo','vehiculo.tipoVehiculo','conductor','solicitante'])->find($request->id);
         return $orden;
     }
 }

@@ -67,4 +67,14 @@ class Vehiculo extends Model
         return '';
         
     }
+
+    // Deivid, id de conductor si existe concatenados
+    public function getIdConductorAttribute()
+    {
+        if($this->conductor){
+            return $this->conductor->id;
+        }
+        return '';
+        
+    }
 }

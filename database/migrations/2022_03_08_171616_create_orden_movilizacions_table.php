@@ -20,22 +20,20 @@ class CreateOrdenMovilizacionsTable extends Migration
 
             $table->string('numero')->unique();
             $table->dateTime('fecha_salida');
-
-            $table->string('servidor_publico');
-            $table->string('direccion');
-            $table->string('lugar_comision');
-            $table->string('motivo');
             $table->dateTime('fecha_retorno');
+            $table->integer('numero_ocupantes');
+            $table->string('procedencia');
+            $table->string('destino');
+            $table->string('comision_cumplir');
             $table->enum('estado',['SOLICITADO','ACEPTADA','DENEGADA','OCUPADO','FINALIZADO'])->default('SOLICITADO');
 
-            $table->foreignId('user_id')->nullable()->constrained('users');
+            $table->foreignId('conductor_id')->nullable()->constrained('users');
+            $table->foreignId('solicitante_id')->nullable()->constrained('users');
+            $table->foreignId('autorizado_id')->nullable()->constrained('users');
             $table->foreignId('vehiculo_id')->constrained('vehiculos');
 
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
-
-            $table->bigInteger('user_acepted')->nullable();
-            $table->bigInteger('user_denegated')->nullable();
             
         });
     }

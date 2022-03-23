@@ -25,7 +25,7 @@ class Vehiculo extends Component
 
     public function render()
     {
-        $parqueaderos=Parqueadero::get();
+        $parqueaderos=Parqueadero::has('espacios')->get();
         
         if($this->idPar){
             $ex=Parqueadero::find($this->idPar)->espacios;
@@ -34,9 +34,9 @@ class Vehiculo extends Component
         }
         if($ex){
             $espacios=ModelsVehiculo::whereIn('id',$ex->pluck('vehiculo_id'))
-            ->where('placa','like','%'.$this->search.'%')->get();
+            ->where('numero_movil','like','%'.$this->search.'%')->get();
         }else{
-            $espacios=ModelsVehiculo::where('placa','like','%'.$this->search.'%')->get();
+            $espacios=ModelsVehiculo::where('numero_movil','like','%'.$this->search.'%')->get();
         }
         
         

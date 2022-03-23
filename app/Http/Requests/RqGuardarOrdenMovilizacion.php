@@ -39,14 +39,22 @@ class RqGuardarOrdenMovilizacion extends FormRequest
 
         return [
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
+            'fecha_retorno'=>'required|date_format:Y/m/d H:i',
+            'numero_ocupantes'=>'required|numeric|gt:0',
             'vehiculo'=>['required','verificarExistencia',Rule::exists('vehiculos','id')->where('estado','Activo')],
-            'marcaVehiculo'=>'required|string',
-            'servidor_publico'=>'required|string|max:255',
-            'direccion'=>'required|string|max:255',
-            'lugar_comision'=>'required|string|max:255',
-            'motivo'=>'required|string|max:255',
-            'fecha_retorno'=>'required|date_format:Y/m/d H:i'
-
+            'numeroMovil'=>'nullable|string|max:255',
+            'marca'=>'nullable|string|max:255',
+            'modelo'=>'nullable|string|max:255',
+            'placa'=>'nullable|string|max:255',
+            'tipo'=>'nullable|string|max:255',
+            'color'=>'required|string|max:255',
+            'procedencia'=>'required|string|max:255',
+            'destino'=>'required|string|max:255',
+            'comision_cumplir'=>'required|string|max:255',
+            'conductor'=>'nullable|exists:users,id',
+            'conductor_info'=>'nullable|string|max:255',
+            'solicitante'=>'nullable|exists:users,id',
+            'solicitante_info'=>'nullable|string|max:255',
         ];
     }
 }

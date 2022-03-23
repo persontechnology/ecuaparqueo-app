@@ -48,24 +48,33 @@
                 <div class="sidebar-section">
                     <div class="collapse show" id="sidebar-users">
                         <div class="sidebar-section-body">
-                            <input wire:model="search" class="form-control my-1" type="search" placeholder="Buscar por placa...">
+                            <input wire:model="search" class="form-control my-1" type="search" placeholder="Buscar por N° de móvil...">
                             <ul class="media-list media-list-bordered" id="external-events-list">
                             @if ($espacios->count()>0)
                                 
                                     
                                     @foreach ($espacios as $esp)
-                                        <li class="media" style="cursor: move;" data-id="{{ $esp->id }}" data-placa="{{ $esp->placa }}-{{ $esp->numero_chasis }}">
+                                        <li class="media" style="cursor: move;" 
+                                            data-id="{{ $esp->id }}" 
+                                            data-numeromovil="{{ $esp->numero_movil }}" 
+                                            data-marca="{{ $esp->marca }}"
+                                            data-modelo="{{ $esp->modelo }}"
+                                            data-placa="{{ $esp->placa }}"
+                                            data-tipo="{{ $esp->tipoVehiculo->nombre }}"
+                                            data-color="{{ $esp->color }}"
+                                            data-conductorid="{{ $esp->id_conductor }}"
+                                            data-conductorinfo="{{ $esp->info_conductor }}"
+                                        >
+
                                             @if (Storage::exists($esp->foto))
-                                                
-                                                    <img src="{{ Storage::url($esp->foto) }}" width="36" height="36" class="rounded-circle" alt="">
-                                                
+                                                <img src="{{ Storage::url($esp->foto) }}" width="36" height="36" class="rounded-circle" alt="">
                                             @endif
                                             <div class="media-body">
                                                 
-                                                    {{ $esp->placa }}
+                                                    <strong>{{ $esp->numero_movil }}</strong> {{ $esp->placa }}
                                                 
                                                 <span class="font-size-xs text-muted d-block">
-                                                    {{ $esp->numero_chasis }}
+                                                    {{ $esp->modelo }} {{ $esp->color }}
                                                 </span>
                                             </div>
                                             <div class="ml-3 align-self-center">

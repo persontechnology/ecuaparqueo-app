@@ -59,13 +59,26 @@ class OrdenMovilizacion extends Model
     // Deivid, formateando informacion del vehiculo
     public function getInfoVehiculoAttribute()
     {
-        return "{$this->vehiculo->placa}-{$this->vehiculo->numero_chasis}";   
+        return "{$this->vehiculo->numero_movil} {$this->vehiculo->placa}";   
     }
 
-    // Deivid, una orden tiene un conductor
+    // Deivid, una orden tiene un usuario conductor
     public function conductor()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'conductor_id');
+    }
+
+
+    // Deivid, una orden tiene un usuario solicitante
+    public function solicitante()
+    {
+        return $this->belongsTo(User::class,'solicitante_id');
+    }
+
+    // Deivid, una orden tiene un usuario autorizado
+    public function autorizado()
+    {
+        return $this->belongsTo(User::class,'autorizado_id');
     }
 
     // Deivid, una orden tiene un vehiculo
@@ -85,16 +98,6 @@ class OrdenMovilizacion extends Model
         return $this->belongsTo(User::class,'user_update');
     }
     
-    // Deivid, usuario aceptado
-    public function usuarioAceptado()
-    {
-        return $this->belongsTo(User::class,'user_acepted');
-    }
-    // Deivid, usuario aceptado
-    public function usuarioDenegado()
-    {
-        return $this->belongsTo(User::class,'user_denegated');
-    }
 
     public function getColorEstadoAttribute()
     {   

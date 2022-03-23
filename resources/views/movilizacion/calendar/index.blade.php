@@ -3,25 +3,6 @@
 
 @section('secondarySidebar')
     @livewire('orden-movilizacion.vehiculo')
-    {{-- <div class="card">
-        <div class="card-header">
-            <div class="form-group">
-                <label for="parqueadero">Selecione parqueadero:</label>
-                <select name="parqueadero" id="parqueadero" class="form-control" onchange="cargarVehiculos(this)">
-                    @foreach ($parqueaderos as $par)
-                        <option value="{{ $par->id }}" {{ old('idParqueadero')==$par->id?'selected':'' }} >{{ $par->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <div class="card-body">
-            <ul class="media-list media-list-bordered" id="external-events">
-                <div id="external-events-list">
-                </div>
-            </ul>
-        </div>
-    </div> --}}
 @endsection
 
 
@@ -59,106 +40,288 @@
     <!-- Full width modal -->
     <div id="modal_full" class="modal fade" tabindex="-1">
         <form action="{{ route('odernMovilizacionGuardar') }}" id="formOrdenMovilizacion" method="POST" autocomplete="off">
-            <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-dialog modal-dialog-scrollable modal-full">
                 <div class="modal-content">
                         @csrf
                         <div class="modal-header">
-                            <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right" id="numero_orden_movilizacion">{{ $numero }}</strong></h1>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            {{-- <h1 class="modal-title">ORDEN MOVILIZACIÓN <strong class="text-danger text-right" id="numero_orden_movilizacion">{{ $numero }}</strong></h1> --}}
+                            {{-- <button type="button" class="close" data-dismiss="modal">&times;</button> --}}
+                            <div class="table-responsive">
+                                <table class="text-center table table-bordered table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-2 py-0" rowspan="4" id="example1"></td>
+                                            <th class="col-6 py-0 text-center" rowspan="4">
+                                                <h1>FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN</h1>
+                                            </th>
+                                            <th class="col-2 py-0">CÓDIGO</th>
+                                            <td class="col-2 py-0">{{ $empresa->codigo }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="py-0">VERSIÓN</th>
+                                            <td class="py-0">{{ $empresa->version }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="py-0">FECHA</th>
+                                            <td class="py-0">{{ \Carbon\Carbon::now() }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th class="py-0">NORMA</th>
+                                            <td class="py-0">{{ $empresa->norma }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                             
                         <div class="modal-body">
 
+                            <fieldset>
+                                <legend class="font-weight-semibold">
+                                    NÚMERO DE ORDEN: <strong class="text-danger text-right" id="numero_orden_movilizacion">{{ $numero }}</strong>
+                                </legend>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="fecha_solicitud">Fecha de solicitud:</label>
+                                            <input type="text" id="fecha_solicitud" name="fecha_solicitud" readonly onkeydown="event.preventDefault()" value="{{ old('fecha:solictud',Carbon\Carbon::now()) }}" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="fecha_salida">Fecha y hora de salida<i class="text-danger">*</i></label>
+                                                
+                                            <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                                
+                                                <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1' required/>
+                                                <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
+                                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                                </span>
+                                                @error('fecha_salida')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label for="fecha_retorno">Fecha y hora de retorno<i class="text-danger">*</i></label>
+                                                
+                                            <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
+                                                <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2' required/>
+                                                <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
+                                                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                                </span>
+                                                @error('fecha_retorno')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label  for="numero_ocupantes">N° ocupantes<i class="text-danger">*</i></label>
+                                            <div class="input-group">
+                                                <input type="number" name="numero_ocupantes" value="{{ old('numero_ocupantes') }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" required autofocus>
+                                                @error('numero_ocupantes')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="numeroMovil">N° Movil</label>
+                                            <div class="input-group">
+                                                
+                                                <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo') }}" required>
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="numeroMovil" value="{{ old('numeroMovil') }}" class="form-control @error('vehiculo') is-invalid @enderror" id="numeroMovil" placeholder="Vehículo sin selecionar.!">
+                                                
+                                                @error('vehiculo')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="marca">Marca</label>
+                                            <div class="input-group">
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="marca" value="{{ old('marca') }}" class="form-control" id="marca">
+                                                @error('marca')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="modelo">Modelo</label>
+                                            <div class="input-group">
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="modelo" value="{{ old('modelo') }}" class="form-control @error('modelo') is-invalid @enderror" id="modelo">
+                                                @error('modelo')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="placa">Placa</label>
+                                            <div class="input-group">
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="placa" value="{{ old('placa') }}" class="form-control @error('placa') is-invalid @enderror" id="placa">
+                                                @error('placa')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="tipo">Tipo</label>
+                                            <div class="input-group">
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="tipo" value="{{ old('tipo') }}" class="form-control" id="tipo">
+                                                @error('tipo')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label  for="color">Color</label>
+                                            <div class="input-group">
+                                                <input type="text" readonly onkeydown="event.preventDefault()" name="color" value="{{ old('color') }}" class="form-control @error('color') is-invalid @enderror" id="color">
+                                                @error('color')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label  for="procedencia">Procedencia<i class="text-danger">*</i></label>
+                                            <div class="input-group">
+                                                <input type="text" name="procedencia" value="{{ old('procedencia') }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia" required>
+                                                @error('procedencia')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label  for="destino">Destino<i class="text-danger">*</i></label>
+                                            <div class="input-group">
+                                                <input type="text" name="destino" value="{{ old('destino') }}" class="form-control @error('destino') is-invalid @enderror" id="destino" required>
+                                                @error('destino')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label  for="comision_cumplir">Comisión a cumplir<i class="text-danger">*</i></label>
+                                    <div class="input-group">
+                                        <textarea name="comision_cumplir" class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir') }}</textarea>
+                                        @error('comision_cumplir')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="conductor_info">Datos del conductor</label>
+                                            <div class="input-group">
+                                                <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor') }}">
+                                                <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="conductor_info" name="conductor_info" value="{{ old('conductor_info') }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor..">
+                                                <span class="input-group-append">
+                                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                </span>
+                                            </div>
+        
+                                            @error('conductor')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="solicitante_info">Datos del solicitante</label>
+                                            <div class="input-group">
+                                                <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante') }}">
+                                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info') }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                                <span class="input-group-append">
+                                                    <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                </span>
+                                            </div>
+        
+                                            @error('solicitante')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
+                            </fieldset>
+
+                        
                             <input type="hidden" type="text" id="accionForm">
                             <input type="hidden" type="text" id="idEventoCalendar" name="id_orden_parqueadero" value="{{ old('id_orden_parqueadero') }}">
-                            <input type="hidden" type="text" id="idParqueadero" name="idParqueadero" value="{{ old('idParqueadero') }}">
                             
-                            <div class="form-group">
-                                <label for="fecha_salida">Fecha y hora de salida:</label>
-                                    
-                                <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                    
-                                    <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida')}}" data-td-target='#datetimepicker1'/>
-                                    <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
-                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                    </span>
-                                    @error('fecha_salida')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror    
-                                </div>
-                            </div>
-                            
-
-                            <div class="form-group">
-                                <label  for="marcaVehiculo">Marca y N° de Vehículo</label>
-                                <div class="input-group">
-                                    
-                                    <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo') }}" required>
-                                    <input type="text" onkeydown="event.preventDefault()" name="marcaVehiculo" value="{{ old('marcaVehiculo') }}" class="form-control @error('vehiculo') is-invalid @enderror" id="marcaVehiculo" placeholder="Vehículo sin selecionar.!" required>
-                                    
-                                    @error('vehiculo')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label  for="servidor_publico">Servidor Público:</label>
-                                <input type="text" class="form-control @error('servidor_publico') is-invalid @enderror" name="servidor_publico" value="{{ old('servidor_publico') }}" id="servidor_publico" required>
-                                @error('servidor_publico')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="direccion">Dirección:</label>
-                                <input type="text" class="form-control @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" id="direccion" required>
-                                @error('direccion')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="lugar_comision">Lugar de Comisión:</label>
-                                <input type="text" class="form-control @error('lugar_comision') is-invalid @enderror" name="lugar_comision" id="lugar_comision" value="{{ old('lugar_comision') }}" required >
-                                @error('lugar_comision')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        
-                            <div class="form-group">
-                                <label for="motivo">Motivo:</label>
-                                <input type="text" class="form-control @error('motivo') is-invalid @enderror" name="motivo" id="motivo" value="{{ old('motivo') }}" required>
-                                @error('motivo')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="fecha_retorno">Fecha y hora de retorno:</label>
-                                    
-                                <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                    <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno')}}" data-td-target='#datetimepicker2'/>
-                                    <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
-                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
-                                    </span>
-                                </div>
-                                @error('fecha_retorno')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
                             
                         </div>
 
@@ -176,6 +339,36 @@
     </div>
     <!-- /full width modal -->
 
+
+
+    <!-- Large modal -->
+    <div id="modal_large" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloModalConductorSolicitante"></h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        {{$dataTable->table()}}
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="buttonModalConductorSolicitante" onclick="seleccionarConductorSolicitante(this);" data-id="" data-user="" class="btn btn-primary" data-dismiss="modal"></button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /large modal -->
+
+    @push('scripts')
+        {{$dataTable->scripts()}}
+    @endpush
+
 @push('linksCabeza')
     {{-- selct 2 --}}
     <script src="{{ asset('global_assets/js/plugins/forms/selects/select2.min.js') }}"></script>
@@ -192,6 +385,18 @@
     <!-- Tempus Dominus Styles -->
     <link rel="stylesheet" href="{{ asset('js/tempus-dominus/dist/css/tempus-dominus.css') }}">
     <script src="{{ asset('js/monent.js') }}"></script>
+
+    
+    @if (Storage::exists($empresa->logo))
+        <style>
+            #example1 {
+                background: url("{{ Storage::url($empresa->logo) }}");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }    
+        </style>
+    @endif
+    
 
 @endpush
 
@@ -285,36 +490,24 @@
             calendar.unselect()
         },
         eventClick: function(arg) {
-            var id=arg.event.id;
-            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
-            .done(function( data ) {
-                actualizarOrdenMovilizacion(arg,data);
-            });
+            actualizarOrdenMovilizacion(arg);
         },
         
         eventDrop: function(arg) {
-            var id=arg.event.id;
-            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
-            .done(function( data ) {
-                actualizarOrdenMovilizacion(arg,data);
-            });
+            actualizarOrdenMovilizacion(arg);
         },
         eventReceive:function(event,relatedEvents,revert,draggedEl,view){
             guardarOrdenMovilizacion(event)
         },
         eventResize: function(arg) {
-            var id=arg.event.id;
-            $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
-            .done(function( data ) {
-                actualizarOrdenMovilizacion(arg,data);
-            });
+            actualizarOrdenMovilizacion(arg);
         },
         
         events: [
             @foreach ($ordenesMovilizaciones as $ordenM)
             {
                 id:'{{ $ordenM->id }}',
-                title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->vehiculo->placa }}',
+                title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->info_vehiculo }}',
                 start: '{{ $ordenM->fecha_salida }}',
                 end:'{{ $ordenM->fecha_retorno }}',
                 image_url:'{{ Storage::url($ordenM->vehiculo->foto) }}',
@@ -360,16 +553,62 @@
         }
         picker2.dates.set(newDateObj);
         $('#accionForm').val('nuevoOrden');
-        $('#idEventoCalendar').val(event.event.id);
         $('#modal_full').modal('show');
+        
+        $('#idEventoCalendar').val(event.event.id);
         $('#vehiculo').val($(event.draggedEl).data('id'));
-        $('#marcaVehiculo').val($(event.draggedEl).data('placa'));
+        $('#numeroMovil').val($(event.draggedEl).data('numeromovil'));
+        $('#marca').val($(event.draggedEl).data('marca'));
+        $('#modelo').val($(event.draggedEl).data('modelo'));
+        $('#placa').val($(event.draggedEl).data('placa'));
+        $('#tipo').val($(event.draggedEl).data('tipo'));
+        $('#color').val($(event.draggedEl).data('color'));
+        $('#conductor').val($(event.draggedEl).data('conductorid'));
+        $('#conductor_info').val($(event.draggedEl).data('conductorinfo'));
+        
         $('#numero_orden_movilizacion').html($('#numeroSiguenteOrdenMovilizacion').html());
     }
     
     // funcion guardar
-    function actualizarOrdenMovilizacion(event,data){
+    function actualizarOrdenMovilizacion(event){
         
+        var id=event.event.id;
+        $.post( "{{ route('odernMovilizacionObtener') }}", { id:id })
+        .done(function( data ) {
+            $('#idEventoCalendar').val(data.id);
+            $('#numero_ocupantes').val(data.numero_ocupantes);
+            $('#fecha_solicitud').val(moment(data.created_at).format('YYYY/MM/DD HH:mm'));
+            $('#vehiculo').val(data.vehiculo.id);
+            $('#numeroMovil').val(data.vehiculo.numero_movil);
+            $('#marca').val(data.vehiculo.marca);
+            $('#modelo').val(data.vehiculo.modelo);
+            $('#placa').val(data.vehiculo.placa);
+            $('#tipo').val(data.vehiculo.tipo_vehiculo.nombre);
+            $('#color').val(data.vehiculo.color);
+            $('#procedencia').val(data.procedencia);
+            $('#destino').val(data.destino);
+            $('#comision_cumplir').val(data.comision_cumplir);
+            if(data.conductor){
+                $('#conductor').val(data.conductor.id);
+                $('#conductor_info').val(data.conductor.apellidos+' '+data.conductor.nombres);    
+            }else{
+                $('#conductor').val('');
+                $('#conductor_info').val('');    
+            }
+
+            if(data.solicitante){
+                $('#solicitante').val(data.solicitante.id);
+                $('#solicitante_info').val(data.solicitante.apellidos+' '+data.solicitante.nombres);    
+            }else{
+                $('#solicitante').val('');
+                $('#solicitante_info').val('');    
+            }
+            
+            
+            $('#numero_orden_movilizacion').html(data.numero);
+            $('#buttonEliminar').attr('data-id',data.id).attr('data-msg',"Está seguro de eliminar Orden de Movilización "+data.numero).show();
+        });
+
         picker.dates.set(event.event.start);
         var newDateObj =event.event.end?event.event.end:event.event.start;
         if(event.event.allDay){
@@ -377,21 +616,12 @@
         }
 
         picker2.dates.set(newDateObj);
+
         $('#accionForm').val('editarOrden');
-        $('#idEventoCalendar').val(data.id);
         $('#modal_full').modal('show');
-        $('#vehiculo').val(data.vehiculo.id);
-        $('#marcaVehiculo').val(data.vehiculo.placa+"-"+data.vehiculo.numero_chasis);
-        $('#servidor_publico').val(data.servidor_publico);
-        $('#direccion').val(data.direccion);
-        $('#lugar_comision').val(data.lugar_comision);
-        $('#motivo').val(data.motivo);
-        $('#numero_orden_movilizacion').html(data.numero);
         $('#formOrdenMovilizacion').attr("action","{{ route('odernMovilizacionActualizar') }}");
-        $('#buttonEliminar').attr('data-id',data.id).attr('data-msg',"Está seguro de eliminar Orden de Movilización "+data.numero).show();
 
     }
-
 
     $('#modal_full').on('hidden.bs.modal', function (event) {
         if($('#accionForm').val()==='nuevoOrden'){
@@ -411,6 +641,39 @@
         $('#buttonEliminar').attr('data-id','').attr('data-msg','').hide();
     })
     calendar.render();
+
+
+    // seleciona conductor o solicitante
+    var conductorOSolictante="";
+    function modalConductorSolicitante(arg){
+        conductorOSolictante=$(arg).data('opcion');
+        switch (conductorOSolictante) {
+            case 'conductor':
+                $('#tituloModalConductorSolicitante').html('Selecionar conductor');
+                $('#buttonModalConductorSolicitante').html('Sin conductor');
+                break;
+            case 'solicitante':
+                $('#tituloModalConductorSolicitante').html('Selecionar solicitante');
+                $('#buttonModalConductorSolicitante').html('Sin solicitante');
+                break;
+        }
+    }
+    function seleccionarConductorSolicitante(arg){
+        switch (conductorOSolictante) {
+            case 'conductor':
+                $('#conductor').val($(arg).data('id'));
+                $('#conductor_info').val($(arg).data('user'));
+                break;
+        
+            case 'solicitante':
+                $('#solicitante').val($(arg).data('id'));
+                $('#solicitante_info').val($(arg).data('user'));
+                break;
+        }
+
+        $('#modal_large').modal('hide');
+    }
+
 
 </script>
 @endprepend
