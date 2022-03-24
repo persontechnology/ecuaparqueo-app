@@ -67,6 +67,18 @@ class OrdenMovilizacion extends Model
         
     }
 
+
+    // Deivid, formateando informacion del usuario solicitado
+    public function getInfoSolicitanteAttribute()
+    {
+        if($this->solicitante){
+            return "{$this->solicitante->apellidos} {$this->solicitante->nombres}";   
+        }else{
+            return '';
+        }
+        
+    }
+
     // Deivid, una orden tiene un usuario conductor
     public function conductor()
     {
