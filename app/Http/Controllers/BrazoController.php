@@ -13,7 +13,7 @@ class BrazoController extends Controller
     }
     public function obtenerBrazo(Request $request)
     {
-        $brazo = Brazo::where('codigo', $request->code)->first();
+        $brazo = Brazo::where(['codigo'=>$request->code,'estado'=>'Activo'])->first();
         if ($brazo) {
             if ($brazo->estado_brazo) {
                 return response()->json(1);
