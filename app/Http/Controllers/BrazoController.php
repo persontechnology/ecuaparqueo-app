@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Livewire\OrdenMovilizacion\Vehiculo;
+
 use App\Models\Brazo;
+use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 
 class BrazoController extends Controller
@@ -43,12 +44,16 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
-        $vihiculo = Vehiculo::where('codigo_tarjeta', $request->code)->first();
-        if ($vihiculo) {
-            return response()->json($vihiculo->placa);
-        } else {
-
-            return response()->json(3);
+        if($request->has('code')){
+            $vihiculo = Vehiculo::where('codigo_tarjeta', $request->code)->first();
+            return $vihiculo;
+            if ($vihiculo) {
+                return response()->json($vihiculo->placa);
+            } else {
+    
+                return response()->json(3);
+            }
         }
+        return response()->json(3);
     }
 }
