@@ -15,7 +15,7 @@ class BrazoController extends Controller
     {
         $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
-            if ($brazo->estado) {
+            if ($brazo->estado_brazo) {
                 return response()->json(1);
             } else {
                 return response()->json(0);
