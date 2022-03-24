@@ -102,6 +102,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
     Route::get('/control-odern-movilizacion-aprobar-reprobar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
+    Route::post('/control-odern-movilizacion-aprobar-reprobar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
     
     
     

@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<form action="" method="POST">
+<form action="{{ route('controlOdernMovilizacionAprobarReprobarGuardar') }}" method="POST" autocomplete="off">
     @csrf
+    <input type="hidden" name="id_orden_parqueadero" value="{{ $orden->id }}" required>
     <div class="card">
         <div class="card-header">
-            Header
+            Estado de la orden: <span class="badge badge-{{ $orden->color_estado }}">{{ $orden->estado }}</span>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -53,7 +54,7 @@
                                 
                             <div class='input-group' id='datetimepicker1' data-td-target-input='nearest' data-td-target-toggle='nearest'>
                                 
-                                <input id='fecha_salida' onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida',$orden->fecha_salida)}}" data-td-target='#datetimepicker1' required/>
+                                <input id='fecha_salida' readonly  onkeydown="event.preventDefault()" name="fecha_salida" type='text' class="form-control @error('fecha_salida') is-invalid @enderror" value="{{ old('fecha_salida',$orden->fecha_salida)}}" data-td-target='#datetimepicker1' required/>
                                 <span class='input-group-append' data-td-target='#datetimepicker1' data-td-toggle='datetimepicker'>
                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                 </span>
@@ -70,7 +71,7 @@
                             <label for="fecha_retorno">Fecha y hora de retorno<i class="text-danger">*</i></label>
                                 
                             <div class='input-group' id='datetimepicker2' data-td-target-input='nearest' data-td-target-toggle='nearest'>
-                                <input id='fecha_retorno' onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno',$orden->fecha_retorno)}}" data-td-target='#datetimepicker2' required/>
+                                <input id='fecha_retorno' readonly onkeydown="event.preventDefault()" name="fecha_retorno" type='text' class="form-control @error('fecha_retorno') is-invalid @enderror" value="{{ old('fecha_retorno',$orden->fecha_retorno)}}" data-td-target='#datetimepicker2' required/>
                                 <span class='input-group-append' data-td-target='#datetimepicker2' data-td-toggle='datetimepicker'>
                                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                 </span>
@@ -88,7 +89,7 @@
                         <div class="form-group">
                             <label  for="numero_ocupantes">N° ocupantes<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="number" name="numero_ocupantes" value="{{ old('numero_ocupantes',$orden->numero_ocupantes) }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" required>
+                                <input type="number" readonly name="numero_ocupantes" value="{{ old('numero_ocupantes',$orden->numero_ocupantes) }}" class="form-control @error('numero_ocupantes') is-invalid @enderror" id="numero_ocupantes" required>
                                 @error('numero_ocupantes')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -99,6 +100,9 @@
                     </div>
                 </div>
 
+           
+
+
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
@@ -106,7 +110,10 @@
                             <div class="input-group">
                                 
                                 <input type="hidden" name="vehiculo" id="vehiculo" value="{{ old('vehiculo',$orden->vehiculo_id) }}" required>
-                                <input type="text" readonly onkeydown="event.preventDefault()" name="numeroMovil" value="{{ old('numeroMovil',$orden->vehiculo->numero_movil) }}" class="form-control @error('vehiculo') is-invalid @enderror" id="numeroMovil" placeholder="Vehículo sin selecionar.!">
+                                <input type="text" data-toggle="modal" data-target="#modal_large_vehiculo" onkeydown="event.preventDefault()" name="numeroMovil" value="{{ old('numeroMovil',$orden->vehiculo->numero_movil) }}" class="form-control @error('vehiculo') is-invalid @enderror" id="numeroMovil" placeholder="Vehículo sin selecionar.!">
+                                <span class="input-group-append">
+                                    <span data-toggle="modal" data-target="#modal_large_vehiculo" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                </span>
                                 
                                 @error('vehiculo')
                                     <span class="invalid-feedback" role="alert">
@@ -194,7 +201,7 @@
                         <div class="form-group">
                             <label  for="procedencia">Procedencia<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="text" name="procedencia" value="{{ old('procedencia',$orden->procedencia) }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia" required>
+                                <input type="text" readonly name="procedencia" value="{{ old('procedencia',$orden->procedencia) }}" class="form-control @error('procedencia') is-invalid @enderror" id="procedencia" required>
                                 @error('procedencia')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -208,7 +215,7 @@
                         <div class="form-group">
                             <label  for="destino">Destino<i class="text-danger">*</i></label>
                             <div class="input-group">
-                                <input type="text" name="destino" value="{{ old('destino',$orden->destino) }}" class="form-control @error('destino') is-invalid @enderror" id="destino" required>
+                                <input type="text" readonly name="destino" value="{{ old('destino',$orden->destino) }}" class="form-control @error('destino') is-invalid @enderror" id="destino" required>
                                 @error('destino')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -223,7 +230,7 @@
                     <label  for="comision_cumplir">Comisión a cumplir<i class="text-danger">*</i></label>
                     
                     <div class="input-group">
-                        <textarea name="comision_cumplir" class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir',$orden->comision_cumplir) }}</textarea>
+                        <textarea name="comision_cumplir" readonly class="form-control @error('comision_cumplir') is-invalid @enderror" id="comision_cumplir" required>{{ old('comision_cumplir',$orden->comision_cumplir) }}</textarea>
                         @error('comision_cumplir')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -239,7 +246,7 @@
                             <label for="conductor_info">Datos del conductor<i class="text-danger">*</i></label>
                             <div class="input-group">
                                 <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor',$orden->conductor_id??'') }}">
-                                <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="conductor_info" name="conductor_info" value="{{ old('conductor_info',$orden->InfoConductor) }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor.." required>
+                                <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="conductor_info" name="conductor_info" value="{{ old('conductor_info',$orden->InfoConductor) }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor.." required>
                                 <span class="input-group-append">
                                     <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
@@ -258,7 +265,7 @@
                             <label for="solicitante_info">Datos del solicitante</label>
                             <div class="input-group">
                                 <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',$orden->solicitante_id??'') }}">
-                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()" readonly id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->info_solicitante) }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->info_solicitante) }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
                                 <span class="input-group-append">
                                     <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
@@ -272,13 +279,16 @@
                         </div>
                     </div>
                 </div>
-
-                
-
             </fieldset>
+            <p><strong>Información:</strong></p>
+            <p>Creado por: {{ $orden->usuarioCreado->apellidos??'' }} {{ $orden->usuarioCreado->nombres??'' }} <small><i>{{ $orden->usuarioCreado->email??'' }}</i></small> a las {{ $orden->created_at }}</p>
+            <p>Autorizado por: {{ $orden->autorizado->apellidos??'' }} {{ $orden->autorizado->nombres??'' }} <small><i>{{ $orden->autorizado->email??'' }}</i></small></p>
+            
         </div>
         <div class="card-footer text-muted">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            
+            <input type="submit" name="accion" class="btn btn-primary" value="ACEPTADA">
+            <input type="submit" name="accion" class="btn btn-danger" value="DENEGADA">
         </div>
     </div>
 </form>
@@ -295,7 +305,7 @@
 
             <div class="modal-body">
                 <div class="table-responsive">
-                    {{$dataTable->table()}}
+                    {!! $dataTableConductor->html()->table() !!}
                 </div>
             </div>
 
@@ -308,13 +318,45 @@
 </div>
 <!-- /large modal -->
 
+<!-- Large modal -->
+<div id="modal_large_vehiculo" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloModalConductorSolicitante"></h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="table-responsive">
+                    {!! $dataTableVehiculo->html()->table() !!}
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /large modal -->
+
 @push('scripts')
-    {{$dataTable->scripts()}}
+    {!! $dataTableVehiculo->html()->scripts() !!} 
+    {!! $dataTableConductor->html()->scripts() !!} 
 @endpush
 
 
 @push('linksCabeza')
-      
+    <!-- Popperjs -->
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <!-- Tempus Dominus JavaScript -->
+    <script src="{{ asset('js/tempus-dominus/dist/js/tempus-dominus.js') }}"></script>
+
+    <!-- Tempus Dominus Styles -->
+    <link rel="stylesheet" href="{{ asset('js/tempus-dominus/dist/css/tempus-dominus.css') }}">
+    <script src="{{ asset('js/monent.js') }}"></script>
+
     @if (Storage::exists($empresa->logo))
         <style>
             #example1 {
@@ -360,6 +402,42 @@
 
             $('#modal_large').modal('hide');
         }
+
+        function seleccionarVehiculo(arg){
+            $('#vehiculo').val($(arg).data('id'));
+            $('#numeroMovil').val($(arg).data('numeromovil'));
+            $('#marca').val($(arg).data('marca'));
+            $('#modelo').val($(arg).data('modelo'));
+            $('#placa').val($(arg).data('placa'));
+            $('#tipo').val($(arg).data('tipo'));
+            $('#color').val($(arg).data('color'));
+            $('#conductor').val($(arg).data('conductorid'));
+            $('#conductor_info').val($(arg).data('conductorinfo'));
+            $('#modal_large_vehiculo').modal('hide');
+        }
+
+
+        // fechas inicializacion
+        const picker= new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+            display: {
+                buttons:{
+                    close:true,
+                },
+            },
+            hooks:{
+                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
+            }
+        });
+        const picker2= new tempusDominus.TempusDominus(document.getElementById('datetimepicker2'),{
+            display: {
+                buttons:{
+                    close:true,
+                },
+            },
+            hooks:{
+                inputFormat:(context, date) => { return moment(date).format('YYYY/MM/DD HH:mm') }
+            }
+        });
     </script>
 @endprepend
 @endsection

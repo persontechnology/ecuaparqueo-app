@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataTables\Vehiculos;
+namespace App\DataTables\OrdenMovilizacion\Control;
 
 use App\Models\Vehiculo;
 use Yajra\DataTables\Html\Button;
@@ -32,15 +32,15 @@ class VehiculoDataTable extends DataTable
                     $query->whereRaw('nombre like ?',["%{$keyword}%"]);
                 });
             })
-            ->addColumn('action', function($vehiculo){
-                return view('vehiculos.action',['vehiculo'=>$vehiculo])->render();
+            ->addColumn('action', function($ve){
+                return view('movilizacion.control.actionVehiculo',['vehiculo'=>$ve])->render();
             })->rawColumns(['action','foto']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Vehiculo $model
+     * @param \App\Models\OrdenMovilizacion/Control/Vehiculo $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Vehiculo $model)
@@ -56,19 +56,20 @@ class VehiculoDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    // ->setTableId('vehiculo-table')
+                    ->setTableId('vt')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    // ->dom('Bfrtip')
-                    // ->orderBy(1)
-                    // ->buttons(
-                    //     Button::make('create'),
-                    //     Button::make('export'),
-                    //     Button::make('print'),
-                    //     Button::make('reset'),
-                    //     Button::make('reload')
-                    // );
-                    ->parameters($this->getBuilderParameters());
+                   ->minifiedAjax()
+                   ->ajax(['data' => 'function(d) { d.table = "vehiculos"; }'])
+                   // ->dom('Bfrtip')
+                   // ->orderBy(1)
+                   // ->buttons(
+                   //     Button::make('create'),
+                   //     Button::make('export'),
+                   //     Button::make('print'),
+                   //     Button::make('reset'),
+                   //     Button::make('reload')
+                   // );
+                   ->parameters($this->getBuilderParameters());
     }
 
     /**
@@ -90,14 +91,10 @@ class VehiculoDataTable extends DataTable
             Column::make('numero_movil')->title('N° Móvil'),
             Column::make('modelo')->title('Modelo'),
             Column::make('marca')->title('Marca'),
-            
             Column::make('placa'),
             Column::make('color'),
             Column::make('tipo_vehiculo_id')->title('Tipo'),
             Column::make('estado'),
-            // Column::make('imei')->title('IMEI'),
-            // Column::make('foto'),
-
         ];
     }
 
@@ -108,6 +105,6 @@ class VehiculoDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Vehiculo_' . date('YmdHis');
+        return 'OrdenMovilizacion_Control_Vehiculo_' . date('YmdHis');
     }
 }
