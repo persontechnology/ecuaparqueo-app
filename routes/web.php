@@ -32,18 +32,20 @@ Route::get('/', function () {
     // Artisan::call('cache:clear');
     // Artisan::call('config:clear');
     // Artisan::call('config:cache');
-	// Artisan::call('storage:link');
-	// Artisan::call('key:generate');
-	// Artisan::call('migrate:fresh --seed');
+    // Artisan::call('storage:link');
+    // Artisan::call('key:generate');
+    // Artisan::call('migrate:fresh --seed');
 
 
 })->name('welcome');
 
-Auth::routes(['verify' => true,'register' => false]);
+Auth::routes(['verify' => true, 'register' => false]);
 
 
 Route::get('/obtener-brazo', [BrazoController::class, 'obtenerBrazo'])->name('obtenerBazo');
 Route::get('/cerrar-brazo', [BrazoController::class, 'cerrarBrazo'])->name('cerrarBrazo');
+Route::get('/buscar-vehiculo-tarjeta', [BrazoController::class, 'buscarVehiculoTarjeta'])->name('buscarVehiculoTarjeta');
+
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -53,7 +55,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/perfil-actualizar-contrasena', [PerfilController::class, 'actualizarContrasena'])->name('actualizarContrasena');
     Route::get('/configuracion', [PerfilController::class, 'configuracion'])->name('configuracion');
     Route::post('/perfil-actualizar-configuracion', [PerfilController::class, 'actualizarConfiguracion'])->name('actualizarConfiguracion');
-    
+
     // roles y permisos
     Route::get('/roles', [RolesPermisosController::class, 'index'])->name('roles');
     Route::post('/roles-guardar', [RolesPermisosController::class, 'guardar'])->name('guardarRol');
@@ -104,9 +106,6 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/control-odern-movilizacion-aprobar-reprobar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
     Route::post('/control-odern-movilizacion-aprobar-reprobar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
     
-    
-    
-    
     // parqueaderos
     Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');
     Route::get('/parqueadero-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderoNuevo');
@@ -115,19 +114,12 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
     Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
     Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderoListarBrazos');
-    
-    
-    
+
+
+
     // espacios
     Route::post('/todos', [EspacioController::class, 'actualizarTodos'])->name('parqueaderos.actualizar.todos');
     Route::post('/estacionamiento-guardar', [EspacioController::class, 'guardar'])->name('estacionamientoNuevo');
     Route::get('/listar-reserva-vehiculo/{espacio}', [EspacioController::class, 'listarReservaVehiculo'])->name('listarReservaVehiculo');
     Route::get('/mapa-vehiculo/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('verVehiculoMapa');
-    
-    
-    
-    
-    
-    
-    
 });

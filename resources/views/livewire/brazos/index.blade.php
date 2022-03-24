@@ -53,7 +53,6 @@
                                                         wire:change="qtys({{ $brazo->id }})"
                                                         {{ $brazo->estado_brazo ? 'checked' : '' }}>
                                                 @endif
-
                                                 <span class="custom-control-label">Brazo
                                                     {{ $brazo->estado_brazo ? 'Abieto' : 'Cerrado' }}</span>
                                             </label>
