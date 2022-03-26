@@ -45,7 +45,6 @@
     @stack('scripts')
 	@stack('linksCabeza')
 
-    <script src="{{ asset('js/app.js') }}"></script>
     <script>
 
         window.PUSHER_APP_KEY = '{{ config('broadcasting.connections.pusher.key') }}';
@@ -61,4 +60,6 @@
             });
 
     </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    
     @livewireStyles
