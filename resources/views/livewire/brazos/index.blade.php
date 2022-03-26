@@ -15,6 +15,13 @@
                     </div>
                 </div>
             </div>
+            <div wire:loading wire:target="qtys">
+                <div class="card-overlay card-overlay-fadeout" role="status">
+                    <div class="spinner-border ">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive-lg">
                 @if (count($brazos) > 0)
 
