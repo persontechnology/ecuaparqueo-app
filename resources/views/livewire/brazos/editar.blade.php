@@ -48,7 +48,7 @@
             <div class="modal-footer">
                 <button type="button" wire:click.prevent="cancelModalUpdate()" class="btn btn-secondary"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" wire:click.prevent="update()" class="btn btn-primary"
+                <button type="button" wire:click.prevent="update()" wire:loading.attr="disabled" class="btn btn-primary"
                     data-dismiss="modal">Actualizar</button>
             </div>
         </div>
