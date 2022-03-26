@@ -38,9 +38,9 @@ window.Echo = new Echo({
     broadcaster:       'pusher',
     key:               window.PUSHER_APP_KEY,
     wsHost:            window.location.hostname,
-    wsPort:            window.APP_DEBUG ? 6001 : 6002,
-    wssPort:           window.APP_DEBUG ? 6001 : 6002,
-    forceTLS:          !window.APP_DEBUG,
+    wsPort:            80,
+    wssPort:           443,
+    forceTLS:          false,
     disableStats:      true,
     enabledTransports: ['ws', 'wss'],
 });
