@@ -54,7 +54,7 @@
                                                         {{ $brazo->estado_brazo ? 'checked' : '' }}>
                                                 @endif
                                                 <span class="custom-control-label">Brazo
-                                                    {{ $brazo->estado_brazo ? 'Abieto' : 'Cerrado' }}</span>
+                                                    {{ $brazo->estado_brazo ? 'Abietoss' : 'Cerradoss' }}</span>
                                             </label>
                                         </div>
                                     </td>
