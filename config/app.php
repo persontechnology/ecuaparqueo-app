@@ -182,7 +182,9 @@ return [
         Laraveles\Spanish\SpanishServiceProvider::class,
         // datatable
         Yajra\DataTables\DataTablesServiceProvider::class,
-        
+        // snappy
+        Barryvdh\Snappy\ServiceProvider::class,
+
     ],
 
     /*
@@ -237,6 +239,10 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // snappy
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
     ],
 

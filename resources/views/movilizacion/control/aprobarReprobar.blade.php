@@ -1,4 +1,13 @@
 @extends('layouts.app')
+@section('breadcrumbs', Breadcrumbs::render('controlOdernMovilizacionAprobarReprobar',$orden))
+@section('barraLateral')
+<div class="breadcrumb justify-content-center">
+    <a href="{{ route('controlOdernMovilizacionPdf',$orden->id) }}" target="_blanck" class="breadcrumb-elements-item">
+        Descargar PDF <i class="fa-solid fa-file-pdf ml-1"></i>
+    </a>
+</div>
+@endsection
+
 
 @section('content')
 <form action="{{ route('controlOdernMovilizacionAprobarReprobarGuardar') }}" method="POST" autocomplete="off">

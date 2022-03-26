@@ -63,7 +63,14 @@
                         @foreach ($ordenMovilizaciones as $com)
                             <tr>
                                 <td class="text-center">
-                                    <a href="{{ route('controlOdernMovilizacionAprobarReprobar',$com->id) }}" class="btn btn-block"><i class="fa-solid fa-toggle-off fa-2x"></i></a>
+                                    <a href="{{ route('controlOdernMovilizacionAprobarReprobar',$com->id) }}" class="btn btn-block">
+                                        @if ($com->estado=='SOLICITADO')
+                                            <i class="fa-solid fa-bell fa-2x faa-ring animated text-info"></i>
+                                        @else
+                                        <i class="fa-solid fa-up-right-from-square fa-2x text-dark"></i>
+                                        @endif
+
+                                    </a>
                                 </td>
                                 <td>{{ $com->numero }}</td>
                                 <td>{{ $com->numero_ocupantes }}</td>

@@ -80,6 +80,17 @@ class OrdenMovilizacion extends Model
         
     }
 
+    // Deivid, formateando informacion del usuario autorizado
+    public function getInfoAutorizadoAttribute()
+    {
+        if($this->autorizado){
+            return "{$this->autorizado->apellidos} {$this->autorizado->nombres}";   
+        }else{
+            return '';
+        }
+        
+    }
+
     // Deivid, una orden tiene un usuario conductor
     public function conductor()
     {

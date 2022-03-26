@@ -102,20 +102,23 @@ Breadcrumbs::for('verVehiculoMapa', function (BreadcrumbTrail $trail,$espacio) {
 // orden de movilización
 Breadcrumbs::for('odernMovilizacion', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
-    $trail->push('Orden de movilización', route('odernMovilizacion'));
+    $trail->push('Orden de movilización nuevo', route('odernMovilizacion'));
 });
-Breadcrumbs::for('odernMovilizacionNuevo', function (BreadcrumbTrail $trail) {
-    $trail->parent('odernMovilizacion');
-    $trail->push('Nuevo', route('odernMovilizacionNuevo'));
+
+Breadcrumbs::for('odernMovilizacionListado', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Orden de movilización listado', route('odernMovilizacionListado'));
 });
-Breadcrumbs::for('odernMovilizacionEditar', function (BreadcrumbTrail $trail, $orden) {
-    $trail->parent('odernMovilizacion');
-    $trail->push('Editar', route('odernMovilizacionEditar',$orden->id));
-});
+
 
 // control orden de movilizacion
 Breadcrumbs::for('controlOdernMovilizacion', function (BreadcrumbTrail $trail) {
     $trail->parent('home');
     $trail->push('Control orden de movilización', route('controlOdernMovilizacion'));
 });
+Breadcrumbs::for('controlOdernMovilizacionAprobarReprobar', function (BreadcrumbTrail $trail, $orden) {
+    $trail->parent('controlOdernMovilizacion');
+    $trail->push('Aceptar o Denegar', route('controlOdernMovilizacionAprobarReprobar',$orden->id));
+});
+
 

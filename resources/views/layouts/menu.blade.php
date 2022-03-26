@@ -128,13 +128,13 @@
 
                 @can('Orden de Movilización')
                 
-                <li class="nav-item">
-                    <a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion*')?'active':'' }}">
-                        <i class="fa-solid fa-address-card"></i>
-                        <span>
-                            Orden de movilización
-                        </span>
-                    </a>
+               
+                <li class="nav-item nav-item-submenu {{ request()->routeIs(['odernMovilizacion*'])?'nav-item-expanded nav-item-open':'' }}">
+                    <a href="#" class="nav-link"><i class="fa-solid fa-address-card"></i> <span>Orden de Movilización</span></a>
+                    <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
+                        <li class="nav-item"><a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion')?'active':'' }}">Nuevo</a></li>
+                        <li class="nav-item"><a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado')?'active':'' }}">Listado</a></li>
+                    </ul>
                 </li>
                 
                 @endcan

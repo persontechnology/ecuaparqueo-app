@@ -100,11 +100,13 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/orden-movilizacion-actualizar', [OrdenMovilizacionController::class, 'actualizar'])->name('odernMovilizacionActualizar');
     Route::post('/orden-movilizacion-eliminar', [OrdenMovilizacionController::class, 'eliminar'])->name('odernMovilizacionEliminar');
     Route::post('/orden-movilizacion-obtener', [OrdenMovilizacionController::class, 'obtener'])->name('odernMovilizacionObtener');
+    Route::get('/orden-movilizacion-listado', [OrdenMovilizacionController::class, 'listado'])->name('odernMovilizacionListado');
 
     // control orden de mobilizacion
     Route::get('/control-odern-movilizacion', [ControlOrdenMovilizacionController::class, 'index'])->name('controlOdernMovilizacion');
     Route::get('/control-odern-movilizacion-aprobar-reprobar/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobar'])->name('controlOdernMovilizacionAprobarReprobar');
     Route::post('/control-odern-movilizacion-aprobar-reprobar-guardar', [ControlOrdenMovilizacionController::class, 'AprobarReprobarGuardar'])->name('controlOdernMovilizacionAprobarReprobarGuardar');
+    Route::get('/control-odern-movilizacion-pdf/{id}', [ControlOrdenMovilizacionController::class, 'AprobarReprobarPdf'])->name('controlOdernMovilizacionPdf');
     
     // parqueaderos
     Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');

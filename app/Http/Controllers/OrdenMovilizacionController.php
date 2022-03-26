@@ -10,6 +10,7 @@ use App\Models\Empresa;
 use App\Models\OrdenMovilizacion;
 use App\Models\Parqueadero;
 use App\Models\User;
+use App\Models\Vehiculo;
 use App\Notifications\OrdenMovilizacionIngresadaNoty;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -31,12 +32,12 @@ class OrdenMovilizacionController extends Controller
             'empresa'=>Empresa::first(),
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
-            'ordenesMovilizaciones'=>OrdenMovilizacion::whereMonth('fecha_salida',Carbon::now()->month)->get()
+            'ordenesMovilizaciones'=>OrdenMovilizacion::whereBetween('fecha_salida',[Carbon::now()->subMonth(2),Carbon::now()])->get()
         );
         return $dataTable->render('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
     }
-
+    
     public function guardar(RqGuardarOrdenMovilizacion $request)
     {
         $orden =new OrdenMovilizacion();        
@@ -47,9 +48,17 @@ class OrdenMovilizacionController extends Controller
         $orden->destino=$request->destino;
         $orden->comision_cumplir=$request->comision_cumplir;
         $orden->estado='SOLICITADO';
-        $orden->conductor_id=$request->conductor;
+        
         $orden->solicitante_id=$request->solicitante;
         $orden->vehiculo_id=$request->vehiculo;
+        $orden->conductor_id=$request->conductor;
+
+        // actualizar conductor de vehiculo
+        $veh=Vehiculo::find($request->vehiculo);
+        $veh->conductor_id=$request->conductor;
+        $veh->save();
+
+        
 
         $orden->user_create=Auth::user()->id;
         $orden->save();
@@ -66,9 +75,11 @@ class OrdenMovilizacionController extends Controller
 
     }
 
-
+    // RqActualizarOrdenMovilizacion
     public function actualizar(RqActualizarOrdenMovilizacion $request)
     {
+        
+
         $orden =OrdenMovilizacion::find($request->id_orden_parqueadero);
         $orden->fecha_salida=Carbon::parse($request->fecha_salida);
         $orden->fecha_retorno=Carbon::parse($request->fecha_retorno);
@@ -81,6 +92,10 @@ class OrdenMovilizacionController extends Controller
         $orden->vehiculo_id=$request->vehiculo;
         $orden->user_update=Auth::user()->id;
         $orden->save();
+
+        $veh=Vehiculo::find($request->vehiculo);
+        $veh->conductor_id=$request->conductor;
+        $veh->save();
         
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
@@ -109,5 +124,10 @@ class OrdenMovilizacionController extends Controller
     {
         $orden=OrdenMovilizacion::with(['vehiculo','vehiculo.tipoVehiculo','conductor','solicitante'])->find($request->id);
         return $orden;
+    }
+
+    public function listado()
+    {
+        return view('movilizacion.calendar.listado');
     }
 }

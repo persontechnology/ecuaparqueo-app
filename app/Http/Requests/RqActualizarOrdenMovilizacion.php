@@ -21,20 +21,51 @@ class RqActualizarOrdenMovilizacion extends FormRequest
     
     public function rules()
     {
-        Validator::extend('verificarExistencia', function($attribute, $value, $parameters){
-            $orden=OrdenMovilizacion::where('id','!=',$this->input('id_orden_parqueadero'))->whereBetween('fecha_salida', [Carbon::parse($this->input('fecha_salida')), Carbon::parse($this->input('fecha_retorno'))])
-            ->first();  
-            if($orden){
-                if($orden->vehiculo->id==$this->input('vehiculo')){
-                    return false;
-                }
-            }
-            return true;
+        Validator::extend('verificarExistencia', function($attribute, $value, $parameters,$validator){
+            
+            $request=request();
 
-        },"No se puede actualizar orden de movilización con el vehículo, porque ya está asignada hasta esa hora.!");
+            $startDate  = Carbon::parse($request->fecha_salida)->format('Y-m-d H:i:s');
+            $endDate = Carbon::parse($request->fecha_retorno)->format('Y-m-d H:i:s');
+
+            $orden=OrdenMovilizacion::where('id','!=',$request->id_orden_parqueadero)->where('vehiculo_id',$request->vehiculo)->whereBetween('fecha_salida', [$startDate, $endDate])
+                ->whereBetween('fecha_retorno', [$startDate, $endDate])
+                ->exists();
+
+            $customMessage=$orden?'Vehículo ya se encuentra registrado con estas fechas en la orden':'';
+
+            $validator->addReplacer('verificarExistencia', 
+                function($message, $attribute, $rule, $parameters) use ($customMessage) {
+                    return \str_replace(':custom_message', $customMessage, $message);
+                }
+            );
+
+            return $orden?false:true;
+
+        },"Error.! :custom_message");
+
+
+        Validator::extend('verificarEstado', function($attribute, $value, $parameters,$validator){
+            
+            $request=request();
+            $customMessage='';
+            $orden=OrdenMovilizacion::find($request->id_orden_parqueadero);
+            if($orden->estado!='SOLICITADO'){
+                $customMessage='No se puede actualizar la orden en estado '.$orden->estado;
+            }
+            $validator->addReplacer('verificarEstado', 
+                function($message, $attribute, $rule, $parameters) use ($customMessage) {
+                    return \str_replace(':custom_message', $customMessage, $message);
+                }
+            );
+
+            return $orden->estado!='SOLICITADO'?false:true;
+
+        },"Error.! :custom_message");
+
 
         return [
-            'id_orden_parqueadero'=>'required|exists:orden_movilizacions,id',
+            'id_orden_parqueadero'=>'required|verificarEstado|exists:orden_movilizacions,id',
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
             'fecha_retorno'=>'required|date_format:Y/m/d H:i',
             'numero_ocupantes'=>'required|numeric|gt:0',

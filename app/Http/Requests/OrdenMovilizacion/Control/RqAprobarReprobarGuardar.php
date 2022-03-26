@@ -31,14 +31,28 @@ class RqAprobarReprobarGuardar extends FormRequest
     public function rules()
     {
         
-        Validator::extend('verificarExistencia', function($attribute, $value, $parameters){
-            $orden=OrdenMovilizacion::where('vehiculo_id',$this->input('vehiculo'))
-            ->where('id','!=',$this->input('id_orden_parqueadero'))
-            ->whereBetween('fecha_salida', [Carbon::parse($this->input('fecha_salida')), Carbon::parse($this->input('fecha_retorno'))])
+        Validator::extend('verificarExistencia', function($attribute, $value, $parameters,$validator){
             
-            ->first();  
+            $request=request();
+
+            $startDate  = Carbon::parse($request->fecha_salida)->format('Y-m-d H:i:s');
+            $endDate = Carbon::parse($request->fecha_retorno)->format('Y-m-d H:i:s');
+
+            $orden=OrdenMovilizacion::where('id','!=',$request->id_orden_parqueadero)->where('vehiculo_id',$request->vehiculo)->whereBetween('fecha_salida', [$startDate, $endDate])
+                ->whereBetween('fecha_retorno', [$startDate, $endDate])
+                ->exists();
+
+            $customMessage=$orden?'Vehículo ya se encuentra registrado con estas fechas en la orden':'';
+
+            $validator->addReplacer('verificarExistencia', 
+                function($message, $attribute, $rule, $parameters) use ($customMessage) {
+                    return \str_replace(':custom_message', $customMessage, $message);
+                }
+            );
+
             return $orden?false:true;
-        },'No se puede ACEPTAR/DENEGAR orden de movilización, ya que existe el vehículo asigando en esa fecha.!');
+
+        },"Error.! :custom_message");
 
         return [
             'id_orden_parqueadero'=>[

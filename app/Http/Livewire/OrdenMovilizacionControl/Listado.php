@@ -26,7 +26,7 @@ class Listado extends Component
         'IdTipoVehiculo'=>['except' => '','as'=>'tipovehiculo'],
         'EstadoOrdenMovilizacion'=>['except' => '','as'=>'estado'],
         'IdParqueadero'=>['except' => '','as'=>'parqueadero'],
-        'page'=>['as'=>'pagina']
+        // 'page'=>['as'=>'pagina']
     ];
 
     public function render()

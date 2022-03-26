@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '9105b75dae853e6b4293e4f63503523304ec7900',
+    'reference' => '31d48379c51385231fcf35f0111134f993271207',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -19,6 +19,15 @@
       array (
       ),
       'reference' => '73e5b88775c64ccc0b84fb60836b30dc9d92ac4a',
+    ),
+    'barryvdh/laravel-snappy' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2c18a3602981bc6f25b32908cf8aaa05952ab2f7',
     ),
     'brick/math' => 
     array (
@@ -204,6 +213,24 @@
       array (
       ),
       'reference' => '089edd38f5b8abba6cb01567c2a8aaa47cec4c72',
+    ),
+    'h4cc/wkhtmltoimage-amd64' => 
+    array (
+      'pretty_version' => '0.12.4',
+      'version' => '0.12.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c4e33f635207af89a704205b8902fb5715ca88be',
+    ),
+    'h4cc/wkhtmltopdf-amd64' => 
+    array (
+      'pretty_version' => '0.12.4',
+      'version' => '0.12.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4e2ab2d032a5d7fbe2a741de8b10b8989523c95b',
     ),
     'hamcrest/hamcrest-php' => 
     array (
@@ -431,6 +458,15 @@
         0 => 'v8.83.5',
       ),
     ),
+    'knplabs/knp-snappy' => 
+    array (
+      'pretty_version' => 'v1.4.1',
+      'version' => '1.4.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '5126fb5b335ec929a226314d40cd8dad497c3d67',
+    ),
     'kodova/hamcrest-php' => 
     array (
       'replaced' => 
@@ -454,7 +490,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '9105b75dae853e6b4293e4f63503523304ec7900',
+      'reference' => '31d48379c51385231fcf35f0111134f993271207',
     ),
     'laravel/sail' => 
     array (
@@ -925,8 +961,8 @@
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0.0 || 2.0.0 || 3.0.0',
+        0 => '1.0.0 || 2.0.0 || 3.0.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psr/simple-cache' => 

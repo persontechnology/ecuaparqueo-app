@@ -484,7 +484,9 @@
         dayMaxEvents: true,
         selectMirror: true,
         droppable: true,
-        scrollTime:"07:00:00",
+        // scrollTime:"11:30:00",
+        // now: today,
+        scrollTime: moment().format("HH") + ":00:00",
         
         select: function(arg) {
            
@@ -512,7 +514,7 @@
                 start: '{{ $ordenM->fecha_salida }}',
                 end:'{{ $ordenM->fecha_retorno }}',
                 image_url:'{{ Storage::url($ordenM->vehiculo->foto) }}',
-                classNames:'{{ $ordenM->color_estado }}',
+                classNames:'bg-{{ $ordenM->color_estado }}',
                 image_url: '{{ Storage::exists($ordenM->vehiculo->foto)?Storage::url($ordenM->vehiculo->foto):'' }}',
                 
             },

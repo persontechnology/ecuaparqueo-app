@@ -11,6 +11,7 @@
         type="text/css">
     <link href="{{ asset('global_assets/css/icons/icomoon/styles.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('js/fontawesome-free-6.0.0-web/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('js/font-awesome-animation/css/font-awesome-animation.min.css') }}">
     <link href="{{ asset('assets/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
