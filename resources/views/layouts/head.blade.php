@@ -47,6 +47,10 @@
 
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
+
+        window.PUSHER_APP_KEY = '{{ config('broadcasting.connections.pusher.key') }}';
+        window.APP_DEBUG = {{ config('app.debug') ? 'true' : 'false' }};
+
         // Echo.private('events')
         //     .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
 
