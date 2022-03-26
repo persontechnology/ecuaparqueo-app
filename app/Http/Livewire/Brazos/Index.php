@@ -60,14 +60,13 @@ class Index extends Component
     }
     public function cancelModalCrear()
     {
-        $this->emit('brazoStore');
+        $this->emit('modalCloseStore');
         $this->resetInput();
-        $this->updateModal = false;
     }
     public function store()
     {
         $this->validate([
-            'codigo' => 'required',
+            'codigo' => 'required|unique:brazos,codigo',
             'descripcion' => 'required',
         ]);
         Brazo::create([
@@ -103,8 +102,9 @@ class Index extends Component
     public function update()
     {
         $this->validate([
-            'codigo' => 'required',
+            'codigo' => 'required|unique:brazos,codigo'.$this->selected_id,
             'descripcion' => 'required',
+            'selected_id'=>'selected_id',
         ]);
         if ($this->selected_id) {
             $brazo = Brazo::find($this->selected_id);
