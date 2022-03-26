@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         $user=User::find(Auth::id());
-        $user->notify( new RealTimeNotification("HOLA DEIVID"));
+        $user->notify( new RealTimeNotification("HOLA MUNDO DESDE CONTROLER HOME"));
         return view('home');
     }
 }
