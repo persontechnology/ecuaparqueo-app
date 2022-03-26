@@ -15,7 +15,7 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive-lg card">
+            <div class="table-responsive-lg card" >
                 <div wire:loading wire:target="qtys">
                     <div class="card-overlay card-overlay-fadeout" role="status">
                         <div class="spinner-border ">
