@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\BrazoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::get('/obtener-brazo', [BrazoController::class, 'obtenerBrazo'])->name('obtenerBazo');
+Route::get('/cerrar-brazo', [BrazoController::class, 'cerrarBrazo'])->name('cerrarBrazo');
+Route::get('/buscar-vehiculo-tarjeta', [BrazoController::class, 'buscarVehiculoTarjeta'])->name('buscarVehiculoTarjeta');
