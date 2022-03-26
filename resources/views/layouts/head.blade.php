@@ -44,4 +44,17 @@
 
     @stack('scripts')
 	@stack('linksCabeza')
+
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        // Echo.private('events')
+        //     .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
+
+            Echo.private('App.Models.User.'+{{ Auth::id() }})
+            .notification((notification) => {
+                
+                $('#online').html(notification.message)
+            });
+
+    </script>
     @livewireStyles

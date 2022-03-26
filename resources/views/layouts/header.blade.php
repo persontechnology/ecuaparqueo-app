@@ -115,7 +115,7 @@
 					</li>
 				</ul>
 
-				<span class="badge badge-success my-3 my-lg-0 ml-lg-3">Online</span>
+				<span class="badge badge-success my-3 my-lg-0 ml-lg-3" id="online">Online</span>
 
 				<ul class="navbar-nav ml-lg-auto">
 					<li class="nav-item dropdown">

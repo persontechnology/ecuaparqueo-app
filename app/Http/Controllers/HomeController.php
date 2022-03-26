@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\RealTimeMessage;
+use App\Models\User;
+use App\Notifications\RealTimeNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
@@ -24,6 +28,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user=User::find(Auth::id());
+        $user->notify( new RealTimeNotification("HOLA DEIVID"));
         return view('home');
     }
 }
