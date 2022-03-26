@@ -45,8 +45,10 @@
     @stack('scripts')
 	@stack('linksCabeza')
 
-    <script src="{{ asset('js/app.js') }}"></script>
     <script>
+
+      
+
         // Echo.private('events')
         //     .listen('RealTimeMessage', (e) => console.log('RealTimeMessage: ' + e.message));
 
@@ -57,4 +59,6 @@
             });
 
     </script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    
     @livewireStyles
