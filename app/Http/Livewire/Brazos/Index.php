@@ -14,8 +14,9 @@ class Index extends Component
     use AuthorizesRequests;
 
     public $data1, $codigo, $estado_brazo, $estado, $descripcion, $selected_id;
-    public $parqueadero,$loading=false;
-    public $updateMode = false;
+    public $parqueadero, $loading = false;
+    public $updateModal = false;
+    public $messa;
     protected $paginationTheme = 'bootstrap';
     protected $initializeWithPagination;
     protected $queryString = [
@@ -41,15 +42,27 @@ class Index extends Component
         $this->estado_brazo = null;
         $this->estado = null;
         $this->descripcion = null;
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
     public function qtys($id)
     {
-        $this->loading=true;
-        $brazo = Brazo::findOrFail($id);      
+        $this->loading = true;
+        $brazo = Brazo::findOrFail($id);
         $brazo->update([
             'estado_brazo' => !$brazo->estado_brazo,
         ]);
-       
+    }
+    public function abrirModalCrear()
+    {
+        $this->resetInput();
+        $this->emit('modalOpenStore');
+    }
+    public function cancelModalCrear()
+    {
+        $this->emit('brazoStore');
+        $this->resetInput();
+        $this->updateModal = false;
     }
     public function store()
     {
@@ -64,24 +77,28 @@ class Index extends Component
             'descripcion' => $this->descripcion,
             'parqueadero_id' => $this->parqueadero->id,
         ]);
-        $this->resetInput();
-        request()->session()->flash('success', 'Brazo creado');
-        $this->dispatchBrowserEvent('brazoStore');
-    }
-    public function cancel()
-    {
-        $this->updateMode = false;
+        $this->updateModal = true;
+        $this->emit('modalCloseStore');
+        session()->flash('message', 'Brazo creado');
         $this->resetInput();
     }
-    public function edit($id)
+
+    public function edit($iditarEspacio)
     {
-        $brazo = Brazo::findOrFail($id);
-        $this->selected_id=$brazo->id;
-        $this->codigo = $brazo->codigo;
-        $this->estado_brazo = $brazo->estado_brazo;
-        $this->estado = $brazo->estado;
-        $this->descripcion = $brazo->descripcion;
-        $this->updateMode = true;
+        if ($iditarEspacio['id'] > 0) {
+            $this->updateModal = true;
+            $this->selected_id = $iditarEspacio['id'];
+            $this->codigo = $iditarEspacio['codigo'];
+            $this->estado_brazo = $iditarEspacio['estado_brazo'];
+            $this->estado = $iditarEspacio['estado'];
+            $this->descripcion = $iditarEspacio['descripcion'];
+            $this->emit('modalOpenUpdate');
+        }
+    }
+    public function cancelModalUpdate()
+    {
+        $this->emit('modalCloseUpdate');
+        $this->resetInput();
     }
     public function update()
     {
@@ -97,7 +114,7 @@ class Index extends Component
                 'descripcion' => $this->descripcion,
             ]);
             $this->resetInput();
-            $this->updateMode = false;
+            $this->emit('modalCloseUpdate');
         }
     }
     public function destroy($id)
