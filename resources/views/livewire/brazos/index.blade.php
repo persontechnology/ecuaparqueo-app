@@ -48,8 +48,8 @@
                                         <div class="header-elements">
                                             <label class="custom-control custom-switch custom-control-right">
                                                 @if ($brazo->estado === 'Activo')
-                                                    <input type="checkbox" wire:loading.attr="disabled"
-                                                        class="custom-control-input"
+                                                    <input type="checkbox"
+                                                        class="custom-control-input btn-ladda btn-ladda-progress ladda-button"
                                                         wire:change="qtys({{ $brazo->id }})"
                                                         {{ $brazo->estado_brazo ? 'checked' : '' }}>
                                                 @endif
