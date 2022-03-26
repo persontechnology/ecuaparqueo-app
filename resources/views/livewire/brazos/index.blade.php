@@ -1,9 +1,9 @@
 <div>
-    @if ($updateMode)
-        @include('livewire.brazos.editar')
-    @else
-        @include('livewire.brazos.crear')
-    @endif
+    @include('livewire.brazos.crear')
+
+    @include('livewire.brazos.editar')
+
+
     <div class="card">
         <div class="card-body">
             <div class="d-sm-flex pb-3">
@@ -14,9 +14,15 @@
                         <i class="icon-search4 text-muted"></i>
                     </div>
                 </div>
+                <div class="ml-2">
+                    <button class="btn btn-success" wire:click='abrirModalCrear'>
+                        <i class="fa-solid fa-building ml-1"></i>
+                        Nuevo Brazo
+                    </button>
+                </div>
             </div>
-            <div class="table-responsive-lg card" >
-                <div wire:loading wire:target="qtys">
+            <div class="table-responsive-lg card">
+                <div wire:loading wire:target="qtys" wire:target="store">
                     <div class="card-overlay card-overlay-fadeout" role="status">
                         <div class="spinner-border ">
                             <span class="sr-only">Loading...</span>
@@ -41,11 +47,11 @@
                                 <tr wire:key="post-field-{{ $brazo->id }}">
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" data-toggle="modal" data-target="#updateModal"
-                                                wire:click="edit({{ $brazo->id }})"
+                                            <a href="#" data-toggle="modal" data-target="#updateModalEstacionamiento"
+                                                wire:click="edit({{ $brazo }})"
                                                 class="btn btn-outline-primary btn-sm">
                                                 <i class="icon-pencil"></i>
-                                            </button>
+                                            </a>
                                         </div>
                                     </td>
                                     <td>{{ $brazo->id }}</td>
@@ -85,10 +91,7 @@
         </div>
     </div>
 </div>
-@prepend('linksPie')
-    <script type="text/javascript">
-        window.addEventListener('brazoStore', () => {
-            $('#modalBrazos').modal('hide');
-        });
-    </script>
-@endprepend
+
+<script type="text/javascript">
+
+</script>
