@@ -15,7 +15,14 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive-lg">
+            <div class="table-responsive-lg card" >
+                <div wire:loading wire:target="qtys">
+                    <div class="card-overlay card-overlay-fadeout" role="status">
+                        <div class="spinner-border ">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
                 @if (count($brazos) > 0)
 
                     <table class="table table-bordered table-sm">
@@ -54,7 +61,7 @@
                                                         {{ $brazo->estado_brazo ? 'checked' : '' }}>
                                                 @endif
                                                 <span class="custom-control-label">Brazo
-                                                    {{ $brazo->estado_brazo ? 'Abieto' : 'Cerrado' }}</span>
+                                                    {{ $brazo->estado_brazo ? 'Abietoss' : 'Cerradoss' }}</span>
                                             </label>
                                         </div>
                                     </td>
