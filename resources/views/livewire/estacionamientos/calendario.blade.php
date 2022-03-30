@@ -15,7 +15,10 @@
                                             width="50" height="50" alt="">
                                     </a>
                                 @else
-                                    <i id="icon" class="icon-car"></i>
+                                    <div class="btn bg-transparent border-teal text-teal rounded-pill border-2 btn-icon">
+                                        <i id="icon" class="icon-car"></i>
+
+                                    </div>
                                 @endif
                             </div>
                             <div class="ml-3">
@@ -27,22 +30,56 @@
 
                     </div>
                 </div>
-                <div class="form-group-feedback form-group-feedback-left ">
-                    <input type="search" wire:model="search" class="form-control form-control-lg" name="placa" value=""
-                        placeholder="Buscar orden">
-                    <div class="form-control-feedback form-control-feedback-lg">
-                        <i class="icon-search4 text-muted"></i>
+                <div class="flex-grow-1 mb-3 mb-sm-0">
+                    <div style="padding:1px;"
+                        class="card-body  d-lg-flex align-items-lg-center justify-content-lg-between flex-lg-wrap">
+                        <div class="d-flex align-items-center ">
+                            <div id="tickets-status">
+                                @if (Storage::exists($vehiculo->foto ?? ''))
+                                    <a data-toggle="tooltip" data-placement="bottom"
+                                        title="{{ $vehiculo->kilometraje->numero ?? '' }}"
+                                        href="{{ Storage::url($vehiculo->foto ?? '') }}">
+                                        <img src="{{ Storage::url($vehiculo->foto ?? '') }}" class="rounded-circle"
+                                            width="50" height="50" alt="">
+                                    </a>
+                                @else
+                                    <div
+                                        class="btn bg-transparent border-warning text-warning rounded-pill border-2 btn-icon">
+                                        <i id="icon" class="icon-car"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-semibold "> {{ $vehiculo->conductor->nombres ?? '' }}
+                                    {{ $vehiculo->conductor->apellidos ?? '' }}</h5>
+                                <span class="badge badge-mark border-success mr-1"></span> <span
+                                    class="text-muted">Conductor</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex-grow-1 mb-3 mb-sm-0">
+                    <div style="padding:1px;"
+                        class="card-body  d-lg-flex align-items-lg-center justify-content-lg-between flex-lg-wrap">
+                        <div class="d-flex align-items-center ">
+                            <div id="tickets-status">
+
+                                <div class="btn bg-transparent border-info text-info rounded-pill border-2 btn-icon">
+                                    <i id="icon" class="icon-car"></i>
+                                </div>
+
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-semibold "> KILOMETRAJE</h5>
+                                <span class="badge badge-mark border-success mr-1"></span> <span
+                                    class="text-muted">{{ $vehiculo->kilometraje->numero ?? '' }}</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="ml-sm-3">
-                    <select name="estados" wire:model="estadoParqueadero"
-                        class="custom-select custom-select-lg wmin-sm-200 mb-3 mb-sm-0">
-                        <option value="">Todos Estados</option>
-                        <option value="Presente">Presente</option>
-                        <option value="Ausente">Ausente</option>
-                    </select>
-                </div>
 
             </div>
             <div class="card row">
@@ -110,5 +147,4 @@
         calendar.render();
 
     });
-
 </script>
