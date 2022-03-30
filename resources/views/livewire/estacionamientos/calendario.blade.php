@@ -1,5 +1,4 @@
 <div>
-    {{ $Ordenes }}
     <div class="d-flex align-items-center ">
         <div class="card-body">
             <div class="d-sm-flex pb-3">
@@ -46,55 +45,70 @@
                 </div>
 
             </div>
-            <div id='calendar-container' wire:ignore>
-                <div id='calendar'></div>
+            <div class="card row">
+
+                <div class="card-body" id='calendar-container' wire:ignore>
+                    <div class="col-sm-12" id='calendar'></div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <script>
-            document.addEventListener('livewire:load', function() {
-                var Calendar = FullCalendar.Calendar;
-                var calendarEl = document.getElementById('calendar');
-                var data = JSON.parse(@this.Ordenes);
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    themeSystem: 'bootstrap',
-                    headerToolbar: {
-                        left: 'prev,next,today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-                    },
+<script>
+    document.addEventListener('livewire:load', function() {
+        var contt = 0;
+        var Calendar = FullCalendar.Calendar;
+        var Draggable = FullCalendar.Draggable;
+        var calendarEl = document.getElementById('calendar');
+        var checkbox = document.getElementById('drop-remove');
+        var data = @this.Ordenes;
+        var calendar = new Calendar(calendarEl, {
+            themeSystem: 'bootstrap',
+            headerToolbar: {
+                left: 'prev,next,today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            },
 
-                    // timeZone: 'local',
-                    initialView: 'dayGridMonth',
-                    slotDuration: '00:15:00',
-                    defaultTimedEventDuration: '00:15:00',
-                    locale: 'es',
-                    navLinks: true, // can click day/week names to navigate views
-                    editable: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
-                    selectable: true,
-                    nowIndicator: true,
-                    dayMaxEvents: true,
-                    selectMirror: true,
-                    droppable: true,
-                    events: data ?? [],
+            // timeZone: 'local',
+            initialView: 'dayGridMonth',
+            events: JSON.parse(data),
+            locale: 'es',
+            editable: true,
+            selectable: true,
+            displayEventTime: false,
+            droppable: true, // this allows things to be dropped onto the calendar
+            drop: function(info) {
+                // is the "remove after drop" checkbox checked?
+                if (checkbox.checked) {
+                    // if so, remove the element from the "Draggable Events" list
+                    info.draggedEl.parentNode.removeChild(info.draggedEl);
+                }
+            },
+            datesSet: function(arg) {
+                if (contt === 1) {
+                    calendar.removeAllEvents();
+                    debugger;
+                    var ff = @this.actualizarDate(moment(arg.start).format('yyyy-MM-DD HH:mm'),
+                        moment(arg
+                            .end)
+                        .format('yyyy-MM-DD HH:mm'));
+                    ff.then(function(result) {
+                        var arrayResult = (JSON.parse(result))
+                        if (arrayResult?.length > 0) {
+                            arrayResult.forEach(element => {
+                                calendar.addEvent(element);
+                            });
+                        }
+                    });
+                }
+                contt = 1;
+            },
 
+        });
+        calendar.render();
 
-                    eventClick: function(arg) {
-                        // if (confirm('Está seguro de eliminar ordén')) {
-                        //     arg.event.remove()
-                        // }
-                        // console.log(arg.event)
-                    },
-                    datesSet: function(arg) {
-                        @this.actualizarDate(moment(arg.start).format('yyyy-MM-DD HH:mm'), moment(arg.end)
-                            .format('yyyy-MM-DD HH:mm'));
-                    },
+    });
 
-                });
-
-                calendar.render();
-
-            });
-        
-        </script>
+</script>
