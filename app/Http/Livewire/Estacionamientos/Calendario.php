@@ -11,13 +11,14 @@ use Livewire\Component;
 class Calendario extends Component
 {
     public $vehiculo, $count = 0;
-    public $Ordenes,  $startDate, $endDate, $estadoOrdenes;
+    public $Ordenes,  $startDate, $endDate, $estadoOrdenes, $loanding = false;
     public function mount(Vehiculo $vehiculo)
     {
         $this->vehiculo = $vehiculo;
     }
     public function render()
     {
+        $this->loanding = true;
         $reservas = OrdenMovilizacion::where(['vehiculo_id' => $this->vehiculo->id])
             ->whereDate("fecha_salida", ">=", $this->startDate ?? Carbon::now()->startOfMonth())
             ->whereDate("fecha_retorno", "<", $this->endDate ?? Carbon::now()->endOfMonth())
@@ -28,14 +29,18 @@ class Calendario extends Component
                     'title' => $model->numero,
                     'start' => $model->fecha_salida,
                     'end' => $model->fecha_retorno,
+                    'color' => '#777777',
+                    'backgroundColor' => '#eeeef0'
                 ];
             });
 
         $this->Ordenes = json_encode($reservas);
+        $this->loanding = false;
         return view('livewire.estacionamientos.calendario');
     }
     public function actualizarDate($dateStart, $dateEnd)
     {
+        $this->loanding = true;
         $this->Ordenes = null;
         $this->startDate = $dateStart;
         $this->endDate = $dateEnd;
@@ -54,5 +59,6 @@ class Calendario extends Component
                 });
             return json_encode($reservas);
         }
+        $this->loanding = false;
     }
 }

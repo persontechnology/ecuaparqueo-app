@@ -45,7 +45,7 @@
                                 @else
                                     <div
                                         class="btn bg-transparent border-warning text-warning rounded-pill border-2 btn-icon">
-                                        <i id="icon" class="icon-car"></i>
+                                        <i id="icon" class="icon-user-tie"></i>
                                     </div>
                                 @endif
                             </div>
@@ -66,14 +66,14 @@
                             <div id="tickets-status">
 
                                 <div class="btn bg-transparent border-info text-info rounded-pill border-2 btn-icon">
-                                    <i id="icon" class="icon-car"></i>
+                                    <i id="icon" class="icon-road "></i>
                                 </div>
 
                             </div>
                             <div class="ml-3">
-                                <h5 class="font-weight-semibold "> KILOMETRAJE</h5>
+                                <h5 class="font-weight-semibold "> {{ $vehiculo->kilometraje->numero ?? '' }} </h5>
                                 <span class="badge badge-mark border-success mr-1"></span> <span
-                                    class="text-muted">{{ $vehiculo->kilometraje->numero ?? '' }}</span>
+                                    class="text-muted">KILOMETRAJE</span>
                             </div>
                         </div>
 
@@ -83,6 +83,13 @@
 
             </div>
             <div class="card row">
+                @if ($loanding)
+                    <div class="card-overlay card-overlay-fadeout" role="status">
+                        <div class="spinner-border ">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="card-body" id='calendar-container' wire:ignore>
                     <div class="col-sm-12" id='calendar'></div>
