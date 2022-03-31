@@ -73,6 +73,7 @@ class VehiculoController extends Controller
         $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
         $ve->tipo_vehiculo_id=$request->tipo;
+        $ve->codigo_tarjeta=$request->codigo_tarjeta;
 
         $ve->user_create=Auth::user()->id;
         $ve->save();
@@ -118,6 +119,7 @@ class VehiculoController extends Controller
         $ve->imei=$request->imei;
         $ve->tipo_vehiculo_id=$request->tipo;
         $ve->user_update=Auth::user()->id;
+        $ve->codigo_tarjeta=$request->codigo_tarjeta;
         
         if ($request->hasFile('foto')) {
             $archivo=$request->file('foto');
@@ -129,7 +131,6 @@ class VehiculoController extends Controller
                 $ve->foto=$path;
             }
         }
-
         $ve->save();
         request()->session()->flash('success','Vehículo actualizado');
         return redirect()->route('vehiculos');

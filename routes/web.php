@@ -8,6 +8,7 @@ use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
+use App\Http\Controllers\Reportes\DashboardVehiculoController;
 use App\Http\Controllers\RolesPermisosController;
 use App\Http\Controllers\Usuarios\PerfilController;
 use App\Http\Controllers\Usuarios\UsuarioController;
@@ -122,4 +123,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/estacionamiento-guardar', [EspacioController::class, 'guardar'])->name('estacionamientoNuevo');
     Route::get('/listar-reserva-vehiculo/{espacio}', [EspacioController::class, 'listarReservaVehiculo'])->name('listarReservaVehiculo');
     Route::get('/mapa-vehiculo/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('verVehiculoMapa');
+
+     // reportes
+     Route::get('/dashboard-vehiculos', [DashboardVehiculoController::class, 'index'])->name('dashboardVehiculos');
 });
