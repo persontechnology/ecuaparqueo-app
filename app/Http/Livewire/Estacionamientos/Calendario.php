@@ -29,8 +29,8 @@ class Calendario extends Component
                     'title' => $model->numero,
                     'start' => $model->fecha_salida,
                     'end' => $model->fecha_retorno,
-                    'color' => '#777777',
-                    'backgroundColor' => '#eeeef0'
+                    'color' => '#66a69a',
+                    'backgroundColor' => '#66a69a'
                 ];
             });
 
@@ -55,6 +55,8 @@ class Calendario extends Component
                         'title' => $model->numero,
                         'start' => $model->fecha_salida,
                         'end' => $model->fecha_retorno,
+                        'color' => '#66a69a',
+                        'backgroundColor' => '#66a69a'
                     ];
                 });
             return json_encode($reservas);
