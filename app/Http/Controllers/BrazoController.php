@@ -17,6 +17,7 @@ class BrazoController extends Controller
     }
     public function obtenerBrazo(Request $request)
     {
+       
         $brazo = Brazo::where(['codigo' => $request->code, 'estado' => 'Activo'])->first();
         if ($brazo) {
             if ($brazo->estado_brazo) {
@@ -47,11 +48,11 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
+         //13915804
         if($request->has('code')){
             $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
             if ($vihiculo) {
                 $user=User::find(1);
-                $user->notify( new RealTimeNotification($vihiculo->placa));
                 return response()->json($vihiculo->placa);
 
             } else {
