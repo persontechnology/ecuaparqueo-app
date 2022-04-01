@@ -48,16 +48,23 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
-         //13915804
+         //13915804}
+         //return $request->code;
+         //1 Invitado
         if($request->has('code')){
-            $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
-            if ($vihiculo) {
-                $user=User::find(1);
-                return response()->json($vihiculo->placa);
+            if($request->code==="123456789"){
+                return response()->json(6);
 
-            } else {
+            }else{
+                $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
+                if ($vihiculo) {
+                    $user=User::find(1);
+                    return response()->json($vihiculo->placa);
     
-                return response()->json(3);
+                } else {
+        
+                    return response()->json(3);
+                }
             }
         }
         return response()->json(3);
