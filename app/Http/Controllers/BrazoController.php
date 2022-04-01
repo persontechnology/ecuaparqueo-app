@@ -53,8 +53,16 @@ class BrazoController extends Controller
          //1 Invitado
         if($request->has('code')){
             if($request->code==="123456789"){
+                $brazo=Brazo::where('codigo',"Bra-01")->first();
+                $brazo->estado_brazo=true;
+                $brazo->save();
+                for ($i=0; $i <100000 ; $i++) { 
+                   
+                }
+                $brazo2=Brazo::where('codigo',"Bra-01")->first();
+                $brazo2->estado_brazo=false;
+                $brazo2->save();
                 return response()->json(6);
-
             }else{
                 $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
                 if ($vihiculo) {
