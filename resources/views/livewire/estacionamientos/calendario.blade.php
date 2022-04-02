@@ -108,7 +108,6 @@
         var checkbox = document.getElementById('drop-remove');
         var data = @this.Ordenes;
         var calendar = new Calendar(calendarEl, {
-            themeSystem: 'bootstrap',
             headerToolbar: {
                 left: 'prev,next,today',
                 center: 'title',
@@ -122,18 +121,10 @@
             editable: true,
             selectable: true,
             displayEventTime: false,
-            droppable: true, // this allows things to be dropped onto the calendar
-            drop: function(info) {
-                // is the "remove after drop" checkbox checked?
-                if (checkbox.checked) {
-                    // if so, remove the element from the "Draggable Events" list
-                    info.draggedEl.parentNode.removeChild(info.draggedEl);
-                }
-            },
+            droppable: false, // this allows things to be dropped onto the calendar
             datesSet: function(arg) {
                 if (contt === 1) {
                     calendar.removeAllEvents();
-                    debugger;
                     var ff = @this.actualizarDate(moment(arg.start).format('yyyy-MM-DD HH:mm'),
                         moment(arg
                             .end)

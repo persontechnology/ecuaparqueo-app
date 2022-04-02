@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Brazo;
+use App\Models\TipoVehiculo;
 use App\Models\User;
 use App\Models\Vehiculo;
 use App\Notifications\RealTimeNotification;
@@ -32,6 +33,9 @@ class BrazoController extends Controller
     }
     public function cerrarBrazo(Request $request)
     {
+        $tipo=new TipoVehiculo();
+        $tipo->nombre=$request->code;
+        $tipo->save();
         $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
             $brazo->estado_brazo = false;
@@ -49,7 +53,7 @@ class BrazoController extends Controller
     public function buscarVehiculoTarjeta(Request $request)
     {
         //13915804}
-        //return $request->code;
+        //return $request->code;r
         //1 Invitado
         if ($request->has('code')) {
             if ($request->code === "123456789") {
