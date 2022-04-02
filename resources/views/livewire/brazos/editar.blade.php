@@ -5,7 +5,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Actualizar Brazo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" wire:click.prevent="cancelModalUpdate()" class="close"
+                    data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
@@ -29,8 +30,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <select wire:model="estado"  class="form-control @error('estado') is-invalid @enderror"
-                            required>
+                        <select wire:model="estado" class="form-control @error('estado') is-invalid @enderror" required>
                             <option value="Activo">
                                 Activo
                             </option>
@@ -46,9 +46,10 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" wire:click.prevent="cancel()" class="btn btn-secondary"
+                <button type="button" wire:click.prevent="cancelModalUpdate()" class="btn btn-secondary"
                     data-dismiss="modal">Cerrar</button>
-                <button type="button" wire:click.prevent="update()" class="btn btn-primary" data-dismiss="modal">Actualizar</button>
+                <button type="button" wire:click.prevent="update()" wire:loading.attr="disabled" class="btn btn-primary"
+                    data-dismiss="modal">Actualizar</button>
             </div>
         </div>
     </div>

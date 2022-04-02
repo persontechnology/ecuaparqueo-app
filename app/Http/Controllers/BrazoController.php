@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Brazo;
+use App\Models\TipoVehiculo;
 use App\Models\User;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class BrazoController extends Controller
     }
     public function obtenerBrazo(Request $request)
     {
+
         $brazo = Brazo::where(['codigo' => $request->code, 'estado' => 'Activo'])->first();
         if ($brazo) {
             if ($brazo->estado_brazo) {
@@ -30,9 +32,12 @@ class BrazoController extends Controller
     }
     public function cerrarBrazo(Request $request)
     {
+       /*  $tipo=new TipoVehiculo();
+        $tipo->nombre=$request->code;
+        $tipo->save(); */
         $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
-            $brazo->estado = !$brazo->estado;
+            $brazo->estado_brazo = false;
             if ($brazo->save()) {
                 return response()->json(1);
             } else {
@@ -53,8 +58,14 @@ class BrazoController extends Controller
                 return response()->json($vihiculo->placa);
 
             } else {
-    
-                return response()->json(3);
+                $vihiculo = Vehiculo::where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+                if ($vihiculo) {
+                    $user = User::find(1);
+                    return response()->json($vihiculo->placa);
+                } else {
+
+                    return response()->json(3);
+                }
             }
         }
         return response()->json(3);

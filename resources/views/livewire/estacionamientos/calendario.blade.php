@@ -1,5 +1,4 @@
 <div>
-    {{ $Ordenes }}
     <div class="d-flex align-items-center ">
         <div class="card-body">
             <div class="d-sm-flex pb-3">
@@ -16,7 +15,10 @@
                                             width="50" height="50" alt="">
                                     </a>
                                 @else
-                                    <i id="icon" class="icon-car"></i>
+                                    <div class="btn bg-transparent border-teal text-teal rounded-pill border-2 btn-icon">
+                                        <i id="icon" class="icon-car"></i>
+
+                                    </div>
                                 @endif
                             </div>
                             <div class="ml-3">
@@ -28,73 +30,119 @@
 
                     </div>
                 </div>
-                <div class="form-group-feedback form-group-feedback-left ">
-                    <input type="search" wire:model="search" class="form-control form-control-lg" name="placa" value=""
-                        placeholder="Buscar orden">
-                    <div class="form-control-feedback form-control-feedback-lg">
-                        <i class="icon-search4 text-muted"></i>
+                <div class="flex-grow-1 mb-3 mb-sm-0">
+                    <div style="padding:1px;"
+                        class="card-body  d-lg-flex align-items-lg-center justify-content-lg-between flex-lg-wrap">
+                        <div class="d-flex align-items-center ">
+                            <div id="tickets-status">
+                                @if (Storage::exists($vehiculo->foto ?? ''))
+                                    <a data-toggle="tooltip" data-placement="bottom"
+                                        title="{{ $vehiculo->kilometraje->numero ?? '' }}"
+                                        href="{{ Storage::url($vehiculo->foto ?? '') }}">
+                                        <img src="{{ Storage::url($vehiculo->foto ?? '') }}" class="rounded-circle"
+                                            width="50" height="50" alt="">
+                                    </a>
+                                @else
+                                    <div
+                                        class="btn bg-transparent border-warning text-warning rounded-pill border-2 btn-icon">
+                                        <i id="icon" class="icon-user-tie"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-semibold "> {{ $vehiculo->conductor->nombres ?? '' }}
+                                    {{ $vehiculo->conductor->apellidos ?? '' }}</h5>
+                                <span class="badge badge-mark border-success mr-1"></span> <span
+                                    class="text-muted">Conductor</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex-grow-1 mb-3 mb-sm-0">
+                    <div style="padding:1px;"
+                        class="card-body  d-lg-flex align-items-lg-center justify-content-lg-between flex-lg-wrap">
+                        <div class="d-flex align-items-center ">
+                            <div id="tickets-status">
+
+                                <div class="btn bg-transparent border-info text-info rounded-pill border-2 btn-icon">
+                                    <i id="icon" class="icon-road "></i>
+                                </div>
+
+                            </div>
+                            <div class="ml-3">
+                                <h5 class="font-weight-semibold "> {{ $vehiculo->kilometraje->numero ?? '' }} </h5>
+                                <span class="badge badge-mark border-success mr-1"></span> <span
+                                    class="text-muted">KILOMETRAJE</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="ml-sm-3">
-                    <select name="estados" wire:model="estadoParqueadero"
-                        class="custom-select custom-select-lg wmin-sm-200 mb-3 mb-sm-0">
-                        <option value="">Todos Estados</option>
-                        <option value="Presente">Presente</option>
-                        <option value="Ausente">Ausente</option>
-                    </select>
-                </div>
 
             </div>
-            <div id='calendar-container' wire:ignore>
-                <div id='calendar'></div>
+            <div class="card row">
+                @if ($loanding)
+                    <div class="card-overlay card-overlay-fadeout" role="status">
+                        <div class="spinner-border ">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                @endif
+
+                <div class="card-body" id='calendar-container' wire:ignore>
+                    <div class="col-sm-12" id='calendar'></div>
+                </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <script>
-            document.addEventListener('livewire:load', function() {
-                var Calendar = FullCalendar.Calendar;
-                var calendarEl = document.getElementById('calendar');
-                var data = JSON.parse(@this.Ordenes);
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    themeSystem: 'bootstrap',
-                    headerToolbar: {
-                        left: 'prev,next,today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-                    },
+<script>
+    document.addEventListener('livewire:load', function() {
+        var contt = 0;
+        var Calendar = FullCalendar.Calendar;
+        var Draggable = FullCalendar.Draggable;
+        var calendarEl = document.getElementById('calendar');
+        var checkbox = document.getElementById('drop-remove');
+        var data = @this.Ordenes;
+        var calendar = new Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next,today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+            },
 
-                    // timeZone: 'local',
-                    initialView: 'dayGridMonth',
-                    slotDuration: '00:15:00',
-                    defaultTimedEventDuration: '00:15:00',
-                    locale: 'es',
-                    navLinks: true, // can click day/week names to navigate views
-                    editable: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
-                    selectable: true,
-                    nowIndicator: true,
-                    dayMaxEvents: true,
-                    selectMirror: true,
-                    droppable: true,
-                    events: data ?? [],
+            // timeZone: 'local',
+            initialView: 'dayGridMonth',
+            events: JSON.parse(data),
+            locale: 'es',
+            editable: true,
+            selectable: true,
+            displayEventTime: false,
+            droppable: false, // this allows things to be dropped onto the calendar
+            datesSet: function(arg) {
+                if (contt === 1) {
+                    calendar.removeAllEvents();
+                    var ff = @this.actualizarDate(moment(arg.start).format('yyyy-MM-DD HH:mm'),
+                        moment(arg
+                            .end)
+                        .format('yyyy-MM-DD HH:mm'));
+                    ff.then(function(result) {
+                        var arrayResult = (JSON.parse(result))
+                        if (arrayResult?.length > 0) {
+                            arrayResult.forEach(element => {
+                                calendar.addEvent(element);
+                            });
+                        }
+                    });
+                }
+                contt = 1;
+            },
 
+        });
+        calendar.render();
 
-                    eventClick: function(arg) {
-                        // if (confirm('Está seguro de eliminar ordén')) {
-                        //     arg.event.remove()
-                        // }
-                        // console.log(arg.event)
-                    },
-                    datesSet: function(arg) {
-                        @this.actualizarDate(moment(arg.start).format('yyyy-MM-DD HH:mm'), moment(arg.end)
-                            .format('yyyy-MM-DD HH:mm'));
-                    },
-
-                });
-
-                calendar.render();
-
-            });
-        
-        </script>
+    });
+</script>

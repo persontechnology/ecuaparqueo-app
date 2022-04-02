@@ -4,7 +4,9 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="numero_movil">Número Móvil<i class="text-danger">*</i></label>
-                <input id="numero_movil" type="text" class="form-control @error('numero_movil') is-invalid @enderror" name="numero_movil" value="{{ old('numero_movil',$vehiculo->numero_movil??'') }}" required autofocus >
+                <input id="numero_movil" type="text" class="form-control @error('numero_movil') is-invalid @enderror"
+                    name="numero_movil" value="{{ old('numero_movil', $vehiculo->numero_movil ?? '') }}" required
+                    autofocus>
 
                 @error('numero_movil')
                     <span class="invalid-feedback" role="alert">
@@ -17,7 +19,8 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="modelo">Modelo:</label>
-                <input id="modelo" type="text" class="form-control @error('modelo') is-invalid @enderror" name="modelo" value="{{ old('modelo',$vehiculo->modelo??'') }}"  >
+                <input id="modelo" type="text" class="form-control @error('modelo') is-invalid @enderror" name="modelo"
+                    value="{{ old('modelo', $vehiculo->modelo ?? '') }}">
 
                 @error('modelo')
                     <span class="invalid-feedback" role="alert">
@@ -30,7 +33,8 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="marca">Marca:</label>
-                <input id="marca" type="text" class="form-control @error('marca') is-invalid @enderror" name="marca" value="{{ old('marca',$vehiculo->marca??'') }}"  >
+                <input id="marca" type="text" class="form-control @error('marca') is-invalid @enderror" name="marca"
+                    value="{{ old('marca', $vehiculo->marca ?? '') }}">
 
                 @error('marca')
                     <span class="invalid-feedback" role="alert">
@@ -76,10 +80,15 @@
             <div class="form-group">
                 <label for="conductorInfo">Conductor</label>
                 <div class="input-group">
-                    <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor',$vehiculo->conductor->id??'') }}">
-                    <input type="text" readonly id="conductorInfo" name="conductorInfo" value="{{ old('conductorInfo',$vehiculo->info_conductor??'') }}" data-toggle="modal" data-target="#modal_full" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar el conductor..">
+                    <input type="hidden" name="conductor" id="conductor"
+                        value="{{ old('conductor', $vehiculo->conductor->id ?? '') }}">
+                    <input type="text" readonly id="conductorInfo" name="conductorInfo"
+                        value="{{ old('conductorInfo', $vehiculo->info_conductor ?? '') }}" data-toggle="modal"
+                        data-target="#modal_full" class="form-control @error('conductor') is-invalid @enderror"
+                        placeholder="Seleccionar el conductor..">
                     <span class="input-group-append">
-                        <span data-toggle="modal" data-target="#modal_full" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                        <span data-toggle="modal" data-target="#modal_full" class="input-group-text"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
                     </span>
                 </div>
 
@@ -95,7 +104,8 @@
             <div class="form-group">
                 <label for="estado">Estado:</label>
                 <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror">
-                    <option value="Activo" {{ old('estado', $vehiculo->estado ?? '') == 'Activo' ? 'selected' : '' }}>
+                    <option value="Activo"
+                        {{ old('estado', $vehiculo->estado ?? '') == 'Activo' ? 'selected' : '' }}>
                         Activo
                     </option>
                     <option value="Inactivo"
@@ -150,19 +160,35 @@
                 @enderror
             </div>
         </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="codigo_tarjeta">Código de Tarjeta :</label>
+                <input id="codigo_tarjeta" type="text" class="form-control @error('codigo_tarjeta') is-invalid @enderror" name="codigo_tarjeta"
+                    value="{{ old('codigo_tarjeta', $vehiculo->codigo_tarjeta ?? '') }}">
+
+                @error('codigo_tarjeta')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="imei">Número IMEI:</label>
+                <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei"
+                    value="{{ old('imei', $vehiculo->imei ?? '') }}">
+
+                @error('imei')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label for="imei">Número IMEI:</label>
-        <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei" value="{{ old('imei', $vehiculo->imei ?? '') }}">
 
-        @error('imei')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
 
 </fieldset>
-
-

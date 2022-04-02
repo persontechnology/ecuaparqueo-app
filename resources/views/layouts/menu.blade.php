@@ -1,10 +1,11 @@
-{{-- para hacer pequeño el menu  add class = sidebar-main-resized--}}
+{{-- para hacer pequeño el menu  add class = sidebar-main-resized --}}
 @php
-	$bgtemareduccion=Auth::user()->configuracion->reduccion??'';
-    $bgtemamenu=Auth::user()->configuracion->menu??'dark';
+$bgtemareduccion = Auth::user()->configuracion->reduccion ?? '';
+$bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
 @endphp
 
-<div class="sidebar sidebar-{{ $bgtemamenu }} sidebar-main sidebar-expand-lg {{  $bgtemareduccion?'sidebar-main-resized':'' }}">
+<div
+    class="sidebar sidebar-{{ $bgtemamenu }} sidebar-main sidebar-expand-lg {{ $bgtemareduccion ? 'sidebar-main-resized' : '' }}">
 
     <!-- Sidebar content -->
     <div class="sidebar-content">
@@ -77,7 +78,7 @@
                         </a>
                     </li>
                 @endcan
-                
+
                 @can('Usuarios')
                     <li class="nav-item">
                         <a href="{{ route('usuarios') }}"
@@ -127,32 +128,43 @@
                 @endcan
 
                 @can('Orden de Movilización')
-                
-               
-                <li class="nav-item nav-item-submenu {{ request()->routeIs(['odernMovilizacion*'])?'nav-item-expanded nav-item-open':'' }}">
-                    <a href="#" class="nav-link"><i class="fa-solid fa-address-card"></i> <span>Orden de Movilización</span></a>
-                    <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
-                        <li class="nav-item"><a href="{{ route('odernMovilizacion') }}" class="nav-link {{ request()->routeIs('odernMovilizacion')?'active':'' }}">Nuevo</a></li>
-                        <li class="nav-item"><a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado')?'active':'' }}">Listado</a></li>
-                    </ul>
-                </li>
-                
+                    <li
+                        class="nav-item nav-item-submenu {{ request()->routeIs(['odernMovilizacion*']) ? 'nav-item-expanded nav-item-open' : '' }}">
+                        <a href="#" class="nav-link"><i class="fa-solid fa-address-card"></i> <span>Orden de
+                                Movilización</span></a>
+                        <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
+                            <li class="nav-item"><a href="{{ route('odernMovilizacion') }}"
+                                    class="nav-link {{ request()->routeIs('odernMovilizacion') ? 'active' : '' }}">Nuevo</a>
+                            </li>
+                            <li class="nav-item"><a href="{{ route('odernMovilizacionListado') }}"
+                                    class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Listado</a>
+                            </li>
+                        </ul>
+                    </li>
                 @endcan
 
                 @can('Control Orden de Movilización')
-                
-                <li class="nav-item">
-                    <a href="{{ route('controlOdernMovilizacion') }}" class="nav-link {{ request()->routeIs('controlOdernMovilizacion*')?'active':'' }}">
-                        <i class="fa-solid fa-check-double"></i>
-                        <span>
-                            Control orden de movilización
-                        </span>
-                    </a>
-                </li>
-                
+                    <li class="nav-item">
+                        <a href="{{ route('controlOdernMovilizacion') }}"
+                            class="nav-link {{ request()->routeIs('controlOdernMovilizacion*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>
+                                Control orden de movilización
+                            </span>
+                        </a>
+                    </li>
                 @endcan
 
-                
+                @hasanyrole('SuperAdmin|SiteAdmin')
+                    <li class="nav-item-header">
+                        <div class="text-uppercase font-size-xs line-height-xs">Dashboard</div> <i class="icon-menu"
+                            title="Seguridad"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboardVehiculos') }}"
+                            class="nav-link {{ request()->routeIs('dashboardVehiculos') ? 'active' : '' }}">Vehículos</a>
+                    </li>
+                @endhasanyrole
 
 
 

@@ -72,7 +72,7 @@
 
         <!-- Secondary sidebar -->
         @yield('secondarySidebar')
-		<!-- /secondary sidebar -->
+        <!-- /secondary sidebar -->
 
         <!-- Main content -->
         <div class="content-wrapper">
@@ -142,7 +142,8 @@
 
 
                 <!-- Content area -->
-                <div class="content {{ request()->routeIs(['welcome'])?'d-flex justify-content-center align-items-center':'' }}">
+                <div
+                    class="content {{ request()->routeIs(['welcome']) ? 'd-flex justify-content-center align-items-center' : '' }}">
                     @if ($errors->any())
                         <div class="alert alert-danger border-0 alert-dismissible">
                             <button type="button" class="close"
@@ -223,6 +224,22 @@
     </script>
     @stack('linksPie')
     @livewireScripts
+    <script type="text/javascript">
+        window.livewire.on('modalOpenStore', () => {
+            $('#storeModal').modal('show');
+        });
+        window.livewire.on('modalCloseStore', () => {
+            $('#storeModal').modal('hide');
+        });
+
+        window.livewire.on('modalOpenUpdate', () => {
+            $('#updateModal').modal('show');
+        });
+        window.livewire.on('modalCloseUpdate', () => {
+            $('#updateModal').modal('hide');
+        });
+        
+    </script>
 </body>
 
 </html>

@@ -11,33 +11,17 @@ use Livewire\Component;
 class Calendario extends Component
 {
     public $vehiculo, $count = 0;
-    public $Ordenes,  $startDate, $endDate;
+    public $Ordenes,  $startDate, $endDate, $estadoOrdenes, $loanding = false;
     public function mount(Vehiculo $vehiculo)
     {
         $this->vehiculo = $vehiculo;
     }
-    public function getevent()
-    {
-        $reservas = OrdenMovilizacion::where(['vehiculo_id' => $this->vehiculo->id])
-            ->whereDate("fecha_salida", ">=", $this->startDate ?? Carbon::now()->startOfMonth())
-            ->whereDate("fecha_retorno", "<=", $this->endDate ?? Carbon::now()->endOfMonth())
-            ->get()
-            ->map(function (Model $model) {
-                return [
-                    'id' => $model->id,
-                    'title' => $model->numero,
-                    'start' => $model->fecha_salida,
-                    'end' => $model->fecha_retorno,
-                ];
-            });
-        $this->Ordenes = json_encode($reservas);
-    }
     public function render()
     {
-
+        $this->loanding = true;
         $reservas = OrdenMovilizacion::where(['vehiculo_id' => $this->vehiculo->id])
             ->whereDate("fecha_salida", ">=", $this->startDate ?? Carbon::now()->startOfMonth())
-            ->whereDate("fecha_retorno", "<=", $this->endDate ?? Carbon::now()->endOfMonth())
+            ->whereDate("fecha_retorno", "<", $this->endDate ?? Carbon::now()->endOfMonth())
             ->get()
             ->map(function (Model $model) {
                 return [
@@ -45,24 +29,38 @@ class Calendario extends Component
                     'title' => $model->numero,
                     'start' => $model->fecha_salida,
                     'end' => $model->fecha_retorno,
+                    'color' => '#66a69a',
+                    'backgroundColor' => '#66a69a'
                 ];
             });
-        $this->Ordenes = json_encode($reservas);
 
+        $this->Ordenes = json_encode($reservas);
+        $this->loanding = false;
         return view('livewire.estacionamientos.calendario');
     }
     public function actualizarDate($dateStart, $dateEnd)
     {
+        $this->loanding = true;
         $this->Ordenes = null;
         $this->startDate = $dateStart;
         $this->endDate = $dateEnd;
         if ($this->startDate) {
-            if ($this->count > 0) {
-                $this->dispatchBrowserEvent('opennn');
-                $this->count=0;
-            }else{
-                $this->count++;
-            }
+            $reservas = OrdenMovilizacion::where(['vehiculo_id' => $this->vehiculo->id])
+                ->whereDate("fecha_salida", ">=", $this->startDate ?? Carbon::now()->startOfMonth())
+                ->whereDate("fecha_retorno", "<=", $this->endDate ?? Carbon::now()->endOfMonth())
+                ->get()
+                ->map(function (Model $model) {
+                    return [
+                        'id' => $model->id,
+                        'title' => $model->numero,
+                        'start' => $model->fecha_salida,
+                        'end' => $model->fecha_retorno,
+                        'color' => '#66a69a',
+                        'backgroundColor' => '#66a69a'
+                    ];
+                });
+            return json_encode($reservas);
         }
+        $this->loanding = false;
     }
 }
