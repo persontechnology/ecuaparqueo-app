@@ -1,8 +1,11 @@
 <?php
-use App\Http\Controllers\BrazoController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\ApiLoginController;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,12 +16,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/login', [ApiLoginController::class,'login']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
-Route::get('/obtener-brazo', [BrazoController::class, 'obtenerBrazo'])->name('obtenerBazo');
-Route::get('/cerrar-brazo', [BrazoController::class, 'cerrarBrazo'])->name('cerrarBrazo');
-Route::get('/buscar-vehiculo-tarjeta', [BrazoController::class, 'buscarVehiculoTarjeta'])->name('buscarVehiculoTarjeta');

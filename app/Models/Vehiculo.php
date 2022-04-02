@@ -27,7 +27,7 @@ class Vehiculo extends Model
 
 
     // Deivid, un vehiculo esta en espacios de un parquadero
-    public function espacios()
+    public function espacio()
     {
         return $this->belongsTo(Espacio::class);
     }

@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 use App\Models\Brazo;
 use App\Models\User;
 use App\Models\Vehiculo;
-use App\Notifications\RealTimeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,8 +49,7 @@ class BrazoController extends Controller
         if($request->has('code')){
             $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
             if ($vihiculo) {
-                $user=User::find(1);
-                $user->notify( new RealTimeNotification($vihiculo->placa));
+                
                 return response()->json($vihiculo->placa);
 
             } else {

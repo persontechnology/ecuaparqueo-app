@@ -42,9 +42,6 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'register' => false]);
 
 
-
-
-
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     // Deivid,Perfil de usuario

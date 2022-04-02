@@ -413,6 +413,7 @@
         }
 
         function seleccionarVehiculo(arg){
+            
             $('#vehiculo').val($(arg).data('id'));
             $('#numeroMovil').val($(arg).data('numeromovil'));
             $('#marca').val($(arg).data('marca'));

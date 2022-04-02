@@ -45,7 +45,7 @@ class VehiculoDataTable extends DataTable
      */
     public function query(Vehiculo $model)
     {
-        return $model->newQuery()->where('estado','Activo')->has('espacios');
+        return $model->newQuery()->where('estado','Activo')->with('espacio');
     }
 
     /**
