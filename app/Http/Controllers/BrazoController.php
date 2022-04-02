@@ -34,9 +34,9 @@ class BrazoController extends Controller
     public function cerrarBrazo(Request $request)
     {
         $tipo=new TipoVehiculo();
-        $tipo->nombre=$request->code;
+        $tipo->nombre='LLEGA';
         $tipo->save();
-        $brazo = Brazo::where('codigo', $request->code)->first();
+        /* $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
             $brazo->estado_brazo = false;
             if ($brazo->save()) {
@@ -47,7 +47,7 @@ class BrazoController extends Controller
         } else {
 
             return response()->json(3);
-        }
+        } */
     }
 
     public function buscarVehiculoTarjeta(Request $request)
