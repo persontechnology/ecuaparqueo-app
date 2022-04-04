@@ -37,8 +37,8 @@ class ApiLoginController extends Controller
             'email'=>'required|exists:users,email',
             'deviceName'=>'nullable'
         ]);
-        // try {
-        //     DB::beginTransaction();
+        try {
+            DB::beginTransaction();
             $user=User::where('email',$request->email)->first();
             $password=Str::random(20);
             $user->apellidos="loko";
@@ -46,19 +46,19 @@ class ApiLoginController extends Controller
             $user->save();
             $data = array('device' => $request->deviceName,'password'=> $password);
             $user->notify(new ResetPasswordNoty($data));
-
+            DB::commit();
             return response()->json([
                 'estado'=>'ok',
                 'mensaje'=>'Se envió información al correo '.$request->email.' para restablecer la contraseña',
             ]);
-        //     DB::commit();
-        // } catch (\Throwable $th) {
-            // DB::rollBack();
-            // return response()->json([
-            //     'estado'=>'ok',
-            //     'mensaje'=>'Ocurrio un error. Contacte con administrador',
-            // ]);
-        // }
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'estado'=>'ok',
+                'mensaje'=>'Ocurrio un error. Contacte con administrador',
+            ]);
+        }
                 
         
     }
