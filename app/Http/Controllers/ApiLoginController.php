@@ -6,10 +6,11 @@ use App\Http\Requests\Api\RqLogin;
 use App\Models\User;
 use App\Notifications\ResetPasswordNoty;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ApiLoginController extends Controller
 {
@@ -40,6 +41,7 @@ class ApiLoginController extends Controller
             DB::beginTransaction();
             $user=User::where('email',$request->email)->first();
             $password=Str::random(20);
+            $user->apellidos="jajajaj";
             $user->password=Hash::make($password);
             $user->save();
             $data = array('device' => $request->deviceName,'password'=> $password);
