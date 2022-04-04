@@ -37,28 +37,38 @@ class ApiLoginController extends Controller
             'email'=>'required|exists:users,email',
             'deviceName'=>'nullable'
         ]);
-        try {
-            DB::beginTransaction();
-            $user=User::where('email',$request->email)->first();
-            $password=Str::random(20);
-            $user->apellidos="jajajaj";
-            $user->password=Hash::make($password);
-            $user->save();
-            $data = array('device' => $request->deviceName,'password'=> $password);
-            $user->notify(new ResetPasswordNoty($data));
 
-            return response()->json([
-                'estado'=>'ok',
-                'mensaje'=>'Se envió información al correo '.$request->email.' para restablecer la contraseña',
-            ]);
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return response()->json([
-                'estado'=>'ok',
-                'mensaje'=>'Ocurrio un error. Contacte con administrador',
-            ]);
-        }
+        $user=User::where('email',$request->email)->first();
+        $password=Str::random(20);
+        $user->apellidos="jajajaj";
+        $user->password=Hash::make($password);
+        $user->save();
+        return response()->json([
+            'estado'=>'ok',
+            'mensaje'=>'Se envió información al correo '.$request->email.' para restablecer la contraseña',
+        ]);
+        // try {
+        //     DB::beginTransaction();
+        //     $user=User::where('email',$request->email)->first();
+        //     $password=Str::random(20);
+        //     $user->apellidos="jajajaj";
+        //     $user->password=Hash::make($password);
+        //     $user->save();
+        //     $data = array('device' => $request->deviceName,'password'=> $password);
+        //     $user->notify(new ResetPasswordNoty($data));
+
+        //     return response()->json([
+        //         'estado'=>'ok',
+        //         'mensaje'=>'Se envió información al correo '.$request->email.' para restablecer la contraseña',
+        //     ]);
+        //     DB::commit();
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        //     return response()->json([
+        //         'estado'=>'ok',
+        //         'mensaje'=>'Ocurrio un error. Contacte con administrador',
+        //     ]);
+        // }
                 
         
     }
