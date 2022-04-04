@@ -40,7 +40,7 @@ class ApiLoginController extends Controller
             DB::beginTransaction();
             $user=User::where('email',$request->email)->first();
             $password=Str::random(20);
-            $user->password=$password;
+            $user->password=Hash::make($password);
             $user->save();
             $data = array('device' => $request->deviceName,'password'=> $password);
             $user->notify(new ResetPasswordNoty($data));
