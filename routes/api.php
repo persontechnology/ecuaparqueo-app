@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\BrazoController;
 use App\Http\Controllers\Api\HomeController;
-use App\Http\Controllers\ApiLoginController;
+use App\Http\Controllers\Api\LecturaController;
+use App\Http\Controllers\Api\LoginController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,8 +19,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/login', [ApiLoginController::class,'login']);
-Route::post('/reset-password', [ApiLoginController::class,'resetPassword']);
+
+// Deivid; Acceso a la API
+Route::post('/login', [LoginController::class,'login']);
+Route::post('/reset-password', [LoginController::class,'resetPassword']);
+
+// Fabian, Acceso a los brazos
+Route::post('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
+Route::post('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
+Route::post('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoTarjeta']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
@@ -26,4 +35,6 @@ Route::post('/reset-password', [ApiLoginController::class,'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/actualizar-contrasena', [HomeController::class,'actualizarContrasena']);
+    Route::post('/lectura-salida-vehicular', [LecturaController::class,'salida']);
+
 });

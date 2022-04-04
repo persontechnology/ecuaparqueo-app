@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
             $table->string('direccion')->nullable();
             $table->string('descripcion')->nullable();
             $table->string('foto')->nullable();
-            $table->enum('estado',['Activo','Inactivo'])->nullable();
+            $table->enum('estado',['Activo','Inactivo'])->default('Inactivo');
             $table->date('fecha_bloqueo')->nullable();
 
             $table->bigInteger('user_create')->nullable();

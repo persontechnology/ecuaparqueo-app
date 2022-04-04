@@ -1,33 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Http\Requests\Api\RqLogin;
 use App\Models\User;
 use App\Notifications\ResetPasswordNoty;
-use Illuminate\Http\Request;
 
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Arr;
 
-class ApiLoginController extends Controller
+class LoginController extends Controller
 {
     public function login(RqLogin $request)
     {   
         $user = User::where('email', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message'=>'ok',
-                'user'=>$user,
-                'token'=>$user->createToken($request->device_name)->plainTextToken
-            ]);        
+            if($user->estado==='Activo')        {
+                return response()->json([
+                    'message'=>'ok',
+                    'user'=>[
+                        'id'=>$user->id,
+                        'name'=>$user->name,
+                        'apellidos'=>$user->apellidos,
+                        'nombres'=>$user->nombres,
+                        'email'=>$user->email,
+                        'estado'=>$user->estado
+                    ],
+                    'roles_permisos'=> Arr::collapse( [$user->getRoleNames(),$user->getAllPermissions()->pluck('name')]),
+                    'token'=>$user->createToken($request->device_name)->plainTextToken
+                ]);
+            }else{
+                throw ValidationException::withMessages([
+                    'email' => ['Acceso denegado, la cuenta se encuentra inactiva'],
+                ]);    
+            }
+        }else{
+            throw ValidationException::withMessages([
+                'email' => ['Las credenciales proporcionadas son incorrectas.'],
+            ]);
         }
         
-        throw ValidationException::withMessages([
-            'email' => ['Las credenciales proporcionadas son incorrectas.'],
-        ]);
+        
     }
 
     public function resetPassword(Request $request)

@@ -1,20 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Brazo;
-use App\Models\TipoVehiculo;
 use App\Models\User;
 use App\Models\Vehiculo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class BrazoController extends Controller
 {
-    public function index()
-    {
-    }
     public function obtenerBrazo(Request $request)
     {
 

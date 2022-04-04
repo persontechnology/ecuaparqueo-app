@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class NotificacionController extends Controller
+class LecturaController extends Controller
 {
     //
 }
