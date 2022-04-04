@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class,'login']);
 Route::post('/reset-password', [LoginController::class,'resetPassword']);
 
-// Fabian, Acceso a los brazos
+// Fabian, Acceso a los brazos code
 Route::post('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
 Route::post('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
 Route::post('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoTarjeta']);
