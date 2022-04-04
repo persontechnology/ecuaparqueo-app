@@ -100,7 +100,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6">
+        <div class="col-lg-3">
             <div class="form-group">
                 <label for="estado">Estado:</label>
                 <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror">
@@ -114,6 +114,31 @@
                 </select>
 
                 @error('estado')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select name="tipo" id="tipo" class="form-control @error('tipo') is-invalid @enderror">
+                    <option value="Normal"
+                        {{ old('tipo', $vehiculo->tipo ?? '') == 'Normal' ? 'selected' : '' }}>
+                        Normal
+                    </option>
+                    <option value="Invitados"
+                        {{ old('tipo', $vehiculo->tipo ?? '') == 'Invitados' ? 'selected' : '' }}>
+                        Invitados
+                    </option>
+                    <option value="Especial"
+                    {{ old('tipo', $vehiculo->tipo ?? '') == 'Especial' ? 'selected' : '' }}>
+                    Especial
+                    </option>
+                </select>
+
+                @error('tipo')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

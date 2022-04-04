@@ -72,7 +72,8 @@ class VehiculoController extends Controller
         $ve->estado=$request->estado;
         $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
-        $ve->tipo_vehiculo_id=$request->tipo;
+        $ve->tipo_vehiculo_id=$request->tipoVehiculo;
+        $ve->tipo=$request->tipo;
         $ve->codigo_tarjeta=$request->codigo_tarjeta;
 
         $ve->user_create=Auth::user()->id;
@@ -117,7 +118,8 @@ class VehiculoController extends Controller
         $ve->estado=$request->estado;
         $ve->descripcion=$request->descripcion;
         $ve->imei=$request->imei;
-        $ve->tipo_vehiculo_id=$request->tipo;
+        $ve->tipo_vehiculo_id=$request->tipoVehiculo;
+        $ve->tipo=$request->tipo;
         $ve->user_update=Auth::user()->id;
         $ve->codigo_tarjeta=$request->codigo_tarjeta;
         

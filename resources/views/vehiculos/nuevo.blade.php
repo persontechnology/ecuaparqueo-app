@@ -29,7 +29,7 @@
                     <fieldset>
                         @foreach ($tipoVehiculos as $tv)
                         <div class="form-check">
-                            <input type="radio" value="{{$tv->id}}" {{ old('tipo')==$tv->id ?'checked':'' }} name="tipo"  class="form-check-input" id="permi-0-{{ $tv->id }}" required>
+                            <input type="radio" value="{{$tv->id}}" {{ old('tipoVehiculo')==$tv->id ?'checked':'' }} name="tipoVehiculo"  class="form-check-input" id="permi-0-{{ $tv->id }}" required>
                             <label class="form-check-label" for="permi-0-{{ $tv->id }}" >{{ $tv->nombre }}
                             </label>
                         </div>

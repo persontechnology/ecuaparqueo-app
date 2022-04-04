@@ -93,7 +93,7 @@ class VehiculoDataTable extends DataTable
             
             Column::make('placa'),
             Column::make('color'),
-            Column::make('tipo_vehiculo_id')->title('Tipo'),
+            Column::make('tipo_vehiculo_id')->title('Tipo V.'),
             Column::make('estado'),
             // Column::make('imei')->title('IMEI'),
             // Column::make('foto'),

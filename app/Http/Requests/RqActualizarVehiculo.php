@@ -50,7 +50,8 @@ class RqActualizarVehiculo extends FormRequest
             'estado'=>'required|in:Activo,Inactivo|existeVehiculoEnEspacio',
             'descripcion'=>'nullable|string|max:255',
             'foto'=>'nullable|image',
-            'tipo'=>'required|exists:tipo_vehiculos,id',
+            'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
+            'tipo'=>'required|in:Normal,Invitados,Especial',
             'imei'=>'nullable|string|max:255'
             
         ];

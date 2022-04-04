@@ -36,7 +36,8 @@ class RqGuardarVehiculo extends FormRequest
             'estado'=>'required|in:Activo,Inactivo',
             'descripcion'=>'nullable|string|max:255',
             'foto'=>'nullable|image',
-            'tipo'=>'required|exists:tipo_vehiculos,id',
+            'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
+            'tipo'=>'required|in:Normal,Invitados,Especial',
             'kilometraje'=>'required|numeric|gt:0',
             'imei'=>'nullable|string|max:255'
         ];
