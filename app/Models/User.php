@@ -53,5 +53,11 @@ class User extends Authenticatable
         return $this->hasOne(Configuracion::class);
     }
 
+
+    // Deivid: un usuario tiene notiifcaciones
+    public function notificacionesLecturas()
+    {
+        return $this->hasMany(notificacionesLecturas::class,'guardia_id');
+    }
     
 }

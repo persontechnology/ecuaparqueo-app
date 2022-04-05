@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\BrazoController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\NotificacionLecturaController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -33,8 +34,12 @@ Route::post('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoT
 //     return $request->user();
 // });
 
-Route::middleware('auth:sanctum')->group(function(){
+Route::middleware(['auth:sanctum','throttle:1000,1'])->group(function(){
     Route::post('/actualizar-contrasena', [HomeController::class,'actualizarContrasena']);
     Route::post('/lectura-salida-vehicular', [LecturaController::class,'salida']);
+    Route::post('/lectura-entrada-vehicular', [LecturaController::class,'consultaLecturaEntrada']);
+
+    // notificaciones
+    Route::post('/lista-notificaciones-lectura', [NotificacionLecturaController::class,'consultaLecturaEntrada']);
 
 });

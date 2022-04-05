@@ -84,5 +84,11 @@ class Vehiculo extends Model
         return $this->hasMany(OrdenMovilizacion::class, 'vehiculo_id');
     }
 
+    //Deivid. un vehiculo tiene lecturas
+    public function lecturas()
+    {
+        return $this->hasMany(Lectura::class, 'vehiculo_id');
+    }
+    
 
 }

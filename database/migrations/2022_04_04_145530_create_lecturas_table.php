@@ -19,10 +19,13 @@ class CreateLecturasTable extends Migration
             $table->enum('tipo',['Salida','Entrada'])->nullable();
             $table->string('porcentaje_combustible')->nullable();
             $table->string('kilometraje')->nullable();
+
+            $table->dateTime('fecha_retorno')->nullable();
             
             $table->foreignId('brazo_salida_id')->constrained('brazos');
             $table->foreignId('brazo_entrada_id')->nullable()->constrained('brazos');
             
+            $table->foreignId('vehiculo_id')->constrained('vehiculos');
             $table->foreignId('orden_movilizacion_id')->nullable()->constrained('orden_movilizacions');
 
             $table->foreignId('guardia_id')->nullable()->constrained('users');
