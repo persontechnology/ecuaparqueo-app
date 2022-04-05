@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
 use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
@@ -45,6 +45,7 @@ Auth::routes(['verify' => true, 'register' => false]);
 
 Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::post('/lectura-salida-vehicular', [LecturaController::class,'salida'])->name('apiLecturaSalida');
     // Deivid,Perfil de usuario
     Route::get('/perfil', [PerfilController::class, 'index'])->name('perfil');
     Route::post('/perfil-actualizar', [PerfilController::class, 'actualizar'])->name('actualizarPerfil');

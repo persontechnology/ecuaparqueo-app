@@ -28,11 +28,12 @@ class OrdenMovilizacionController extends Controller
     public function index(ConductorSolicitanteDataTable $dataTable)
     {
         $parqueaderos=Parqueadero::where('estado','Activo')->get();
+        $ordenes=OrdenMovilizacion::whereDate('fecha_salida','>=',Carbon::now()->subMonth(2))->get();
         $data = array(
             'empresa'=>Empresa::first(),
             'parqueaderos' => $parqueaderos,
             'numero'=>OrdenMovilizacion::NumeroSiguente(),
-            'ordenesMovilizaciones'=>OrdenMovilizacion::whereBetween('fecha_salida',[Carbon::now()->subMonth(2),Carbon::now()])->get()
+            'ordenesMovilizaciones'=>$ordenes
         );
         return $dataTable->render('movilizacion.calendar.index',$data);
         // return $dataTable->render('movilizacion.index');
@@ -65,7 +66,7 @@ class OrdenMovilizacionController extends Controller
         
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
-            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
+            // Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado. Se envió un correo a los '.$usuariosControlOrdenMovilizacion->count().' usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
         }else{
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
@@ -99,7 +100,7 @@ class OrdenMovilizacionController extends Controller
         
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
-            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
+            // Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado. Se envió un correo a los usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
         }else{
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado');
