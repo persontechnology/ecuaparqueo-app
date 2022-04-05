@@ -46,6 +46,7 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
+        
         if ($request->has('code')) {
             if ($request->code === "123456789") {
                 return response()->json(6);
