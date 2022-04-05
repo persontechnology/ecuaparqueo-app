@@ -39,7 +39,7 @@ Route::middleware(['auth:sanctum','throttle:1000,1'])->group(function(){
     Route::post('/lectura-salida-vehicular', [LecturaController::class,'salida']);
     Route::post('/lectura-entrada-vehicular', [LecturaController::class,'consultaLecturaEntrada']);
 
-    // notificacioness
+    // Deivid: notificaciones
     Route::post('/lista-notificaciones-lectura', [NotificacionLecturaController::class,'consultaLecturaEntrada']);
 
 });
