@@ -33,6 +33,9 @@
         <span class="badge badge-warning">FINALIZADO</span>
         
     </div>
+    <table class="table">
+
+</table>
     <div id='calendar'></div>
 </div>
     
@@ -513,9 +516,7 @@
                 title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->info_vehiculo }}',
                 start: '{{ $ordenM->fecha_salida }}',
                 end:'{{ $ordenM->fecha_retorno }}',
-                image_url:'{{ Storage::url($ordenM->vehiculo->foto) }}',
                 classNames:'bg-{{ $ordenM->color_estado }}',
-                image_url: '{{ Storage::exists($ordenM->vehiculo->foto)?Storage::url($ordenM->vehiculo->foto):'' }}',
                 
             },
             @endforeach

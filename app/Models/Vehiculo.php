@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -75,6 +76,13 @@ class Vehiculo extends Model
             return $this->conductor->id;
         }
         return '';
-        
     }
+
+    // deivid un vehiculo tiene ordenes de movilizacion
+    public function ordenesMovilizaciones()
+    {
+        return $this->hasMany(OrdenMovilizacion::class, 'vehiculo_id');
+    }
+
+
 }

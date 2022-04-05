@@ -130,7 +130,7 @@ class OrdenMovilizacion extends Model
 
     public function getColorEstadoAttribute()
     {   
-        $color='bg-primary';
+        $color='primary';
         switch ($this->estado) {
             case 'SOLICITADO':
                 $color='primary';

@@ -66,7 +66,7 @@ class Listado extends Component
         })
         ->whereHas('vehiculo',function($query) {
             $query->whereRaw("tipo_vehiculo_id like ?",["%{$this->IdTipoVehiculo}%"]);
-        })->paginate($this->mostrar);
+        })->latest()->paginate($this->mostrar);
         
         return $ordenMovilizaciones;
     }

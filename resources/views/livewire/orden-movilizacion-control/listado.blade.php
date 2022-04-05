@@ -1,7 +1,34 @@
 <div class="card">
     <div class="card-header">
+        <button class="btn btn-link" wire:click="pdf">
+            Descargar PDF <i class="fa-solid fa-file-pdf ml-1"></i>
+        </button>
         <div class="form-row">
+            <div class='form-group col-md-5'>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Desde</label>
+                    <input type="date" class="form-control" wire:model="desde" id="exampleFormControlInput1" >
+                </div>
+            </div>
+            <div class='form-group col-md-5'>
+                <div class="form-group">
+                    <label for="exampleFormControlInput2">Hasta</label>
+                    <input type="date" class="form-control" wire:model="hasta" id="exampleFormControlInput2" >
+                </div>
+            </div>
+            <div class='form-group col-md-2'>
+                <div class="form-group">
+                    <label for="exampleFormControlInput2">Mostrar hasta</label>
+                    <select name="" id="" wire:model="mostrar" class="form-control">
+                        <option value="10">10</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
+        <div class="form-row">
             <div class="form-group col-md-3">
                 <input type="search" wire:model="NumeroOrden" class="form-control" id="inputZip" placeholder="Buscar por # orden">
             </div>
@@ -36,8 +63,6 @@
                     <option value="FINALIZADO">FINALIZADO</option>
                 </select>
             </div>
-            
-            
         </div>
     </div>
     <div class="card-body">
