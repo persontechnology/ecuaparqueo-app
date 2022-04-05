@@ -22,7 +22,7 @@ class LecturaController extends Controller
         
         if($vehiculo->tipo==='Especial' || $vehiculo->tipo==='Invitados'){
             $estado=true;
-            $mensaje='Vehículos es de tipo '.$vehiculo->tipo.' y puede salir';
+            $mensaje='Vehículo es de tipo '.$vehiculo->tipo.' y puede salir';
         }
         
         $ordenMovilizacion=$vehiculo->ordenesMovilizaciones()
