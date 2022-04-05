@@ -27,7 +27,7 @@ class BrazoController extends Controller
     }
     public function cerrarBrazo(Request $request)
     {
-       /*  $tipo=new TipoVehiculo();
+        /*  $tipo=new TipoVehiculo();
         $tipo->nombre=$request->code;
         $tipo->save(); */
         $brazo = Brazo::where('codigo', $request->code)->first();
@@ -46,20 +46,23 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
-        if($request->has('code')){
-            $vihiculo = Vehiculo::where(['codigo_tarjeta'=>$request->code,'estado'=>'Activo'])->first();       
-            if ($vihiculo) {
-                
-                return response()->json($vihiculo->placa);
-
+        if ($request->has('code')) {
+            if ($request->code === "123456789") {
+                return response()->json(6);
             } else {
                 $vihiculo = Vehiculo::where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
                 if ($vihiculo) {
-                    $user = User::find(1);
+
                     return response()->json($vihiculo->placa);
                 } else {
+                    $vihiculo = Vehiculo::where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+                    if ($vihiculo) {
+                        $user = User::find(1);
+                        return response()->json($vihiculo->placa);
+                    } else {
 
-                    return response()->json(3);
+                        return response()->json(3);
+                    }
                 }
             }
         }
