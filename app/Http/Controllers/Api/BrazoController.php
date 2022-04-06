@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Brazo;
+use App\Models\Lectura;
+use App\Models\NotificacionLectura;
 use App\Models\User;
 use App\Models\Vehiculo;
+use Carbon\Carbon;
 
 class BrazoController extends Controller
 {
@@ -46,7 +49,7 @@ class BrazoController extends Controller
 
     public function buscarVehiculoTarjeta(Request $request)
     {
-        
+
         if ($request->has('code')) {
             if ($request->code === "123456789") {
                 return response()->json(6);
@@ -64,6 +67,64 @@ class BrazoController extends Controller
 
                         return response()->json(3);
                     }
+                }
+            }
+        }
+        return response()->json(3);
+    }
+    public function buscarVehiculoTarjetaSalida(Request $request)
+    {
+
+        if ($request->has('code')) {
+            $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+            $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
+            if ($request->code === "123456789") {
+                $brazo->estado_brazo = true;
+                $brazo->save();
+                return response()->json(6);
+            } else {
+                if ($vehiculo && $vehiculo->espacio && $brazo) {
+                    if ($vehiculo->tipo === "Especial") {
+                        $lectura = new Lectura();
+                        $lectura->tipo = 'Salida';
+                        $lectura->brazo_salida_id = $brazo->id;
+                        $lectura->vehiculo_id = $vehiculo->id;
+                        $lectura->save();
+                        $espacio = $vehiculo->espacio;
+                        $espacio->estado = "Ausente";
+                        $espacio->save();
+                        $brazo->estado_brazo = true;
+                        $brazo->save();
+                        return response()->json(1);
+                    } elseif ($vehiculo->tipo === "Normal") {
+                        $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
+                            ->where(function ($q) {
+                                $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
+                                $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
+                            })
+                            ->where('estado', 'ACEPTADA')
+                            ->latest()
+                            ->first();
+                        if ($ordenMovilizacion) {
+                            $lectura = new Lectura();
+                            $lectura->tipo = 'Salida';
+                            $lectura->brazo_salida_id = $brazo->id;
+                            $lectura->vehiculo_id = $vehiculo->id;
+                            $lectura->orden_movilizacion_id=$ordenMovilizacion->id;
+                            $lectura->save();
+                            $espacio = $vehiculo->espacio;
+                            $espacio->estado = "Ausente";
+                            $espacio->save();
+                            $brazo->estado_brazo = true;
+                            $brazo->save();
+                            return response()->json(1);
+                        } else {
+                            return response()->json(3);
+                        }
+                    }
+                } else {
+
+                    return response()->json(3);
                 }
             }
         }

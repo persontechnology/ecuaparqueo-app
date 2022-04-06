@@ -30,7 +30,7 @@ class Vehiculo extends Model
     // Deivid, un vehiculo esta en espacios de un parquadero
     public function espacio()
     {
-        return $this->belongsTo(Espacio::class);
+        return $this->hasOne(Espacio::class,'vehiculo_id');
     }
     //DEivid, funcion para retornar color segun a lso estado
     public function getColorEstadoAttribute()

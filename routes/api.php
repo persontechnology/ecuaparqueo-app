@@ -29,6 +29,7 @@ Route::post('/reset-password', [LoginController::class,'resetPassword']);
 Route::post('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
 Route::post('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
 Route::post('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoTarjeta']);
+Route::post('/buscar-vehiculo-tarjeta-salida', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
