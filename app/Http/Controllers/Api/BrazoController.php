@@ -30,9 +30,6 @@ class BrazoController extends Controller
     }
     public function cerrarBrazo(Request $request)
     {
-        /*  $tipo=new TipoVehiculo();
-        $tipo->nombre=$request->code;
-        $tipo->save(); */
         $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
             $brazo->estado_brazo = false;
@@ -52,7 +49,8 @@ class BrazoController extends Controller
 
         if ($request->has('code')) {
             if ($request->code === "123456789") {
-                return response()->json(6);
+
+                return response()->json(1);
             } else {
                 $vihiculo = Vehiculo::where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
                 if ($vihiculo) {
@@ -81,7 +79,7 @@ class BrazoController extends Controller
             if ($request->code === "123456789") {
                 $brazo->estado_brazo = true;
                 $brazo->save();
-                return response()->json(6);
+                return response()->json(1);
             } else {
                 if ($vehiculo && $vehiculo->espacio && $brazo) {
                     if ($vehiculo->tipo === "Especial") {
@@ -110,7 +108,7 @@ class BrazoController extends Controller
                             $lectura->tipo = 'Salida';
                             $lectura->brazo_salida_id = $brazo->id;
                             $lectura->vehiculo_id = $vehiculo->id;
-                            $lectura->orden_movilizacion_id=$ordenMovilizacion->id;
+                            $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
                             $lectura->save();
                             $espacio = $vehiculo->espacio;
                             $espacio->estado = "Ausente";
@@ -121,6 +119,33 @@ class BrazoController extends Controller
                         } else {
                             return response()->json(3);
                         }
+                    }
+                } else {
+
+                    return response()->json(3);
+                }
+            }
+        }
+        return response()->json(3);
+    }
+    public function buscarVehiculoTarjetaEntrada(Request $request)
+    {
+
+        if ($request->has('code')) {
+            $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+            $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
+            if ($request->code === "123456789") {
+
+                return response()->json(1);
+            } else {
+                if ($vehiculo && $vehiculo->espacio && $brazo) {
+                    if ($vehiculo->tipo === "Especial") {
+                        $brazo->estado_brazo = true;
+                        $brazo->save();
+                        return response()->json(1);
+                    } elseif ($vehiculo->tipo === "Normal") {
+
+                        return response()->json(1);
                     }
                 } else {
 
