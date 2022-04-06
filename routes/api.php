@@ -26,10 +26,11 @@ Route::post('/login', [LoginController::class,'login']);
 Route::post('/reset-password', [LoginController::class,'resetPassword']);
 
 // Fabian, Acceso a los brazos code
-Route::post('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
-Route::post('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
-Route::post('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoTarjeta']);
-Route::post('/buscar-vehiculo-tarjeta-salida', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
+Route::get('/obtener-brazo', [BrazoController::class,'obtenerBrazo']);
+Route::get('/cerrar-brazo', [BrazoController::class,'cerrarBrazo']);
+Route::get('/buscar-vehiculo-tarjeta', [BrazoController::class,'buscarVehiculoTarjeta']);
+Route::get('/buscar-vehiculo-tarjeta-salida', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
+Route::get('/buscar-vehiculo-tarjeta-entrada', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
