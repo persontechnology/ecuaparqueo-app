@@ -144,7 +144,7 @@ class BrazoController extends Controller
                         
                         if ($vehiculo->tipo === "Especial") {
                             $lectura->fecha_retorno = Carbon::now();
-                            $lectura->estado = "Entrada";
+                            $lectura->tipo = "Entrada";
                             $lectura->brazo_entrada_id=$brazo->id;
                             $lectura->save();
                             $brazo->estado_brazo = true;
