@@ -139,13 +139,35 @@ class BrazoController extends Controller
                 return response()->json(1);
             } else {
                 if ($vehiculo && $vehiculo->espacio && $brazo) {
-                    if ($vehiculo->tipo === "Especial") {
-                        $brazo->estado_brazo = true;
-                        $brazo->save();
-                        return response()->json(1);
-                    } elseif ($vehiculo->tipo === "Normal") {
-
-                        return response()->json(1);
+                    $lectura = $vehiculo->lecturas()->where('tipo', 'Salida')->latest()->first();
+                    if ($lectura) {
+                        
+                        if ($vehiculo->tipo === "Especial") {
+                            $lectura->fecha_retorno = Carbon::now();
+                            $lectura->brazo_entrada_id=$brazo->id;
+                            $lectura->save();
+                            $brazo->estado_brazo = true;
+                            $brazo->save();
+                            return response()->json(1);
+                        } elseif ($vehiculo->tipo === "Normal") {
+                            $contadorGuardias = 0;
+                            $guardias = $brazo->parqueadero->guardias;
+                            if ($guardias) {
+                                $contadorGuardias = $guardias->count();
+                                foreach ($guardias as $guardia) {
+                                    $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
+                                    if (!$noti) {
+                                        $noti = new NotificacionLectura();
+                                        $noti->lectura_id = $lectura->id;
+                                        $noti->guardia_id = $guardia->id;
+                                        $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
+                                        $noti->visto = false;
+                                        $noti->save();
+                                    }
+                                }
+                            }
+                            return response()->json(1);
+                        }
                     }
                 } else {
 
