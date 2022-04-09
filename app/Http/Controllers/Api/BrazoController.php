@@ -149,6 +149,7 @@ class BrazoController extends Controller
                             $brazo->estado_brazo = true;
                             $brazo->save();
                             return response()->json(1);
+                            
                         } elseif ($vehiculo->tipo === "Normal") {
                             $contadorGuardias = 0;
                             $guardias = $brazo->parqueadero->guardias;
