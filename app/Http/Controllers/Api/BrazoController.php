@@ -162,6 +162,7 @@ class BrazoController extends Controller
                                         $noti = new NotificacionLectura();
                                         $noti->lectura_id = $lectura->id;
                                         $noti->guardia_id = $guardia->id;
+                                        $noti->brazo_id = $brazo->id;
                                         $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
                                         $noti->visto = false;
                                         $noti->save();
