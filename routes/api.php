@@ -36,12 +36,15 @@ Route::get('/buscar-vehiculo-tarjeta-entrada', [BrazoController::class,'buscarVe
 //     return $request->user();
 // });
 
-Route::middleware(['auth:sanctum','throttle:1000,1'])->group(function(){
+Route::middleware('auth:sanctum')->group(function(){
     Route::post('/actualizar-contrasena', [HomeController::class,'actualizarContrasena']);
     Route::post('/lectura-salida-vehicular', [LecturaController::class,'salida']);
     Route::post('/lectura-entrada-vehicular', [LecturaController::class,'consultaLecturaEntrada']);
 
     // Deivid: notificaciones
-    Route::post('/lista-notificaciones-lectura', [NotificacionLecturaController::class,'consultaLecturaEntrada']);
+    Route::post('/notificacion-lectura-vehicular', [NotificacionLecturaController::class,'lecturaNotificacion']);
+    Route::post('/notificacion-lectura-id', [NotificacionLecturaController::class,'obtenerPorId']);
+    Route::post('/notificacion-lectura-registrar-retorno-vehiculo', [NotificacionLecturaController::class,'registrarRetornoVehiculo']);
+    
 
 });

@@ -45,6 +45,7 @@ class UsuarioController extends Controller
             $user->direccion=$request->direccion;
             $user->descripcion=$request->descripcion;
             $user->email=$request->email;
+            $user->estado=$request->estado;
 
             $password=Str::random(15);
             $user->password=Hash::make($password);
@@ -97,7 +98,7 @@ class UsuarioController extends Controller
             $user->direccion=$request->direccion;
             $user->descripcion=$request->descripcion;
             $user->email=$request->email;
-
+            $user->estado=$request->estado;
 
             if ($request->hasFile('foto')) {
                 $archivo=$request->file('foto');

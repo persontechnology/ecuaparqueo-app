@@ -134,5 +134,25 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label for="estado">Estado:</label>
+                <select name="estado" id="estado" class="form-control" required>
+                    <option value="Activo" {{ old('estado',$user->estado??'')==='Activo'?'selected':'' }}>Activo</option>
+                    <option value="Inactivo" {{ old('estado',$user->estado??'')==='Inactivo'?'selected':'' }}>Inactivo</option>
+                </select>
+                @error('estado')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            {{--  --}}
+        </div>
+    </div>
     
 </fieldset>

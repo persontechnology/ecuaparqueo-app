@@ -9,5 +9,15 @@ class Lectura extends Model
 {
     use HasFactory;
 
-    
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class,'vehiculo_id');
+    }
+
+    public function ordenMovilizacion()
+    {
+        return $this->belongsTo(OrdenMovilizacion::class,'vehiculo_id');
+    }
+
 }
+

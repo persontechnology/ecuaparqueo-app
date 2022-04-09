@@ -57,7 +57,7 @@ class User extends Authenticatable
     // Deivid: un usuario tiene notiifcaciones
     public function notificacionesLecturas()
     {
-        return $this->hasMany(notificacionesLecturas::class,'guardia_id');
+        return $this->hasMany(NotificacionLectura::class,'guardia_id');
     }
     
 }
