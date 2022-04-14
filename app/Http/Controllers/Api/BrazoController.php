@@ -76,19 +76,46 @@ class BrazoController extends Controller
         if ($request->has('code')) {
             $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
             $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
+            
             if ($request->code === "123456789") {
-               
                 $brazo->estado_brazo = true;
                 $brazo->save();
                 return response()->json(1);
             } 
 
-            if ($vehiculo && $vehiculo->espacio && $brazo) {
-                if ($vehiculo->tipo === "Especial") {
+            // if ($vehiculo && $vehiculo->espacio && $brazo) {
+            // } else {
+            //     return response()->json(3);
+            // }
+            if ($vehiculo->tipo === "Especial") {
+                $lectura = new Lectura();
+                $lectura->tipo = 'Salida';
+                $lectura->brazo_salida_id = $brazo->id;
+                $lectura->vehiculo_id = $vehiculo->id;
+                $lectura->save();
+                $espacio = $vehiculo->espacio;
+                $espacio->estado = "Ausente";
+                $espacio->save();
+                $brazo->estado_brazo = true;
+                $brazo->save();
+                return response()->json(1);
+            } 
+            
+            if ($vehiculo->tipo === "Normal") {
+                $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
+                    ->where(function ($q) {
+                        $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
+                        $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
+                    })
+                    ->where('estado', 'ACEPTADA')
+                    ->latest()
+                    ->first();
+                if ($ordenMovilizacion) {
                     $lectura = new Lectura();
                     $lectura->tipo = 'Salida';
                     $lectura->brazo_salida_id = $brazo->id;
                     $lectura->vehiculo_id = $vehiculo->id;
+                    $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
                     $lectura->save();
                     $espacio = $vehiculo->espacio;
                     $espacio->estado = "Ausente";
@@ -96,35 +123,9 @@ class BrazoController extends Controller
                     $brazo->estado_brazo = true;
                     $brazo->save();
                     return response()->json(1);
-                } elseif ($vehiculo->tipo === "Normal") {
-                    $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
-                        ->where(function ($q) {
-                            $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
-                            $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
-                        })
-                        ->where('estado', 'ACEPTADA')
-                        ->latest()
-                        ->first();
-                    if ($ordenMovilizacion) {
-                        $lectura = new Lectura();
-                        $lectura->tipo = 'Salida';
-                        $lectura->brazo_salida_id = $brazo->id;
-                        $lectura->vehiculo_id = $vehiculo->id;
-                        $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
-                        $lectura->save();
-                        $espacio = $vehiculo->espacio;
-                        $espacio->estado = "Ausente";
-                        $espacio->save();
-                        $brazo->estado_brazo = true;
-                        $brazo->save();
-                        return response()->json(1);
-                    } else {
-                        return response()->json(3);
-                    }
+                } else {
+                    return response()->json(3);
                 }
-            } else {
-
-                return response()->json(3);
             }
 
         }
