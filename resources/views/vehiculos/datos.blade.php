@@ -18,7 +18,7 @@
 
         <div class="col-lg-4">
             <div class="form-group">
-                <label for="modelo">Modelo:</label>
+                <label for="modelo">Modelo</label>
                 <input id="modelo" type="text" class="form-control @error('modelo') is-invalid @enderror" name="modelo"
                     value="{{ old('modelo', $vehiculo->modelo ?? '') }}">
 
@@ -32,7 +32,7 @@
 
         <div class="col-lg-4">
             <div class="form-group">
-                <label for="marca">Marca:</label>
+                <label for="marca">Marca</label>
                 <input id="marca" type="text" class="form-control @error('marca') is-invalid @enderror" name="marca"
                     value="{{ old('marca', $vehiculo->marca ?? '') }}">
 
@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label for="placa">Placa:</label>
+                <label for="placa">Placa</label>
                 <input id="placa" type="text" class="form-control @error('placa') is-invalid @enderror" name="placa"
                     value="{{ old('placa', $vehiculo->placa ?? '') }}">
 
@@ -62,7 +62,7 @@
 
         <div class="col-lg-6">
             <div class="form-group">
-                <label for="color">Color:</label>
+                <label for="color">Color</label>
                 <input id="color" type="text" class="form-control @error('color') is-invalid @enderror" name="color"
                     value="{{ old('color', $vehiculo->color ?? '') }}">
 
@@ -83,7 +83,7 @@
                     <input type="hidden" name="conductor" id="conductor"
                         value="{{ old('conductor', $vehiculo->conductor->id ?? '') }}">
                     <input type="text" readonly id="conductorInfo" name="conductorInfo"
-                        value="{{ old('conductorInfo', $vehiculo->info_conductor ?? '') }}" data-toggle="modal"
+                        value="{{ old('conductorInfo', $vehiculo->conductor->apellidos_nombres ?? '') }}" data-toggle="modal"
                         data-target="#modal_full" class="form-control @error('conductor') is-invalid @enderror"
                         placeholder="Seleccionar el conductor..">
                     <span class="input-group-append">
@@ -102,7 +102,7 @@
 
         <div class="col-lg-3">
             <div class="form-group">
-                <label for="estado">Estado:</label>
+                <label for="estado">Estado</label>
                 <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror">
                     <option value="Activo"
                         {{ old('estado', $vehiculo->estado ?? '') == 'Activo' ? 'selected' : '' }}>
@@ -122,7 +122,7 @@
         </div>
         <div class="col-lg-3">
             <div class="form-group">
-                <label for="tipo">Tipo:</label>
+                <label for="tipo">Tipo</label>
                 <select name="tipo" id="tipo" class="form-control @error('tipo') is-invalid @enderror">
                     <option value="Normal"
                         {{ old('tipo', $vehiculo->tipo ?? '') == 'Normal' ? 'selected' : '' }}>
@@ -151,9 +151,9 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
-                <label for="descripcion">Descripción:</label>
+                <label for="descripcion">Descripción</label>
                 <textarea id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror"
-                    name="descripcion" required>{{ old('descripcion', $vehiculo->descripcion ?? '') }}</textarea>
+                    name="descripcion">{{ old('descripcion', $vehiculo->descripcion ?? '') }}</textarea>
                 @error('descripcion')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -164,7 +164,7 @@
 
         <div class="col-lg-6">
             <div class="form-group">
-                <label for="foto">Foto:</label>
+                <label for="foto">Foto</label>
                 <label class="custom-file">
                     <input type="file" accept="image/*" id="foto" name="foto"
                         class="custom-file-input @error('foto') is-invalid @enderror">
@@ -187,7 +187,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="codigo_tarjeta">Código de Tarjeta :</label>
+                <label for="codigo_tarjeta">Código de Tarjeta</label>
                 <input id="codigo_tarjeta" type="text" class="form-control @error('codigo_tarjeta') is-invalid @enderror" name="codigo_tarjeta"
                     value="{{ old('codigo_tarjeta', $vehiculo->codigo_tarjeta ?? '') }}">
 
@@ -201,7 +201,7 @@
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="imei">Número IMEI:</label>
+                <label for="imei">Número IMEI</label>
                 <input id="imei" type="text" class="form-control @error('imei') is-invalid @enderror" name="imei"
                     value="{{ old('imei', $vehiculo->imei ?? '') }}">
 

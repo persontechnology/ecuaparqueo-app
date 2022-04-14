@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="tipo">Tipo:</label>
+                                <label for="tipo">Tipo<i class="text-danger">*</i></label>
                                 <select name="tipo" id="tipo" class="form-control @error('tipo') is-invalid @enderror"
                                     required>
                                     <option value="Pública" {{ old('tipo', $empresa->tipo) == 'Pública' ? 'selected' : '' }}>
@@ -30,9 +30,8 @@
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="nombre">Nombre:</label>
-                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror"
-                                    name="nombre" value="{{ old('nombre', $empresa->nombre) }}" required>
+                                <label for="nombre">Nombre<i class="text-danger">*</i></label>
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre', $empresa->nombre) }}" required autofocus>
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -46,7 +45,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="codigo">Código:</label>
+                                <label for="codigo">Código<i class="text-danger">*</i></label>
                                 <input id="codigo" type="text" class="form-control @error('codigo') is-invalid @enderror"
                                     name="codigo" value="{{ old('codigo', $empresa->codigo) }}" required>
 
@@ -60,7 +59,7 @@
 
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="version">Versión:</label>
+                                <label for="version">Versión<i class="text-danger">*</i></label>
                                 <input id="version" type="text" class="form-control @error('version') is-invalid @enderror"
                                     name="version" value="{{ old('version', $empresa->version) }}" required>
 
@@ -74,7 +73,7 @@
 
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="norma">Norma:</label>
+                                <label for="norma">Norma<i class="text-danger">*</i></label>
                                 <input id="norma" type="text" class="form-control @error('norma') is-invalid @enderror"
                                     name="norma" value="{{ old('norma', $empresa->norma) }}" required>
 
@@ -91,7 +90,7 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="fecha_caducidad_inicio">Fecha caducidad inicio:</label>
+                                    <label for="fecha_caducidad_inicio">Fecha caducidad inicio<i class="text-danger">*</i></label>
                                     <input id="fecha_caducidad_inicio" readonly type="date"
                                         class="form-control @error('fecha_caducidad_inicio') is-invalid @enderror"
                                         name="fecha_caducidad_inicio"
@@ -108,7 +107,7 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="fecha_caducidad_fin">Fecha caducidad fin:</label>
+                                    <label for="fecha_caducidad_fin">Fecha caducidad fin<i class="text-danger">*</i></label>
                                     <input id="fecha_caducidad_fin" type="date"
                                         class="form-control @error('fecha_caducidad_fin') is-invalid @enderror"
                                         name="fecha_caducidad_fin"
@@ -124,7 +123,7 @@
 
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="estado">Estado:</label>
+                                    <label for="estado">Estado<i class="text-danger">*</i></label>
                                     <select name="estado" id="estado" class="form-control @error('estado') is-invalid @enderror"
                                         required>
                                         <option value="Activo" {{ old('estado', $empresa->estado) == 'Activo' ? 'selected' : '' }}>
@@ -145,48 +144,25 @@
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="">Fecha caducidad inicio: {{ $empresa->fecha_caducidad_inicio }}</label>
+                                    <label for="">Fecha caducidad inicio<i class="text-danger">*</i> {{ $empresa->fecha_caducidad_inicio }}</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="">Fecha caducidad fin: {{ $empresa->fecha_caducidad_fin }}</label>
+                                    <label for="">Fecha caducidad fin<i class="text-danger">*</i> {{ $empresa->fecha_caducidad_fin }}</label>
                                 </div>
                             </div>
                             <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label for="">Estado: {{ $empresa->estado }}</label>
+                                    <label for="">Estado<i class="text-danger">*</i> {{ $empresa->estado }}</label>
                                 </div>
                             </div>
                         </div>
                     @endrole
-
-                    <div class="form-group">
-                        <label for="url_web_gps">URL web service GPS:</label>
-                        <input id="url_web_gps" type="text" class="form-control @error('url_web_gps') is-invalid @enderror"
-                            name="url_web_gps" value="{{ old('url_web_gps', $empresa->url_web_gps) }}" />
-                        @error('url_web_gps')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        <label for="token">Token:</label>
-                        <input id="token" type="text" class="form-control @error('token') is-invalid @enderror" name="token"
-                            value="{{ old('token', $empresa->token) }}" />
-                        @error('token')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="descripcion">Descripción:</label>
+                                <label for="descripcion">Descripción<i class="text-danger">*</i></label>
                                 <textarea id="descripcion" type="text" class="form-control @error('descripcion') is-invalid @enderror"
                                     name="descripcion"
                                     required>{{ old('descripcion', $empresa->descripcion) }}</textarea>
@@ -200,7 +176,7 @@
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="foto">Foto de perfil:</label>
+                                <label for="foto">Foto de perfil<i class="text-danger">*</i></label>
                                 <label class="custom-file">
                                     <input type="file" accept="image/*" id="foto" name="foto"
                                         class="custom-file-input @error('foto') is-invalid @enderror">
@@ -223,9 +199,33 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="url_web_gps">URL web service GPS</label>
+                        <input id="url_web_gps" type="text" class="form-control @error('url_web_gps') is-invalid @enderror"
+                            name="url_web_gps" value="{{ old('url_web_gps', $empresa->url_web_gps) }}" />
+                        @error('url_web_gps')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label for="token">Token</label>
+                        <input id="token" type="text" class="form-control @error('token') is-invalid @enderror" name="token"
+                            value="{{ old('token', $empresa->token) }}" />
+                        @error('token')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    
+
                 </fieldset>
             </div>
-            <div class="card-footer text-muted">
+            <div class="card-footer bg-transparent">
                 <button type="submit" class="btn btn-primary">Guardar</button>
             </div>
         </div>

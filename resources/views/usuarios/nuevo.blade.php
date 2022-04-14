@@ -3,40 +3,37 @@
 
 
 @section('content')
-
-<!-- 2 columns form -->
-<div class="card">
-    <div class="card-body">
-        <form action="{{ route('guardarUusario') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+<form action="{{ route('guardarUusario') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <div class="card">
+        <div class="card-body">
             @csrf
-            <div class="row">
-                <div class="col-lg-8">
-                    <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle personal</legend>
-                    @include('usuarios.datos',['user'=>null])
-                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle personal</legend>
+                        @include('usuarios.datos',['user'=>null])
+                    </div>
 
-                <div class="col-lg-4">
-                    <legend class="font-weight-semibold"><i class="fa-solid fa-key"></i> Roles</legend>
-                    <fieldset>
-                        @foreach ($roles as $rol    )
-                            <div class="form-check">
-                                <input type="checkbox" value="{{ $rol->id }}" {{ old('roles.'.$rol->id)==$rol->id ?'checked':'' }} name="roles[{{ $rol->id }}]"  class="form-check-input @error('roles.'.$rol->id) is-invalid @enderror" id="rol-{{ $rol->id }}">
-                                <label class="form-check-label" for="rol-{{ $rol->id }}">{{ $rol->name }}</label>
-                            </div>
-                            
-                        @endforeach
-                       
-                    </fieldset>
+                    <div class="col-lg-4">
+                        <legend class="font-weight-semibold"><i class="fa-solid fa-key"></i> Roles<i class="text-danger">*</i></legend>
+                        <fieldset>
+                            @foreach ($roles as $rol    )
+                                <div class="form-check">
+                                    <input type="checkbox" value="{{ $rol->id }}" {{ old('roles.'.$rol->id)==$rol->id ?'checked':'' }} name="roles[{{ $rol->id }}]"  class="form-check-input @error('roles.'.$rol->id) is-invalid @enderror" id="rol-{{ $rol->id }}">
+                                    <label class="form-check-label" for="rol-{{ $rol->id }}">{{ $rol->name }}</label>
+                                </div>
+                                
+                            @endforeach
+                        
+                        </fieldset>
+                    </div>
                 </div>
-            </div>
-
-            <div class="text-left">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
+        </div>
+        <div class="card-footer bg-transparent">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
     </div>
-</div>
-<!-- /2 columns form -->
+</form>
+
 
 @push('linksCabeza')
 <link rel="stylesheet" href="{{ asset('js/intl-tel-input/css/intlTelInput.min.css') }}">

@@ -42,8 +42,8 @@ class RqActualizarVehiculo extends FormRequest
             'id'=>'required|exists:vehiculos,id',
             'numero_movil'=>'required|numeric|gt:0|unique:vehiculos,numero_movil,'.$this->input('id'),
             'modelo'=>'nullable|string|max:255',
-            'marca'=>'required|string|max:255',
-            'placa'=>'required|string|max:255|unique:vehiculos,placa,'.$this->input('id').'|regex:'.$regPlaca,
+            'marca'=>'nullable|string|max:255',
+            'placa'=>'nullable|string|max:255|unique:vehiculos,placa,'.$this->input('id').'|regex:'.$regPlaca,
             'color'=>'nullable|string|max:255',
             'conductor'=>'nullable|exists:users,id',
             'conductorInfo'=>'nullable|string|max:255',
@@ -52,7 +52,8 @@ class RqActualizarVehiculo extends FormRequest
             'foto'=>'nullable|image',
             'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
             'tipo'=>'required|in:Normal,Invitados,Especial',
-            'imei'=>'nullable|string|max:255'
+            'imei'=>'nullable|string|max:255',
+            'kilometraje'=>'nullable|numeric|gt:0',
             
         ];
     }

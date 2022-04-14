@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('parqueaderoListarBrazos', $parqueadero))
+{{-- @section('breadcrumbs', Breadcrumbs::render('parqueaderosListarBrazos', $parqueadero)) --}}
 
 
 @section('content')

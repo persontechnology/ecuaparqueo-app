@@ -53,20 +53,16 @@ class OrdenMovilizacionController extends Controller
         $orden->solicitante_id=$request->solicitante;
         $orden->vehiculo_id=$request->vehiculo;
         $orden->conductor_id=$request->conductor;
-
         // actualizar conductor de vehiculo
-        $veh=Vehiculo::find($request->vehiculo);
-        $veh->conductor_id=$request->conductor;
-        $veh->save();
-
-        
+        $orden->vehiculo->conductor_id=$request->conductor;
+        $orden->vehiculo->save();
 
         $orden->user_create=Auth::user()->id;
         $orden->save();
         
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
-            // Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
+            Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado. Se envió un correo a los '.$usuariosControlOrdenMovilizacion->count().' usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
         }else{
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' guardado');
@@ -93,14 +89,12 @@ class OrdenMovilizacionController extends Controller
         $orden->vehiculo_id=$request->vehiculo;
         $orden->user_update=Auth::user()->id;
         $orden->save();
-
-        $veh=Vehiculo::find($request->vehiculo);
-        $veh->conductor_id=$request->conductor;
-        $veh->save();
+        // actualizar conductor de vehiculo
+        $orden->vehiculo->conductor_id=$request->conductor;
+        $orden->vehiculo->save();
         
         $usuariosControlOrdenMovilizacion = User::permission('Control Orden de Movilización')->get();
         if($usuariosControlOrdenMovilizacion->count()>0){
-            // Notification::sendNow($usuariosControlOrdenMovilizacion, new OrdenMovilizacionIngresadaNoty($orden));
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado. Se envió un correo a los usuarios con permiso Control de Orden de movilización para su respectiva ACEPTACIÓN o DENAGACIÓN');
         }else{
             request()->session()->flash('success','Orden de movilización '.$orden->numero.' actualizado');

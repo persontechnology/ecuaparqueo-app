@@ -77,7 +77,8 @@ class ConductorDataTable extends DataTable
                   ->width(60)
                   ->addClass('text-center'),
             Column::make('foto'),
-            Column::make('nombres')->title('Apellidos & Nombres'),
+            Column::make('apellidos')->title('Apellidos'),
+            Column::make('nombres')->title('Nombres'),
             Column::make('documento')->title('# Documento'),
             Column::make('email'),
         ];

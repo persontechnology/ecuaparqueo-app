@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Parqueaderos;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RqActualizar extends FormRequest
 {
@@ -23,11 +25,12 @@ class RqActualizar extends FormRequest
      */
     public function rules()
     {
+        $isdRolesGuardia=User::role('Guardia')->pluck('id');
         return [
             'nombre'=>'required|string|max:255|unique:parqueaderos,nombre,'.$this->input('id'),
-            'descripcion' => 'required|string|max:255',
-            'direccion' => 'required|string|max:255',
-            'numero_total'=>'required',
+            'descripcion' => 'nullable|string|max:255',
+            'guardias'    => 'nullable|array',
+            'guardias.*'  => ['nullable',Rule::In($isdRolesGuardia)]
         ];
     }
 }

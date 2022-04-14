@@ -4,8 +4,7 @@
 @section('barraLateral')
 <div class="breadcrumb justify-content-center">
     <a href="{{ route('usuariosNuevo') }}" class="breadcrumb-elements-item">
-        Nuevo <i class="fa-solid fa-user-plus ml-1"></i>
-        
+        <i class="fa-solid fa-user-plus mr-1 text-info"></i>Nuevo usuario
     </a>
 </div>
 @endsection

@@ -245,5 +245,10 @@ return [
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
 
     ],
-
+    
+    // extras
+    'SUPER_ADMIN_EMAIL'=>env('SUPER_ADMIN_EMAIL',''),
+    'SITE_ADMIN_EMAIL'=>env('SITE_ADMIN_EMAIL',''),
+    'HOST_WEB_SERVICE_GPS'=>env('HOST_WEB_SERVICE_GPS',''),
+    'SECURITY_TOKEN_WEB_SERVICE_GPS'=>env('SECURITY_TOKEN_WEB_SERVICE_GPS',''),
 ];

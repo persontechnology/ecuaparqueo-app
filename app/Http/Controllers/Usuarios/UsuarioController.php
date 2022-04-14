@@ -21,9 +21,12 @@ use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['permission:Usuarios']);
+    }
     public function index(UsersDataTable $dataTable)
     {
-        
         return $dataTable->render('usuarios.index');
     }
     public function nuevo()

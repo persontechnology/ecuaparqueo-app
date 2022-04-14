@@ -15,7 +15,7 @@ class CreateKilometrajesTable extends Migration
     {
         Schema::create('kilometrajes', function (Blueprint $table) {
             $table->id();
-            $table->string('numero');
+            $table->bigInteger('numero');
             $table->foreignId('vehiculo_id')->constrained('vehiculos');
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();

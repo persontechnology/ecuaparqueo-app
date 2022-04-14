@@ -16,31 +16,29 @@ class Espacio extends Model
     public function parqueadero()
     {
         return $this->belongsTo(Parqueadero::class);
-    }
-    public function estadosColor($estado)
+    }   
+
+    public function getColorEstadoAttribute()
     {
-        $colorEstado = null;
-        switch ($estado) {
+        $colorEstado = '';
+        switch ($this->estado) {
             case 'Activo':
-                $colorEstado = "badge-success";
+                $colorEstado = "success";
                 break;
             case 'Inactivo':
-                $colorEstado = "badge-danger";
+                $colorEstado = "danger";
                 break;
             case 'Presente':
-                $colorEstado = "badge-info";
+                $colorEstado = "info";
                 break;
             case 'Ausente':
-                $colorEstado = "badge-warning";
+                $colorEstado = "warning";
                 break;
             case 'Solicitado':
-                $colorEstado = "badge-pink";
+                $colorEstado = "pink";
                 break;
             case 'Reservado':
-                $colorEstado = "badge-primary";
-                break;
-            default:
-                # code...
+                $colorEstado = "primary";
                 break;
         }
         return  $colorEstado;

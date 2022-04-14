@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'Empresa',
             'Departamentos',
             'Vehículos',
-            'Parqueadero',
+            'Parqueaderos',
             'Estacionamientos',
             'Vista Parqueadero',
             'Mis Parqueaderos',
@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
 
        
         // crear super admin user
-        $email_admin=env('SUPER_ADMIN_EMAIL','admin@ecuaparqueo.com');
+        $email_admin=config('app.SUPER_ADMIN_EMAIL');
         $user=User::where('email',$email_admin)->first();
         if(!$user){
             $user= User::Create([
@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
         $user->assignRole('SuperAdmin');
 
         // crear site admin user
-        $email_site=env('SITE_ADMIN_EMAIL','site@ecuaparqueo.com');
+        $email_site=config('app.SITE_ADMIN_EMAIL');
         $user_site=User::where('email',$email_site)->first();
         if(!$user_site){
             $user_site= User::Create([
@@ -70,7 +70,11 @@ class DatabaseSeeder extends Seeder
         $user_site->assignRole('SiteAdmin');
 
         // crear una empresa
-        Empresa::updateOrCreate(['nombre' => config('app.name','ECUAPARQUEO')]);
+        Empresa::updateOrCreate([
+            'nombre' => config('app.name','ECUAPARQUEO'),
+            'url_web_gps'=>config('app.HOST_WEB_SERVICE_GPS'),
+            'token'=>config('app.SECURITY_TOKEN_WEB_SERVICE_GPS')
+        ]);
 
 
         // crear tipos de vehiculos

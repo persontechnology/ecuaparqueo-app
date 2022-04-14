@@ -60,6 +60,7 @@ class NotificacionLecturaController extends Controller
             $noti->visto=true;
             $noti->save();
 
+            
             // actualizamos la lectura 
             $noti->lectura->tipo='Entrada';
             $noti->lectura->porcentaje_combustible=$request->combustible;
@@ -68,7 +69,13 @@ class NotificacionLecturaController extends Controller
             $noti->lectura->brazo_entrada_id=$noti->brazo_id;
             $noti->lectura->guardia_id=$request->user()->id;
             $noti->lectura->save();
-
+            
+            //activar Brazo
+            $noti->lectura->brazoEntrada->estado_brazo = true;
+            $noti->lectura->brazoEntrada->save();
+            //vehiculo
+            $noti->vehiculo->espacio->estado="Presente";
+            $noti->vehiculo->espacio->save();
             // actualizar estado de notificacion a finalizado
             $noti->lectura->ordenMovilizacion->estado='FINALIZADO';
             $noti->lectura->ordenMovilizacion->save();

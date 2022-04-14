@@ -40,11 +40,7 @@
 
                 </div>
                 <!-- /sidebar search -->
-
-
                 
-
-                <!-- Online users -->
                 <div class="sidebar-section">
                     <div class="collapse show" id="sidebar-users">
                         <div class="sidebar-section-body">
@@ -63,7 +59,7 @@
                                             data-tipo="{{ $esp->tipoVehiculo->nombre }}"
                                             data-color="{{ $esp->color }}"
                                             data-conductorid="{{ $esp->id_conductor }}"
-                                            data-conductorinfo="{{ $esp->info_conductor }}"
+                                            data-conductorinfo="{{ $esp->conductor->apellidos_nombres??'' }}"
                                         >
 
                                             @if (Storage::exists($esp->foto))
@@ -92,52 +88,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- /online-users -->
-               
-
-                <!-- Filter -->
-                {{-- <div class="sidebar-section">
-                    <div class="sidebar-section-header">
-                        <span class="font-weight-semibold">Filters</span>
-                        <div class="list-icons ml-auto">
-                            <a href="#sidebar-filters" class="list-icons-item" data-toggle="collapse">
-                                <i class="icon-arrow-down12"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="collapse show" id="sidebar-filters">
-                        <form class="sidebar-section-body" action="#">
-                            <div class="form-group">
-                                <label class="custom-control custom-checkbox custom-control-right mb-2">
-                                    <input type="checkbox" class="custom-control-input" checked>
-                                    <span class="custom-control-label position-static p-0">Free People</span>
-                                </label>
-
-                                <label class="custom-control custom-checkbox custom-control-right mb-2">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-label position-static p-0">GAP</span>
-                                </label>
-
-                                <label class="custom-control custom-checkbox custom-control-right mb-2">
-                                    <input type="checkbox" class="custom-control-input" checked>
-                                    <span class="custom-control-label position-static p-0">Lane Bryant</span>
-                                </label>
-
-                                <label class="custom-control custom-checkbox custom-control-right mb-2">
-                                    <input type="checkbox" class="custom-control-input" checked>
-                                    <span class="custom-control-label position-static p-0">Ralph Lauren</span>
-                                </label>
-
-                                <label class="custom-control custom-checkbox custom-control-right">
-                                    <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-label position-static p-0">Liz Claiborne</span>
-                                </label>
-                            </div>
-                        </form>
-                    </div>
-                </div> --}}
-                <!-- /filter -->
 
             @else
                 @include('layouts.alert',['type'=>'info','msg'=>'No existe parqueaderos con vehículos'])

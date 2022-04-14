@@ -16,9 +16,7 @@ class CreateParqueaderosTable extends Migration
         Schema::create('parqueaderos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('direccion');
-            $table->string('descripcion');
-            $table->integer('numero_total');
+            $table->string('descripcion')->nullable();
             $table->enum('estado', ['Activo', 'Inactivo'])->default('Activo');
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();

@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\LecturaController;
-use App\Http\Controllers\Api\NotificacionLecturaController;
 use App\Http\Controllers\ControlOrdenMovilizacionController;
-use App\Http\Controllers\DepartamentoController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\KilometrajeController;
+use App\Http\Controllers\LecturaController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -79,14 +78,7 @@ Route::middleware(['verified', 'auth'])->group(function () {
     // empresa
     Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresa');
     Route::post('/actualizarEmpresa', [EmpresaController::class, 'actualizar'])->name('actualizarEmpresa');
-
-    // departamentos
-    Route::get('/departamentos', [DepartamentoController::class, 'index'])->name('departamentos');
-    Route::get('/departamentos-nuevo', [DepartamentoController::class, 'nuevo'])->name('departamentosNuevo');
-    Route::get('/departamentos-editar/{id}', [DepartamentoController::class, 'editar'])->name('departamentosEditar');
-    Route::post('/departamentos-guardar', [DepartamentoController::class, 'guardar'])->name('guardarDepartamento');
-    Route::post('/departamentos-eliminar', [DepartamentoController::class, 'eliminar'])->name('departamentosEliminar');
-    Route::post('/departamentos-actualizar', [DepartamentoController::class, 'actualizar'])->name('actualizarDepartamento');
+    
 
     // vehiculos
     Route::get('/vehiculos', [VehiculoController::class, 'index'])->name('vehiculos');
@@ -97,6 +89,16 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/vehiculos-editar/{id}', [VehiculoController::class, 'editar'])->name('vehiculosEditar');
     Route::post('/vehiculos-actualizar', [VehiculoController::class, 'actualizar'])->name('actualizarVehiculo');
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
+    Route::get('/vehiculos-ubicacion-mapa/{id}', [VehiculoController::class, 'ubicacionMapa'])->name('vehiculosUbicacionMapa');
+    // vehiculos lecturas entradas y salidas
+    Route::get('/vehiculos-lecturas/{id}', [LecturaController::class, 'index'])->name('vehiculosLecturas');
+    // vehiculos orden de movilización
+    Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');
+    
+
+    // kilometrajes
+    Route::get('/kilometrajes/{id}', [KilometrajeController::class, 'index'])->name('kilometrajes');
+
 
     // orden de movilizacion
     Route::get('/orden-movilizacion', [OrdenMovilizacionController::class, 'index'])->name('odernMovilizacion');
@@ -114,20 +116,23 @@ Route::middleware(['verified', 'auth'])->group(function () {
     
     // parqueaderos
     Route::get('/parqueaderos', [ParqueaderoController::class, 'index'])->name('parqueaderos');
-    Route::get('/parqueadero-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderoNuevo');
-    Route::post('/parqueadero-guardar', [ParqueaderoController::class, 'guardar'])->name('guardarParqueadero');
-    Route::get('/parqueadero-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderoEditar');
-    Route::post('/parqueadero-actualizar', [ParqueaderoController::class, 'actualizar'])->name('actualizarParqueadero');
+    Route::get('/parqueaderos-nuevo', [ParqueaderoController::class, 'nuevo'])->name('parqueaderosNuevo');
+    Route::post('/parqueaderos-guardar', [ParqueaderoController::class, 'guardar'])->name('parqueaderosGuardar');
+    Route::get('/parqueaderos-editar/{id}', [ParqueaderoController::class, 'editar'])->name('parqueaderosEditar');
+    Route::post('/parqueaderos-actualizar', [ParqueaderoController::class, 'actualizar'])->name('parqueaderosActualizar');
     Route::get('/listar-estacionamientos/{parqueadero}', [ParqueaderoController::class, 'listarEspacios'])->name('parqueaderosListaEspacios');
-    Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderoListarBrazos');
+    Route::get('/listar-brazos/{parqueadero}', [ParqueaderoController::class, 'listarBrazos'])->name('parqueaderosListarBrazos');
+    Route::post('/parqueaderos-eliminar', [ParqueaderoController::class, 'eliminar'])->name('parqueaderosEliminar');
 
-
-
-    // espacios
-    Route::post('/todos', [EspacioController::class, 'actualizarTodos'])->name('parqueaderos.actualizar.todos');
-    Route::post('/estacionamiento-guardar', [EspacioController::class, 'guardar'])->name('estacionamientoNuevo');
-    Route::get('/listar-reserva-vehiculo/{espacio}', [EspacioController::class, 'listarReservaVehiculo'])->name('listarReservaVehiculo');
-    Route::get('/mapa-vehiculo/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('verVehiculoMapa');
+    // espacios    
+    Route::get('/espacios/{parqueadero}', [EspacioController::class, 'index'])->name('espacios');
+    Route::post('/espacios-crear-rango-espacio', [EspacioController::class, 'crearRangoEspacio'])->name('espaciosCrearRangoEspacios');
+    Route::post('/espacios-actualizar-vehiculo', [EspacioController::class, 'actualizarVehiculo'])->name('espaciosActualizarVehiculo');
+    Route::get('/espacios-nuevo/{parqueadero}', [EspacioController::class, 'nuevo'])->name('espaciosNuevo');
+    Route::post('/espacios-guardar', [EspacioController::class, 'guardar'])->name('espaciosGuardar');
+    Route::post('/espacios-eliminar', [EspacioController::class, 'eliminar'])->name('espaciosEliminar');
+    Route::get('/espacios-pdf/{parqueadero}', [EspacioController::class, 'pdf'])->name('espaciosPdf');
+    Route::get('/espacios-ver-vehiculo-mapa/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('espaciosVerVehiculoMapa');
 
      // reportes
      Route::get('/dashboard-vehiculos', [DashboardVehiculoController::class, 'index'])->name('dashboardVehiculos');

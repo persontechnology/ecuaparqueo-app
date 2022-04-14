@@ -28,7 +28,7 @@ class RqGuardarVehiculo extends FormRequest
         return [
             'numero_movil'=>'required|numeric|gt:0|unique:vehiculos,numero_movil',
             'modelo'=>'nullable|string|max:255',
-            'marca'=>'required|string|max:255',
+            'marca'=>'nullable|string|max:255',
             'placa'=>'nullable|string|max:255|unique:vehiculos,placa|regex:'.$regPlaca,
             'color'=>'nullable|string|max:255',
             'conductor'=>'nullable|exists:users,id',
