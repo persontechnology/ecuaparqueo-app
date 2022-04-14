@@ -141,31 +141,31 @@ class BrazoController extends Controller
         // if ($request->has('code')) {
             $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
             $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
-            if ($request->code === "123456789") {
-                $lectura = new Lectura();
-                $lectura->tipo = 'Entrada';
-                $lectura->brazo_salida_id = $brazo->id;
-                $lectura->save();
-                $contadorGuardias = 0;
-                $guardias = $brazo->parqueadero->guardias;
-                if ($guardias) {
-                    $contadorGuardias = $guardias->count();
-                    foreach ($guardias as $guardia) {
-                        //Agreges al invitado
-                       /*  $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
-                        if (!$noti) {
-                            $noti = new NotificacionLectura();
-                            $noti->lectura_id = $lectura->id;
-                            $noti->guardia_id = $guardia->id;
-                            $noti->brazo_id = $brazo->id;
-                            $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
-                            $noti->visto = false;
-                            $noti->save();
-                        } */
-                    }
-                }
-                return response()->json(1);
-            }
+            // if ($request->code === "123456789") {
+            //     $lectura = new Lectura();
+            //     $lectura->tipo = 'Entrada';
+            //     $lectura->brazo_salida_id = $brazo->id;
+            //     $lectura->save();
+            //     $contadorGuardias = 0;
+            //     $guardias = $brazo->parqueadero->guardias;
+            //     if ($guardias) {
+            //         $contadorGuardias = $guardias->count();
+            //         foreach ($guardias as $guardia) {
+            //             //Agreges al invitado
+            //            /*  $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
+            //             if (!$noti) {
+            //                 $noti = new NotificacionLectura();
+            //                 $noti->lectura_id = $lectura->id;
+            //                 $noti->guardia_id = $guardia->id;
+            //                 $noti->brazo_id = $brazo->id;
+            //                 $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
+            //                 $noti->visto = false;
+            //                 $noti->save();
+            //             } */
+            //         }
+            //     }
+            //     return response()->json(1);
+            // }
 
             $lectura = $vehiculo->lecturas()->where('tipo', 'Salida')->latest()->first();
             if ($lectura) {
