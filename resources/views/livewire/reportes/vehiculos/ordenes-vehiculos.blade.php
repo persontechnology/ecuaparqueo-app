@@ -6,19 +6,27 @@
 
                 <div class="header-elements pr-1">
                     <select class="form-control custom-select" id="select_date">
-                        @if (count($tipos) > 0)
-                            @foreach ($tipos as $item)
-                                <option value="{{ $item->id }}">{{ $item->nombre }} </option>
+                        <option value=" ">Todos </option>
+                        <option value="Normales">Normales </option>
+                        <option value="Especiales">Especiales </option>
+                    </select>
+                </div>
+                <div class="header-elements pr-1">
+                    <select class="form-control custom-select" id="select_date">
+                        @if (count($rangoDeFechas) > 0)
+                            @foreach ($rangoDeFechas as $item)
+                                <option value="{{ $item }}">{{ $item }} </option>
                             @endforeach
                         @endif
                     </select>
                 </div>
                 <div class="header-elements pr-1">
                     <select class="form-control custom-select" id="select_date">
-                        <option value="val1">MES ACTUAL</option>
-                        <option value="val2">MES ANTERIOR</option>
-                        <option value="val3">AÑO ACTUAL</option>
-                        <option value="val4">15 DIAS</option>
+                        <option value="MESACTUAL">MES ACTUAL</option>
+                        <option value="MESANTERIOS">MES ANTERIOR</option>
+                        <option value="SEMANA">SEMANA</option>
+                        <option value="DIA">DIA</option>
+                        <option value="ANIO">AÑO ACTUAL</option>
                     </select>
                 </div>
             </div>
