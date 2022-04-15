@@ -18,6 +18,7 @@ class BrazoController extends Controller
 
         $brazo = Brazo::where(['codigo' => $request->code, 'estado' => 'Activo'])->first();
         if ($brazo) {
+            
             if ($brazo->estado_brazo) {
                 return response()->json(1);
             } else {
@@ -33,11 +34,9 @@ class BrazoController extends Controller
         $brazo = Brazo::where('codigo', $request->code)->first();
         if ($brazo) {
             $brazo->estado_brazo = false;
-            if ($brazo->save()) {
-                return response()->json(1);
-            } else {
-                return response()->json(0);
-            }
+            $brazo->save();
+            return response()->json(1);
+           
         } else {
 
             return response()->json(3);
@@ -72,69 +71,99 @@ class BrazoController extends Controller
     }
     public function buscarVehiculoTarjetaSalida(Request $request)
     {
-
-        if ($request->has('code')) {
-            $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
-            $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
+        // return response()->json(1);
+       
+            try {
+               
+                $brazo = Brazo::where('codigo',$request->codeBrazo)->first();
             
-            if ($request->code === "123456789") {
-                $brazo->estado_brazo = true;
-                $brazo->save();
-                return response()->json(1);
-            } 
+                if(!$brazo){
+                    return response()->json(2);
+                }
+                $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+                
+                if(!$vehiculo){
+                    return response()->json(3);
+                }
 
-            // actualizar la orden d emovilizacion el estado
+                if($vehiculo && $vehiculo->tipo==='Especial'){
+                    // Deivid: si vehiculo tiene una lectura de tipo salida puede salir caso contrario creamos una lectura
+                    $this->crearLecturaSimple($vehiculo,$brazo);
+                    return response()->json(1);
+                }
 
+                $ordenMovilizacion=$vehiculo->ordenesMovilizaciones()
+                ->where(function($q){
+                    $q->where('fecha_salida','<=',Carbon::now()->format('Y-m-d H:i'));
+                    $q->where('fecha_retorno','>=',Carbon::now()->format('Y-m-d H:i'));
+                })
+                ->where('estado','ACEPTADA')
+                ->latest()
+                ->first();
 
+                if($ordenMovilizacion && $vehiculo->tipo==='Normal'){
+                    
+                    $lecturaSalida=Lectura::where(['vehiculo_id'=>$vehiculo->id,'orden_movilizacion_id'=>$ordenMovilizacion->id])
+                        ->where('tipo','Salida')
+                        ->latest()
+                        ->first();
 
-            // if ($vehiculo && $vehiculo->espacio && $brazo) {
-            // } else {
-            //     return response()->json(3);
-            // }
-            if ($vehiculo->tipo === "Especial") {
-                $lectura = new Lectura();
-                $lectura->tipo = 'Salida';
-                $lectura->brazo_salida_id = $brazo->id;
-                $lectura->vehiculo_id = $vehiculo->id;
-                $lectura->save();
-                $espacio = $vehiculo->espacio;
-                $espacio->estado = "Ausente";
-                $espacio->save();
-                $brazo->estado_brazo = true;
-                $brazo->save();
-                return response()->json(1);
-            } 
-            
-            if ($vehiculo->tipo === "Normal") {
-                $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
-                    ->where(function ($q) {
-                        $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
-                        $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
-                    })
-                    ->where('estado', 'ACEPTADA')
-                    ->latest()
-                    ->first();
-                if ($ordenMovilizacion) {
-                    $lectura = new Lectura();
-                    $lectura->tipo = 'Salida';
-                    $lectura->brazo_salida_id = $brazo->id;
-                    $lectura->vehiculo_id = $vehiculo->id;
-                    $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
-                    $lectura->save();
-                    $espacio = $vehiculo->espacio;
+                    if(!$lecturaSalida){
+                        $this->crearLecturaConOrdenMovilizacion($ordenMovilizacion,$brazo);
+                    }
+
+                    $espacio = $ordenMovilizacion->vehiculo->espacio;
                     $espacio->estado = "Ausente";
                     $espacio->save();
                     $brazo->estado_brazo = true;
                     $brazo->save();
-                    return response()->json(1);
-                } else {
-                    return response()->json(3);
-                }
-            }
 
+                    return response()->json(1);
+                    
+                }else{
+                    return response()->json(4);
+                }
+
+            
+        } catch (\Throwable $th) {
+            return response()->json(3);
         }
-        return response()->json(3);
+
     }
+
+
+
+    public function crearLecturaSimple($vehiculo,$brazo)
+    {
+        $lectura=new Lectura();
+        $lectura->tipo='Salida';
+        $lectura->brazo_salida_id=$brazo->id;
+        $lectura->vehiculo_id=$vehiculo->id;
+        $lectura->save();
+
+        $espacio = $vehiculo->espacio;
+        $espacio->estado = "Ausente";
+        $espacio->save();
+        $brazo->estado_brazo = true;
+        $brazo->save();
+
+        return $lectura;
+    }
+
+    public function crearLecturaConOrdenMovilizacion($ordenMovilizacion,$brazo)
+    {
+        $lectura=new Lectura();
+        $lectura->tipo='Salida';
+        $lectura->brazo_salida_id=$brazo->id;
+        $lectura->vehiculo_id=$ordenMovilizacion->vehiculo->id;
+        $lectura->orden_movilizacion_id=$ordenMovilizacion->id;
+        $lectura->save();
+        return $lectura;
+        
+    }
+
+
+
     public function buscarVehiculoTarjetaEntrada(Request $request)
     {
 

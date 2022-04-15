@@ -513,7 +513,7 @@
             @foreach ($ordenesMovilizaciones as $ordenM)
             {
                 id:'{{ $ordenM->id }}',
-                title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->info_vehiculo }}',
+                title: 'Orden: {{ $ordenM->numero }}       Vehículo:{{ $ordenM->vehiculo->numero_movil_placa }}',
                 start: '{{ $ordenM->fecha_salida }}',
                 end:'{{ $ordenM->fecha_retorno }}',
                 classNames:'bg-{{ $ordenM->color_estado }}',

@@ -102,9 +102,8 @@ class Index extends Component
     public function update()
     {
         $this->validate([
-            'codigo' => 'required|unique:brazos,codigo'.$this->selected_id,
+            'codigo' => 'required|unique:brazos,codigo,'.$this->selected_id,
             'descripcion' => 'required',
-            'selected_id'=>'selected_id',
         ]);
         if ($this->selected_id) {
             $brazo = Brazo::find($this->selected_id);
