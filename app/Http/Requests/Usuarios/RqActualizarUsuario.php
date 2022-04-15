@@ -42,7 +42,8 @@ class RqActualizarUsuario extends FormRequest
             'direccion'=>'required|string|max:255',
             'descripcion'=>'required|string|max:255',
             'foto'=>'nullable|image',
-             'email' => 'required|string|email|max:255|unique:users,email,'.$this->input('id'),
+            'email' => 'required|string|email|max:255|unique:users,email,'.$this->input('id'),
+            'estado'=>'required|in:Activo,Inactivo',
             'roles'    => 'required|array',
             'roles.*'  => ['required',Rule::notIn($roles)]
         ];

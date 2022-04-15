@@ -4,13 +4,13 @@
 @section('barraLateral')
 <div class="breadcrumb justify-content-center">
     <a href="{{ route('vehiculosNuevo') }}" class="breadcrumb-elements-item">
-        <i class="fa-solid fa-car-side mr-1"></i>
+        <i class="fa-solid fa-car-side mr-1 text-info"></i>
         Nuevo vehículo
     </a>
 
     <div class="breadcrumb-elements-item dropdown p-0">
         <a href="#" class="breadcrumb-elements-item dropdown-toggle" data-toggle="dropdown">
-            <i class="fa-solid fa-truck mr-1"></i>
+            <i class="fa-solid fa-truck mr-1 text-indigo"></i>
             Tipo de vehículos
         </a>
 

@@ -571,9 +571,15 @@
             $('#procedencia').val(data.procedencia);
             $('#destino').val(data.destino);
             $('#comision_cumplir').val(data.comision_cumplir);
+            console.log(data.conductor)
             if(data.conductor){
                 $('#conductor').val(data.conductor.id);
-                $('#conductor_info').val(data.conductor.apellidos+' '+data.conductor.nombres);    
+                
+                if(data.conductor.apellidos!=null && data.conductor.nombres!=null){
+                    $('#conductor_info').val(data.conductor.apellidos+" "+data.conductor.nombres);    
+                }else{
+                    $('#conductor_info').val(data.conductor.email);
+                }
             }else{
                 $('#conductor').val('');
                 $('#conductor_info').val('');    
@@ -581,7 +587,7 @@
 
             if(data.solicitante){
                 $('#solicitante').val(data.solicitante.id);
-                $('#solicitante_info').val(data.solicitante.apellidos+' '+data.solicitante.nombres);    
+                $('#solicitante_info').val(data.solicitante.apellidos_nombres);    
             }else{
                 $('#solicitante').val('');
                 $('#solicitante_info').val('');    

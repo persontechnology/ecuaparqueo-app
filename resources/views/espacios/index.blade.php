@@ -1,129 +1,135 @@
 @extends('layouts.app')
-@section('breadcrumbs', Breadcrumbs::render('estacionamientos', $parqueadero))
+@section('breadcrumbs', Breadcrumbs::render('espacios',$parqueadero))
 
 @section('barraLateral')
-    <div class="breadcrumb justify-content-center">
-        <a data-toggle="modal" data-target="#exampleModal" class="breadcrumb-elements-item">
-            Nuevo Estacionamiento <i class="fa-solid fa-building ml-1"></i>
-        </a>
-    </div>
-
+<div class="breadcrumb justify-content-center">
+    
+    <a href="{{ route('espaciosPdf',$parqueadero->id) }}" target="_blank" class="breadcrumb-elements-item">
+        Descargar PDF <i class="fa-solid fa-file-pdf ml-1 text-success"></i>
+    </a>
+    
+    <a href="{{ route('espaciosNuevo',$parqueadero->id) }}" class="breadcrumb-elements-item">
+        Nuevo espacio <i class="icon-road text-pink ml-1"></i>
+    </a>
+</div>
 @endsection
+
 @section('content')
-@livewire('estacionamientos.index',['parqueadero'=>$parqueadero])
-    <!-- /basic -->
-    {{-- modal --}}
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Crear nuevo estacionamiento en el parqueadero
-                        {{ $parqueadero->nombre }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+@if (!$parqueadero->espacios->count()>0)
+    <form action="{{ route('espaciosCrearRangoEspacios') }}" method="POST">
+        @csrf
+        <input type="hidden" name="id" value="{{ $parqueadero->id }}">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-info"><strong>No tiene espacios creados</strong></h2>
+                Cree un rango de espacios, para luego asignar un vehículo.
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="rango">Crear espacios hasta<i class="text-danger">*</i></label>
+                    <input id="rango" type="number" class="form-control @error('rango') is-invalid @enderror" name="rango" value="{{ old('rango') }}" required autofocus>
+
+                    @error('rango')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
-                <form action="{{ route('estacionamientoNuevo') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <input id="parqueadero_id" name="parqueadero_id" type="hidden" value="{{ $parqueadero->id }}"
-                            class="form-control @error('parqueadero_id') is-invalid @enderror" />
-                        <div class="form-group">
-                            <label for="numero">Número:</label>
+            </div>
+            <div class="card-footer text-muted">
+                <button type="submit" class="btn btn-primary">Crear espacios</button>
+            </div>
+        </div>
+    </form>
+@endif
+@if ($parqueadero->espacios->count()>0)
 
-                            <input id="numero" type="number" required
-                                class="form-control @error('numero') is-invalid @enderror" name="numero"
-                                value="{{ old('numero') }}">
-
-                            @error('numero')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="descripcion">Seleccinar un vehículo:</label>
-                            <select name="vehiculo_id" style="width:100%;" id="vehiculo_id"
-                                class="form-control @error('vehiculo_id') is-invalid @enderror" required>
-                                <option value="">
-                                    SELECCIONAR UN VEHÍCULO
-                                </option>
-                                @if (count($vehiculos) > 0)
-                                    @foreach ($vehiculos as $ve)
-                                        <option value="{{ $ve->id }}" data-image="{{ Storage::url($ve->foto) }}">
-                                            {{ $ve->placa }}-{{ $ve->descripcion }}
-                                        </option>
-                                    @endforeach
-                                @endif
-                            </select>
-
-
-                            </fieldset>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-                </form>
+    <div class="card">
+        <div class="card-header">
+            <span class="badge badge-success">Activo</span>
+            <span class="badge badge-danger">Inactivo</span>
+            <span class="badge badge-info">Presente</span>
+            <span class="badge badge-warning">Ausente</span>
+            <span class="badge badge-pink">Solicitado</span>
+            <span class="badge badge-primary">Reservado</span>            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th># Espacio</th>
+                            <th># Espacio</th>
+                            <th>Vehículo <small># móvil placa</small></th>
+                            <th>Conductor</th>
+                            <th>Tipo Vehículo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($parqueadero->espacios as $esp)
+                            <tr>
+                                <td>
+                                    <div class="list-icons">
+                                        <div class="dropdown">
+                                            <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                <i class="icon-menu9"></i>
+                                            </a>
+                                    
+                                            <div class="dropdown-menu dropdown-menu-left">
+                                                
+                                                
+                                                <a href="{{ route('espaciosVerVehiculoMapa', $esp->id) }}" class="dropdown-item">
+                                                    <i class="fa-solid fa-location-dot text-secondary"></i>
+                                                    Ver ubicación
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" onclick="event.preventDefault();eliminar(this);" data-id="{{ $esp->id }}"
+                                                    data-url="{{ route('espaciosEliminar') }}"
+                                                    data-msg="Está seguro de eliminar {{ $esp->numero }}!" class="dropdown-item">
+                                                    <i class="fa-solid fa-trash text-danger"></i>
+                                                    Eliminar
+                                                </a>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td scope="row">{{ $esp->numero }}</td>
+                                <td class="text-center">
+                                    
+                                    <form action="{{ route('espaciosActualizarVehiculo') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $esp->id }}">
+                                        <select class="form-control form-control-sm" name="vehiculo" onchange="this.form.submit()">
+                                            <option value=""></option>
+                                            @if ($esp->vehiculo)
+                                                <option {{ $esp->vehiculo->numero_movil_placa??'' }} selected>{{ $esp->vehiculo->numero_movil_placa??'N/A' }}</option>    
+                                            @endif
+                                            
+                                            @foreach ($vehiculos as $veh)
+                                                <option value="{{ $veh->id }}" wire:key="{{ $esp->id.$veh->id }}">{{ $veh->numero_movil_placa }}</option>
+                                            @endforeach
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    {{ $esp->vehiculo->info_conductor??'' }}
+                                </td>
+                                <td>
+                                    {{ $esp->vehiculo->tipoVehiculo->nombre??'' }}
+                                </td>
+                                <td>
+                                    <span class="badge badge-{{ $esp->color_estado }}">{{ $esp->estado}}</span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    @push('linksCabeza')
-        <script src="{{ asset('global_assets/js/plugins/buttons/spin.min.js') }}"></script>
-        <script src="{{ asset('global_assets/js/plugins/buttons/ladda.min.js') }}"></script>
-        <script src="{{ asset('global_assets/js/demo_pages/components_buttons.js') }}"></script>
-        <script src="{{ asset('assets/select2/js/select2.full.min.js') }}"></script>
-        <script src="{{ asset('assets/select2/js/select2.js') }}"></script>
-    @endpush
 
-    @prepend('linksPie')
-        <script>
-            $(document).ready(function() {
-                setListaEstablecimientos({!! json_encode($espacios) !!});
-                setIdParqueadero({!! json_encode($parqueadero) !!})
-                $('#vehiculo_id').select2({
-                    templateResult: insertarImagenSelect,
-                    templateSelection: insertarImagenSelect
-                });
-
-                function insertarImagenSelect(opt) {
-                    if (!opt.id) {
-                        return opt.text;
-                    }
-                    var optimage = $(opt.element).attr('data-image');
-                    if (!optimage) {
-                        return opt.text;
-                    } else {
-                        var $opt = $(
-                            '<span><img src="' + optimage +
-                            '" width="50" height="40" class="rounded-circle mr-2" /> ' + opt.text +
-                            '</span>'
-                        );
-                        return $opt;
-                    }
-                };
-            });
-            @if ($errors->has('number') || $errors->has('parqueadero_id') || $errors->has('vehiculo_id'))
-                $('#exampleModal').modal('show');
-            @endif
-        </script>
-        <script src="{{ asset('js/parqueadero/estacionamiento/index.js') }}"></script>
-        <style>
-            #icon {
-                font-size: 55px;
-            }
-
-            td {
-                white-space: nowrap;
-            }
-
-            .draggable-element {
-                width: 250px;
-            }
-
-        </style>
-    @endprepend
+@endif
 
 @endsection

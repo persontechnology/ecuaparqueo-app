@@ -19,6 +19,7 @@ class CreateNotificacionLecturasTable extends Migration
 
             $table->foreignId('lectura_id')->constrained('lecturas');
             $table->foreignId('guardia_id')->constrained('users');
+            $table->foreignId('brazo_id')->constrained('brazos');
             $table->string('mensaje')->nullable();
             $table->boolean('visto')->default(false);
             

@@ -16,16 +16,16 @@ class Vehiculo extends Model
         return $this->belongsTo(TipoVehiculo::class,'tipo_vehiculo_id');
     }
 
-    public function kilometraje()
-    {
-        return $this->belongsTo(Kilometraje::class,'kilometraje_id');
-    }
-
     public function kilometrajes()
     {
         return $this->hasMany(Kilometraje::class);
     }
 
+    // Deivid, numero movil y placa del vehiculo concatenados
+    public function getNumeroMovilPlacaAttribute()
+    {
+            return $this->numero_movil.' '.$this->placa;
+    }
 
     // Deivid, un vehiculo esta en espacios de un parquadero
     public function espacio()
@@ -57,16 +57,6 @@ class Vehiculo extends Model
     public function conductor()
     {
         return $this->belongsTo(User::class,'conductor_id');
-    }
-
-    // Deivid, apellidos y nombre concatenados
-    public function getInfoConductorAttribute()
-    {
-        if($this->conductor){
-            return "{$this->conductor->apellidos} {$this->conductor->nombres}";
-        }
-        return '';
-        
     }
 
     // Deivid, id de conductor si existe concatenados

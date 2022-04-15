@@ -42,6 +42,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Deivid, apellidos y nombres de usuario
+    public function getApellidosNombresAttribute($from)
+    {
+        if($this->apellidos && $this->nombres){
+            return $this->apellidos.' '.$this->nombres;
+        }else{
+            return $this->name;
+        }
+    }
+
     public function parqueadero()
     {
         return $this->belongsTo(Parqueadero::class);
@@ -57,7 +68,7 @@ class User extends Authenticatable
     // Deivid: un usuario tiene notiifcaciones
     public function notificacionesLecturas()
     {
-        return $this->hasMany(notificacionesLecturas::class,'guardia_id');
+        return $this->hasMany(NotificacionLectura::class,'guardia_id');
     }
     
 }

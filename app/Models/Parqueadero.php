@@ -29,4 +29,11 @@ class Parqueadero extends Model
     {
         return $this->hasMany(Brazo::class, 'parqueadero_id');
     }
+
+    // Deivid, veirifcar si un parqueadero tiene un guardia
+    public function hasGuardia($idUser)
+    {
+        return $this->guardias()->where('guardia_id',$idUser)->first();
+            
+    }
 }

@@ -7,12 +7,14 @@ use App\DataTables\Vehiculos\ConductorDataTable;
 use App\DataTables\Vehiculos\VehiculoDataTable;
 use App\Http\Requests\RqActualizarVehiculo;
 use App\Http\Requests\RqGuardarVehiculo;
+use App\Models\Empresa;
 use App\Models\Kilometraje;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class VehiculoController extends Controller
@@ -61,50 +63,57 @@ class VehiculoController extends Controller
 
     public function guardar(RqGuardarVehiculo $request)
     {
-        $ve=new Vehiculo();
+        try {
+            DB::beginTransaction();
+            $ve=new Vehiculo();
+            $ve->numero_movil=$request->numero_movil;
+            $ve->modelo=$request->modelo;
+            $ve->marca=$request->marca;
+            $ve->placa=$request->placa;
+            $ve->color=$request->color;
+            $ve->conductor_id=$request->conductor;
+            $ve->estado=$request->estado;
+            $ve->descripcion=$request->descripcion;
+            $ve->imei=$request->imei;
+            $ve->tipo_vehiculo_id=$request->tipoVehiculo;
+            $ve->tipo=$request->tipo;
+            $ve->codigo_tarjeta=$request->codigo_tarjeta;
 
-        $ve->numero_movil=$request->numero_movil;
-        $ve->modelo=$request->modelo;
-        $ve->marca=$request->marca;
-        $ve->placa=$request->placa;
-        $ve->color=$request->color;
-        $ve->conductor_id=$request->conductor;
-        $ve->estado=$request->estado;
-        $ve->descripcion=$request->descripcion;
-        $ve->imei=$request->imei;
-        $ve->tipo_vehiculo_id=$request->tipoVehiculo;
-        $ve->tipo=$request->tipo;
-        $ve->codigo_tarjeta=$request->codigo_tarjeta;
-
-        $ve->user_create=Auth::user()->id;
-        $ve->save();
-        if ($request->hasFile('foto')) {
-            $archivo=$request->file('foto');
-            if ($archivo->isValid()) {
-                $path = Storage::putFileAs(
-                    'public/vehiculos', $archivo, $ve->id.'.'.$archivo->extension()
-                );
-                $ve->foto=$path;
+            $ve->user_create=Auth::user()->id;
+            $ve->save();
+            if ($request->hasFile('foto')) {
+                $archivo=$request->file('foto');
+                if ($archivo->isValid()) {
+                    $path = Storage::putFileAs(
+                        'public/vehiculos', $archivo, $ve->id.'.'.$archivo->extension()
+                    );
+                    $ve->foto=$path;
+                }
             }
-        }
-        if($request->has('kilometraje')){
+            
+            $ve->save();
+            
             $kilometraje= new Kilometraje();
             $kilometraje->vehiculo_id=$ve->id;
             $kilometraje->numero=$request->kilometraje;
+            $kilometraje->user_create=Auth::user()->id;
             $kilometraje->save();
-            $ve->kilometraje_id=$kilometraje->id;
-        }
 
-        $ve->save();
-        request()->session()->flash('success','Vehículo guardado');
+            DB::commit();
+            request()->session()->flash('success','Vehículo guardado');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            request()->session()->flash('danger','Vehículo no guardado, consulte con administrador o vuelva intentar.');
+        }
         return redirect()->route('vehiculos');
     }
 
     public function editar(ConductorDataTable $dataTable,$id)
     {
-        $ve=Vehiculo::find($id);
+        $ve=Vehiculo::findOrFail($id);
         $tipo=TipoVehiculo::get();
-        return $dataTable->render('vehiculos.editar',['vehiculo'=>$ve,'tipoVehiculos'=>$tipo]);
+        $kilometraje=$ve->kilometrajes()->latest()->first()->numero??'';
+        return $dataTable->render('vehiculos.editar',['vehiculo'=>$ve,'tipoVehiculos'=>$tipo,'kilometraje'=>$kilometraje]);
     }
     public function actualizar(RqActualizarVehiculo $request)
     {
@@ -134,6 +143,12 @@ class VehiculoController extends Controller
             }
         }
         $ve->save();
+        $kilometraje=$ve->kilometrajes()->latest()->first();
+        if($kilometraje){
+            $kilometraje->numero=$request->kilometraje;
+            $kilometraje->user_update=Auth::user()->id;
+            $kilometraje->save();
+        }
         request()->session()->flash('success','Vehículo actualizado');
         return redirect()->route('vehiculos');
     }
@@ -153,5 +168,30 @@ class VehiculoController extends Controller
             request()->session()->flash('info','Vehículo no eliminado');
         }
         return redirect()->route('vehiculos');
+    }
+
+    public function ubicacionMapa($vehiculoId)
+    {
+        $vehiculo=Vehiculo::findOrFail($vehiculoId);
+        $empresa=Empresa::first();
+        $url = $empresa->url_web_gps;
+        $lat = null;
+        $lon = null;
+        try {
+            $client = new \SoapClient($url);
+            $result = $client->GetCurrentPositionByIMEI(["SecurityToken" => $empresa->token, "IMEI" => $vehiculo->imei]);
+            $xml = simplexml_load_string($result->GetCurrentPositionByIMEIResult);
+            $lat = $xml->Table->Lat;
+            $lon = $xml->Table->Lon;
+        } catch (\SoapFault $e) {
+            return  $e->getMessage();
+        }
+        return view('vehiculos.mapa', ['vehiculo'=>$vehiculo,'lat' => $lat, 'lon' => $lon]);
+    }
+
+    public function ordenMovilizaciones($vehiculoId)
+    {
+        $data = array('vehiculo' => Vehiculo::findOrFail($vehiculoId) );
+        return view('vehiculos.ordenMovilizaciones',$data);
     }
 }

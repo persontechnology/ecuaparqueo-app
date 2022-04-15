@@ -4,41 +4,47 @@
 
 @section('content')
 
-<!-- 2 columns form -->
+<form action="{{ route('actualizarVehiculo') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('actualizarVehiculo') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
-            @csrf
-            <input type="hidden" name="id" value="{{ $vehiculo->id }}" required>
-            <div class="row">
-                <div class="col-lg-10">
-                    <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle de vehículo</legend>
-                    @include('vehiculos.datos',['vehiculo'=>$vehiculo])
-                </div>
-
-                <div class="col-lg-2">
-                    <legend class="font-weight-semibold"><i class="fa-solid fa-truck"></i> Tipo de vehículo</legend>
-                    <fieldset>
-                        @foreach ($tipoVehiculos as $tv)
-                        <div class="form-check">
-                            <input type="radio" value="{{$tv->id}}" {{ $vehiculo->tipo_vehiculo_id==$tv->id ?'checked':'' }} name="tipoVehiculo"  class="form-check-input" id="permi-0-{{ $tv->id }}">
-                            <label class="form-check-label" for="permi-0-{{ $tv->id }}" >{{ $tv->nombre }}
-                            </label>
-                        </div>
-						
-                    @endforeach
-                       
-                    </fieldset>
+        @csrf
+        <input type="hidden" name="id" value="{{ $vehiculo->id }}" required>
+        <div class="row">
+            <div class="col-lg-10">
+                <legend class="font-weight-semibold"><i class="fa-solid fa-address-card"></i> Detalle de vehículo</legend>
+                @include('vehiculos.datos',['vehiculo'=>$vehiculo])
+                <div class="form-group">
+                    <label for="kilometraje">Kilometraje<i class="text-danger">*</i></label>
+                    <input id="kilometraje" type="number" class="form-control @error('kilometraje') is-invalid @enderror" name="kilometraje" value="{{ old('kilometraje', $kilometraje) }}" />
+                    @error('kilometraje')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
             </div>
 
-            <div class="text-left">
-                <button type="submit" class="btn btn-primary">Guardar</button>
+            <div class="col-lg-2">
+                <legend class="font-weight-semibold"><i class="fa-solid fa-truck"></i> Tipo de vehículo</legend>
+                <fieldset>
+                    @foreach ($tipoVehiculos as $tv)
+                    <div class="form-check">
+                        <input type="radio" value="{{$tv->id}}" {{ $vehiculo->tipo_vehiculo_id==$tv->id ?'checked':'' }} name="tipoVehiculo"  class="form-check-input" id="permi-0-{{ $tv->id }}">
+                        <label class="form-check-label" for="permi-0-{{ $tv->id }}" >{{ $tv->nombre }}
+                        </label>
+                    </div>
+                    
+                @endforeach
+                    
+                </fieldset>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="card-footer bg-transparent">
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 </div>
-<!-- /2 columns form -->
+</form>
 
 
  <!-- Full width modal -->

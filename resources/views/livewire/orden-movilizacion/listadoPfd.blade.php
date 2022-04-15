@@ -28,7 +28,7 @@
             <tbody>
                 <tr>
                     <td>N° orden</td>
-                    <td>N° movil</td>
+                    <td>N° movil placa</td>
                     <td>N° ocupantes</td>
                     <td>Lugar de destino</td>
                     <td>Motivio de la comisión</td>
@@ -41,14 +41,14 @@
                 @foreach ($ordenes as $orden)
                 <tr>
                     <td>{{ $orden->numero }}</td>
-                    <td>{{ $orden->vehiculo->numero_movil }}</td>
+                    <td>{{ $orden->vehiculo->numero_movil_placa??'' }}</td>
                     <td>{{ $orden->numero_ocupantes }}</td>
                     <td>{{ $orden->destino }}</td>
                     <td>{{ $orden->comision_cumplir }}</td>
                     <td>{{ $orden->fecha_salida }}</td>
                     <td>{{ $orden->fecha_retorno }}</td>
-                    <td>{{ $orden->info_conductor }}</td>
-                    <td>{{ $orden->info_autorizado }}</td>
+                    <td>{{ $orden->conductor->apellidos_nombres??'' }}</td>
+                    <td>{{ $orden->autorizado->apellidos_nombres??'' }}</td>
                     <td>{{ $orden->autorizado->descripcion??'' }}</td>
                 </tr>
                 @endforeach

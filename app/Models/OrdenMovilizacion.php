@@ -47,49 +47,7 @@ class OrdenMovilizacion extends Model
         return Carbon::parse($from)->format('H:i');
     }
 
-    // Deivid, formateando informacion del conductor
-    public function getInfoConductorAttribute()
-    {
-        if($this->conductor){
-            return "{$this->conductor->apellidos} {$this->conductor->nombres}";
-        }
-        return '';
         
-    }
-
-    // Deivid, formateando informacion del vehiculo
-    public function getInfoVehiculoAttribute()
-    {
-        if($this->vehiculo){
-            return "{$this->vehiculo->numero_movil} {$this->vehiculo->placa}";   
-        }else{
-            return '';
-        }
-        
-    }
-
-
-    // Deivid, formateando informacion del usuario solicitado
-    public function getInfoSolicitanteAttribute()
-    {
-        if($this->solicitante){
-            return "{$this->solicitante->apellidos} {$this->solicitante->nombres}";   
-        }else{
-            return '';
-        }
-        
-    }
-
-    // Deivid, formateando informacion del usuario autorizado
-    public function getInfoAutorizadoAttribute()
-    {
-        if($this->autorizado){
-            return "{$this->autorizado->apellidos} {$this->autorizado->nombres}";   
-        }else{
-            return '';
-        }
-        
-    }
 
     // Deivid, una orden tiene un usuario conductor
     public function conductor()

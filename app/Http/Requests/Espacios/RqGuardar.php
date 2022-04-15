@@ -30,13 +30,11 @@ class RqGuardar extends FormRequest
         return [
             'numero' => [
                 'required',
-                Rule::unique('espacios')->where(function ($query) {
-                    $parqueadero = Parqueadero::findOrFail($this->input('parqueadero_id'));
-                    return $query->where('parqueadero_id', $parqueadero->id)->where('numero', $this->input('numero'));
-                }),
+                Rule::unique('espacios', 'numero')
+               ->where('parqueadero_id', $this->get('parqueadero_id'))
             ],
             'parqueadero_id' => 'required|exists:parqueaderos,id',
-            'vehiculo_id'  => 'required|exists:vehiculos,id'
+            'vehiculo_id'  => 'nullable|exists:vehiculos,id'
         ];
     }
 }

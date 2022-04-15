@@ -26,7 +26,7 @@ class ParqueaderoDataTable extends DataTable
                 return view('parqueaderos.action', ['parqueadero' => $parqueadero])->render();
             })
             ->addColumn('guardias', function ($parqueadero) {
-                return count( $parqueadero->guardias);
+                return $parqueadero->guardias->count();
             });
     }
 
@@ -81,15 +81,17 @@ class ParqueaderoDataTable extends DataTable
                 ->addClass('text-center'),
             // Column::make('id'),
             Column::make('nombre'),
+            // Column::make('numero_total')->title('Número de espacios'),
             Column::make('descripcion')->title('Descripción'),
+            // Column::make('direccion')->title('Dirección'),
             Column::computed('guardias')
                 ->exportable(false)
                 ->printable(false)
-                ->width(60)
+                // ->width(60)
                 ->searchable(false)
-                ->title('Guardias')
-                ->addClass('text-center'),
-            Column::make('numero_total')->title('Número de espacios'),
+                ->title('Guardias asignados'),
+                // ->addClass('text-center'),
+            
             // Column::make('created_at'),
             // Column::make('updated_at'),
         ];

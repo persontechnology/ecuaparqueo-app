@@ -4,10 +4,9 @@
 
 @section('content')
 
-<!-- 2 columns form -->
-<div class="card">
-    <div class="card-body">
-        <form action="{{ route('actualizarUsuario') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+<form action="{{ route('actualizarUsuario') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+    <div class="card">
+        <div class="card-body">
             @csrf
             <input type="hidden" name="id" value="{{ $user->id }}" required>
             <div class="row">
@@ -18,7 +17,7 @@
                 
 
                 <div class="col-lg-4">
-                    <legend class="font-weight-semibold"><i class="fa-solid fa-key"></i> Roles</legend>
+                    <legend class="font-weight-semibold"><i class="fa-solid fa-key"></i> Roles<i class="text-danger">*</i></legend>
                     <fieldset>
                         @foreach ($roles as $rol    )
                             <div class="form-check">
@@ -27,18 +26,16 @@
                             </div>
                             
                         @endforeach
-                       
+                        
                     </fieldset>
                 </div>
             </div>
-
-            <div class="text-left">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
+        </div>
+        <div class="card-footer bg-transparent">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
     </div>
-</div>
-<!-- /2 columns form -->
+</form>
 
 @push('linksCabeza')
 <link rel="stylesheet" href="{{ asset('js/intl-tel-input/css/intlTelInput.min.css') }}">

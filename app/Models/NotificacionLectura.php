@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class NotificacionLectura extends Model
 {
     use HasFactory;
+
+    // una totificacion lectura tiene un alectura
+    public function lectura()
+    {
+        return $this->belongsTo(Lectura::class,'lectura_id');
+    }
 }

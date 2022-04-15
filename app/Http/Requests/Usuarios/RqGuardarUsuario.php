@@ -36,6 +36,7 @@ class RqGuardarUsuario extends FormRequest
             'descripcion'=>'required|string|max:255',
             'foto'=>'nullable|image',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'estado'=>'required|in:Activo,Inactivo',
             'roles'    => 'required|array',
             'roles.*'  => ['required',Rule::in($roles)]
         ];

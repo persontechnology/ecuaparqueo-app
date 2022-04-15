@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,13 +69,13 @@
                 </tr>
                 <tr>
                     <th>Datos del conductor</th>
-                    <td colspan="3">{{ $orden->info_conductor }}</td>
+                    <td colspan="3">{{ $orden->conductor->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->conductor->descripcion??'' }}</td>
                 </tr>
                 <tr>
                     <th>Datos del solicitante</th>
-                    <td colspan="3">{{ $orden->info_solicitante }}</td>
+                    <td colspan="3">{{ $orden->solicitante->apellidos_nombres??'' }}</td>
                     <th>Cargo</th>
                     <td colspan="3">{{ $orden->solicitante->descripcion??'' }}</td>
                 </tr>
@@ -83,7 +83,7 @@
                     <th>Autorizado por</th>
                     <td colspan="7">
                         <p>
-                            {{ $orden->autorizado->apellidos??'' }} {{ $orden->autorizado->nombres??'' }}
+                            {{ $orden->autorizado->apellidos_nombres??'' }}
                             <br>
                             <strong>{{ $orden->autorizado->descripcion??'' }}</strong>
                         </p>

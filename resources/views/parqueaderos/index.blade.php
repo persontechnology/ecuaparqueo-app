@@ -3,8 +3,8 @@
 
 @section('barraLateral')
 <div class="breadcrumb justify-content-center">
-    <a href="{{ route('parqueaderoNuevo') }}" class="breadcrumb-elements-item">
-        Nuevo Parquedero <i class="fa-solid fa-building ml-1"></i>
+    <a href="{{ route('parqueaderosNuevo') }}" class="breadcrumb-elements-item">
+        <i class="fa-solid fa-building mr-1 text-info"></i> Nuevo Parquedero
     </a>
 </div>
 @endsection

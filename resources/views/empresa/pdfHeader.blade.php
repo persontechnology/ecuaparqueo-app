@@ -11,35 +11,38 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     
+    @if ($empresa->logo_link)
+        <style>
+            #example1 {
+                background: url("{!! public_path($empresa->logo_link) !!}");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                
+            }  
+        </style>
+    @endif
     <style>
-        #example1 {
-            background: url("{!! public_path($empresa->logo_link) !!}");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            
-        }  
-        table, td, th {
-            border: 1px solid;
-        }
+         table, td, th {
+                border: 1px solid;
+            }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }  
-        
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            } 
     </style>
         
 </head>
 <body>
     
-    <div class="container">
+    <div class="container" style="padding-bottom: 5px;">
         <table class="table">
             <tbody>
                 <tr>
                     <td rowspan="4" id="example1" style="width: 20%">
                     </td>
                     <th class="col-6 py-0 text-center" rowspan="4" style="width: 60%">
-                        <p>FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN</p>
+                        <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN' }}</p>
                     </th>
                     <th >CÓDIGO</th>
                     <td >{{ $empresa->codigo }}</td>

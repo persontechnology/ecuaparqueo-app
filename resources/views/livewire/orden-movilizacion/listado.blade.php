@@ -1,11 +1,22 @@
 <div>
     
     <div class="card">
+        <div class="card-header bg-transparent header-elements-sm-inline">
+            <div class="card-title">
+                <button class="btn btn-link" wire:click="pdf">
+                    Descargar PDF <i class="fa-solid fa-file-pdf ml-1"></i>
+                </button>
+            </div>
         
+            <div class="header-elements">
+                <span class="badge badge-primary ml-1">SOLICITADO</span>
+                <span class="badge badge-secondary ml-1">DENEGADA</span>
+                <span class="badge badge-success ml-1">ACEPTADA</span>
+                <span class="badge badge-danger ml-1">OCUPADO</span>
+                <span class="badge badge-warning ml-1">FINALIZADO</span>
+            </div>
+        </div>
         <div class="card-header">
-            <button class="btn btn-link" wire:click="pdf">
-                Descargar PDF <i class="fa-solid fa-file-pdf ml-1"></i>
-            </button>
             <div class="form-row">
                 <div class='form-group col-md-5'>
                     <div class="form-group">
@@ -108,7 +119,7 @@
                                             <a href="{{ Storage::url($com->vehiculo->foto) }}"><img src="{{ Storage::url($com->vehiculo->foto) }}" class="rounded-circle" width="32" height="32" alt="">    </a>
                                         @endif
                                         
-                                        {{ $com->info_vehiculo }}
+                                        {{ $com->vehiculo->numero_movil_placa??'' }}
                                     </td>
                                     
                                     <td>
@@ -124,7 +135,7 @@
                                     <span class="badge badge-{{ $com->color_estado }}">{{ $com->estado }}</span>
                                     </td>
                                     <td>
-                                        {{ $com->info_conductor }}
+                                        {{ $com->conductor->apellidos_nombres??'' }}
                                     </td>
                                 </tr>
                             @endforeach

@@ -76,108 +76,174 @@ class BrazoController extends Controller
         if ($request->has('code')) {
             $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
             $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
+            
             if ($request->code === "123456789") {
                 $brazo->estado_brazo = true;
                 $brazo->save();
                 return response()->json(1);
-            } else {
-                if ($vehiculo && $vehiculo->espacio && $brazo) {
-                    if ($vehiculo->tipo === "Especial") {
-                        $lectura = new Lectura();
-                        $lectura->tipo = 'Salida';
-                        $lectura->brazo_salida_id = $brazo->id;
-                        $lectura->vehiculo_id = $vehiculo->id;
-                        $lectura->save();
-                        $espacio = $vehiculo->espacio;
-                        $espacio->estado = "Ausente";
-                        $espacio->save();
-                        $brazo->estado_brazo = true;
-                        $brazo->save();
-                        return response()->json(1);
-                    } elseif ($vehiculo->tipo === "Normal") {
-                        $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
-                            ->where(function ($q) {
-                                $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
-                                $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
-                            })
-                            ->where('estado', 'ACEPTADA')
-                            ->latest()
-                            ->first();
-                        if ($ordenMovilizacion) {
-                            $lectura = new Lectura();
-                            $lectura->tipo = 'Salida';
-                            $lectura->brazo_salida_id = $brazo->id;
-                            $lectura->vehiculo_id = $vehiculo->id;
-                            $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
-                            $lectura->save();
-                            $espacio = $vehiculo->espacio;
-                            $espacio->estado = "Ausente";
-                            $espacio->save();
-                            $brazo->estado_brazo = true;
-                            $brazo->save();
-                            return response()->json(1);
-                        } else {
-                            return response()->json(3);
-                        }
-                    }
-                } else {
+            } 
 
+            // actualizar la orden d emovilizacion el estado
+
+
+
+            // if ($vehiculo && $vehiculo->espacio && $brazo) {
+            // } else {
+            //     return response()->json(3);
+            // }
+            if ($vehiculo->tipo === "Especial") {
+                $lectura = new Lectura();
+                $lectura->tipo = 'Salida';
+                $lectura->brazo_salida_id = $brazo->id;
+                $lectura->vehiculo_id = $vehiculo->id;
+                $lectura->save();
+                $espacio = $vehiculo->espacio;
+                $espacio->estado = "Ausente";
+                $espacio->save();
+                $brazo->estado_brazo = true;
+                $brazo->save();
+                return response()->json(1);
+            } 
+            
+            if ($vehiculo->tipo === "Normal") {
+                $ordenMovilizacion = $vehiculo->ordenesMovilizaciones()
+                    ->where(function ($q) {
+                        $q->where('fecha_salida', '<=', Carbon::now()->format('Y-m-d H:i'));
+                        $q->where('fecha_retorno', '>=', Carbon::now()->format('Y-m-d H:i'));
+                    })
+                    ->where('estado', 'ACEPTADA')
+                    ->latest()
+                    ->first();
+                if ($ordenMovilizacion) {
+                    $lectura = new Lectura();
+                    $lectura->tipo = 'Salida';
+                    $lectura->brazo_salida_id = $brazo->id;
+                    $lectura->vehiculo_id = $vehiculo->id;
+                    $lectura->orden_movilizacion_id = $ordenMovilizacion->id;
+                    $lectura->save();
+                    $espacio = $vehiculo->espacio;
+                    $espacio->estado = "Ausente";
+                    $espacio->save();
+                    $brazo->estado_brazo = true;
+                    $brazo->save();
+                    return response()->json(1);
+                } else {
                     return response()->json(3);
                 }
             }
+
         }
         return response()->json(3);
     }
     public function buscarVehiculoTarjetaEntrada(Request $request)
     {
 
-        if ($request->has('code')) {
+        // if ($request->has('code')) {
             $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
             $brazo = Brazo::where(['codigo' => $request->codeBrazo, 'estado' => 'Activo'])->first();
-            if ($request->code === "123456789") {
+            // if ($request->code === "123456789") {
+            //     $lectura = new Lectura();
+            //     $lectura->tipo = 'Entrada';
+            //     $lectura->brazo_salida_id = $brazo->id;
+            //     $lectura->save();
+            //     $contadorGuardias = 0;
+            //     $guardias = $brazo->parqueadero->guardias;
+            //     if ($guardias) {
+            //         $contadorGuardias = $guardias->count();
+            //         foreach ($guardias as $guardia) {
+            //             //Agreges al invitado
+            //            /*  $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
+            //             if (!$noti) {
+            //                 $noti = new NotificacionLectura();
+            //                 $noti->lectura_id = $lectura->id;
+            //                 $noti->guardia_id = $guardia->id;
+            //                 $noti->brazo_id = $brazo->id;
+            //                 $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
+            //                 $noti->visto = false;
+            //                 $noti->save();
+            //             } */
+            //         }
+            //     }
+            //     return response()->json(1);
+            // }
 
-                return response()->json(1);
-            } else {
-                if ($vehiculo && $vehiculo->espacio && $brazo) {
-                    $lectura = $vehiculo->lecturas()->where('tipo', 'Salida')->latest()->first();
-                    if ($lectura) {
+            $lectura = $vehiculo->lecturas()->where('tipo', 'Salida')->latest()->first();
+            if ($lectura) {
                         
-                        if ($vehiculo->tipo === "Especial") {
-                            $lectura->fecha_retorno = Carbon::now();
-                            $lectura->tipo = "Entrada";
-                            $lectura->brazo_entrada_id=$brazo->id;
-                            $lectura->save();
-                            $brazo->estado_brazo = true;
-                            $brazo->save();
-                            return response()->json(1);
+                if ($vehiculo->tipo === "Especial") {
+                    $lectura->fecha_retorno = Carbon::now();
+                    $lectura->tipo = "Entrada";
+                    $lectura->brazo_entrada_id=$brazo->id;
+                    $lectura->save();
+                    $brazo->estado_brazo = true;
+                    $brazo->save();
+                    return response()->json(1);
 
-                        } elseif ($vehiculo->tipo === "Normal") {
-                            $contadorGuardias = 0;
-                            $guardias = $brazo->parqueadero->guardias;
-                            if ($guardias) {
-                                $contadorGuardias = $guardias->count();
-                                foreach ($guardias as $guardia) {
-                                    $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
-                                    if (!$noti) {
-                                        $noti = new NotificacionLectura();
-                                        $noti->lectura_id = $lectura->id;
-                                        $noti->guardia_id = $guardia->id;
-                                        $noti->brazo_id = $brazo->id;
-                                        $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
-                                        $noti->visto = false;
-                                        $noti->save();
-                                    }
-                                }
+                } 
+                
+                if ($vehiculo->tipo === "Normal") {
+                    $contadorGuardias = 0;
+                    $guardias = $brazo->parqueadero->guardias;
+                    if ($guardias) {
+                        $contadorGuardias = $guardias->count();
+                        foreach ($guardias as $guardia) {
+                            $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
+                            if (!$noti) {
+                                $noti = new NotificacionLectura();
+                                $noti->lectura_id = $lectura->id;
+                                $noti->guardia_id = $guardia->id;
+                                $noti->brazo_id = $brazo->id;
+                                $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
+                                $noti->visto = false;
+                                $noti->save();
                             }
-                            return response()->json(1);
                         }
                     }
-                } else {
-
-                    return response()->json(3);
+                    return response()->json(1);
                 }
             }
-        }
+
+            //  else {
+            //     if ($vehiculo && $vehiculo->espacio && $brazo) {
+            //         $lectura = $vehiculo->lecturas()->where('tipo', 'Salida')->latest()->first();
+            //         if ($lectura) {
+                        
+            //             if ($vehiculo->tipo === "Especial") {
+            //                 $lectura->fecha_retorno = Carbon::now();
+            //                 $lectura->tipo = "Entrada";
+            //                 $lectura->brazo_entrada_id=$brazo->id;
+            //                 $lectura->save();
+            //                 $brazo->estado_brazo = true;
+            //                 $brazo->save();
+            //                 return response()->json(1);
+
+            //             } elseif ($vehiculo->tipo === "Normal") {
+            //                 $contadorGuardias = 0;
+            //                 $guardias = $brazo->parqueadero->guardias;
+            //                 if ($guardias) {
+            //                     $contadorGuardias = $guardias->count();
+            //                     foreach ($guardias as $guardia) {
+            //                         $noti = NotificacionLectura::where(['lectura_id' => $lectura->id, 'guardia_id' => $guardia->id])->first();
+            //                         if (!$noti) {
+            //                             $noti = new NotificacionLectura();
+            //                             $noti->lectura_id = $lectura->id;
+            //                             $noti->guardia_id = $guardia->id;
+            //                             $noti->brazo_id = $brazo->id;
+            //                             $noti->mensaje = 'Vehículo ' . $vehiculo->placa . ' está solicitando ingresar en el brazo ' . $brazo->codigo;
+            //                             $noti->visto = false;
+            //                             $noti->save();
+            //                         }
+            //                     }
+            //                 }
+            //                 return response()->json(1);
+            //             }
+            //         }
+            //     } else {
+
+            //         return response()->json(3);
+            //     }
+            // }
+        // }
         return response()->json(3);
     }
 }

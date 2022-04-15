@@ -98,4 +98,69 @@
     </div>
 </div>
 
+@push('linksCabeza')
+<link rel="stylesheet" href="{{ asset('js/intl-tel-input/css/intlTelInput.min.css') }}">
+<script src="{{ asset('js/intl-tel-input/js/intlTelInput.min.js') }}"></script>
+
+{{--estilo para formato del telefono --}}
+<style>
+    .iti__flag {background-image: url("{{ asset('js/intl-tel-input/img/flags.png') }}");}
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .iti__flag {background-image: url("{{ asset('js/intl-tel-input/img/flags@2x.png') }}");}
+    }
+</style>
+@endpush
+@prepend('linksPie')
+
+<script>
+  
+
+
+        var input = document.querySelector("#telefono"),
+        errorMsg = document.querySelector("#error-msg"),
+        validMsg = document.querySelector("#valid-msg");
+
+        // here, the index maps to the error code returned from getValidationError - see readme
+        var errorMap = ["Número no válido", "Código de país no válido", "Demasiado corto", "Demasiado largo", "Número no válido"];
+
+        // initialise plugin
+        var iti = window.intlTelInput(input, {
+            autoHideDialCode:false,
+            nationalMode:false,
+            placeholderNumberType:"MOBILE",
+            preferredCountries: ["ec" ],
+            separateDialCode:false,
+            utilsScript: "{{ asset('js/intl-tel-input/js/utils.js') }}"
+        });
+
+        var reset = function() {
+        input.classList.remove("error");
+        errorMsg.innerHTML = "";
+        errorMsg.classList.add("hide");
+        validMsg.classList.add("hide");
+        };
+
+        // on blur: validate
+        input.addEventListener('blur', function() {
+        reset();
+        if (input.value.trim()) {
+            if (iti.isValidNumber()) {
+            validMsg.classList.remove("hide");
+            
+            } else {
+            input.classList.add("error");
+            var errorCode = iti.getValidationError();
+            errorMsg.innerHTML = errorMap[errorCode];
+            errorMsg.classList.remove("hide");
+            }
+        }
+        });
+
+        // on keyup / change flag: reset
+        input.addEventListener('change', reset);
+        input.addEventListener('keyup', reset);
+
+</script>
+@endprepend
 @endsection

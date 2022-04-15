@@ -90,23 +90,11 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                         </a>
                     </li>
                 @endcan
-
-                @can('Departamentos')
-                    <li class="nav-item">
-                        <a href="{{ route('departamentos') }}"
-                            class="nav-link {{ request()->routeIs('departamentos*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-city"></i>
-                            <span>
-                                Departamentos
-                            </span>
-                        </a>
-                    </li>
-                @endcan
-
+                    
                 @can('Vehículos')
                     <li class="nav-item">
                         <a href="{{ route('vehiculos') }}"
-                            class="nav-link {{ request()->routeIs('vehiculos*') ? 'active' : '' }}">
+                            class="nav-link {{ request()->routeIs(['vehiculos*','kilometrajes*']) ? 'active' : '' }}">
                             <i class="fa-solid fa-car-side"></i>
                             <span>
                                 Vehículos
@@ -118,8 +106,8 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 @can('Parqueaderos')
                     <li class="nav-item">
                         <a href="{{ route('parqueaderos') }}"
-                            class="nav-link {{ request()->routeIs('parqueaderos*') ? 'active' : '' }}">
-                            <i class="fa-solid fa-car-side"></i>
+                            class="nav-link {{ request()->routeIs(['parqueaderos*','espacios*']) ? 'active' : '' }}">
+                            <i class="fa-solid fa-table-cells"></i>
                             <span>
                                 Parqueaderos
                             </span>

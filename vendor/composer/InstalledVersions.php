@@ -30,7 +30,7 @@ class InstalledVersions
     'aliases' => 
     array (
     ),
-    'reference' => '4fdd32fbc42f2f184a8e373067c86b43a2c9f42c',
+    'reference' => 'a053bf0d8387e10e3d13cea3b8758847d0338fc8',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -514,7 +514,7 @@ class InstalledVersions
       'aliases' => 
       array (
       ),
-      'reference' => '4fdd32fbc42f2f184a8e373067c86b43a2c9f42c',
+      'reference' => 'a053bf0d8387e10e3d13cea3b8758847d0338fc8',
     ),
     'laravel/sail' => 
     array (
@@ -1003,8 +1003,8 @@ class InstalledVersions
     array (
       'provided' => 
       array (
-        0 => '1.0|2.0',
-        1 => '1.0.0 || 2.0.0 || 3.0.0',
+        0 => '1.0.0 || 2.0.0 || 3.0.0',
+        1 => '1.0|2.0',
       ),
     ),
     'psr/simple-cache' => 

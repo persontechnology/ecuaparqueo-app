@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\OrdenMovilizacion;
+use App\Models\Vehiculo;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -34,11 +35,17 @@ class RqGuardarOrdenMovilizacion extends FormRequest
             $startDate  = Carbon::parse($request->fecha_salida)->format('Y-m-d H:i:s');
             $endDate = Carbon::parse($request->fecha_retorno)->format('Y-m-d H:i:s');
 
-            $orden=OrdenMovilizacion::where('vehiculo_id',$request->vehiculo)->whereBetween('fecha_salida', [$startDate, $endDate])
-                ->whereBetween('fecha_retorno', [$startDate, $endDate])
-                ->exists();
+            $vehiculo=Vehiculo::find($request->vehiculo);
+            $orden=$vehiculo->ordenesMovilizaciones()
+            ->where(function($q)use($startDate,$endDate){
+                $q->where('fecha_salida','<=',$startDate);
+                $q->where('fecha_retorno','>=',$endDate);
+            })
+            ->where('estado','SOLICITADO')
+            ->latest()
+            ->first();
 
-            $customMessage=$orden?'Vehículo ya se encuentra registrado con estas fechas en la orden':'';
+            $customMessage=$orden?'Vehículo ya se encuentra registrado con estas fechas en la orden '.$orden->numero:' ';
 
             $validator->addReplacer('verificarExistencia', 
                 function($message, $attribute, $rule, $parameters) use ($customMessage) {
@@ -54,7 +61,7 @@ class RqGuardarOrdenMovilizacion extends FormRequest
             'fecha_salida'=>'required|date_format:Y/m/d H:i',
             'fecha_retorno'=>'required|date_format:Y/m/d H:i',
             'numero_ocupantes'=>'required|numeric|gt:0',
-            'vehiculo'=>['required',Rule::exists('vehiculos','id')->where('estado','Activo')],
+            'vehiculo'=>'required|exists:vehiculos,id|verificarExistencia',
             'numeroMovil'=>'nullable|string|max:255',
             'marca'=>'nullable|string|max:255',
             'modelo'=>'nullable|string|max:255',

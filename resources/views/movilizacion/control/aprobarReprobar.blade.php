@@ -255,7 +255,7 @@
                             <label for="conductor_info">Datos del conductor<i class="text-danger">*</i></label>
                             <div class="input-group">
                                 <input type="hidden" name="conductor" id="conductor" value="{{ old('conductor',$orden->conductor_id??'') }}">
-                                <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="conductor_info" name="conductor_info" value="{{ old('conductor_info',$orden->InfoConductor) }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor.." required>
+                                <input type="text" data-opcion="conductor" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="conductor_info" name="conductor_info" value="{{ old('conductor_info',$orden->conductor->apellidos_nombres??'') }}" data-toggle="modal" data-target="#modal_large" class="form-control @error('conductor') is-invalid @enderror" placeholder="Seleccionar conductor.." required>
                                 <span class="input-group-append">
                                     <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
@@ -274,7 +274,7 @@
                             <label for="solicitante_info">Datos del solicitante</label>
                             <div class="input-group">
                                 <input type="hidden" name="solicitante" id="solicitante" value="{{ old('solicitante',$orden->solicitante_id??'') }}">
-                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->info_solicitante) }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
+                                <input type="text" data-opcion="solicitante" onclick="modalConductorSolicitante(this);" onkeydown="event.preventDefault()"  id="solicitante_info" name="solicitante_info" value="{{ old('solicitante_info',$orden->solicitante->apellidos_nombres??'') }}"  data-toggle="modal" data-target="#modal_large" class="form-control @error('solicitante') is-invalid @enderror" placeholder="Seleccionar solicitante..">
                                 <span class="input-group-append">
                                     <span data-toggle="modal" data-target="#modal_large" class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </span>
@@ -290,8 +290,8 @@
                 </div>
             </fieldset>
             <p><strong>Información:</strong></p>
-            <p>Creado por: {{ $orden->usuarioCreado->apellidos??'' }} {{ $orden->usuarioCreado->nombres??'' }} <small><i>{{ $orden->usuarioCreado->email??'' }}</i></small> a las {{ $orden->created_at }}</p>
-            <p>Autorizado por: {{ $orden->autorizado->apellidos??'' }} {{ $orden->autorizado->nombres??'' }} <small><i>{{ $orden->autorizado->email??'' }}</i></small></p>
+            <p>Creado por: {{ $orden->usuarioCreado->apellidos_nombres??'' }}</p>
+            <p>Autorizado por: {{ $orden->autorizado->apellidos_nombres??'' }} </p>
             
         </div>
         <div class="card-footer text-muted">
