@@ -29,6 +29,7 @@ class CreateEmpresasTable extends Migration
             $table->enum('tipo',['Pública','Privada'])->default('Pública');
             $table->string('url_web_gps')->nullable();
             $table->string('token')->nullable();
+            $table->string('codigo_tarjeta_vehiculo_invitado')->default('');
 
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();

@@ -39,7 +39,8 @@ class RqGuardarVehiculo extends FormRequest
             'tipoVehiculo'=>'required|exists:tipo_vehiculos,id',
             'tipo'=>'required|in:Normal,Invitados,Especial',
             'kilometraje'=>'required|numeric|gt:0',
-            'imei'=>'nullable|string|max:255'
+            'imei'=>'nullable|string|max:255',
+            'codigo_tarjeta'=>'nullable|unique:vehiculos,codigo_tarjeta|unique:empresas,codigo_tarjeta_vehiculo_invitado'
         ];
     }
     public function messages()

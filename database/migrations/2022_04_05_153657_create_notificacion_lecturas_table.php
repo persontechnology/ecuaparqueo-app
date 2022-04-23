@@ -22,6 +22,7 @@ class CreateNotificacionLecturasTable extends Migration
             $table->foreignId('brazo_id')->constrained('brazos');
             $table->string('mensaje')->nullable();
             $table->boolean('visto')->default(false);
+            $table->enum('tipo',['Salida','Entrada'])->default('Salida');
             
         });
     }

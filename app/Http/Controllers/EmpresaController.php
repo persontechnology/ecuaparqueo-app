@@ -35,7 +35,8 @@ class EmpresaController extends Controller
                 'token'=>'nullable|string|max:225',
                 'codigo'=>'required|string|max:255',
                 'version'=>'required|string|max:255',
-                'norma'=>'required|string|max:255'
+                'norma'=>'required|string|max:255',
+                'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta'
             ]); 
         }else{
             $request->validate([
@@ -46,7 +47,8 @@ class EmpresaController extends Controller
                 'token'=>'nullable|string|max:225',
                 'codigo'=>'required|string|max:255',
                 'version'=>'required|string|max:255',
-                'norma'=>'required|string|max:255'
+                'norma'=>'required|string|max:255',
+                'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta'
             ]); 
         }
 
@@ -58,6 +60,8 @@ class EmpresaController extends Controller
         $empresa->codigo=$request->codigo;
         $empresa->version=$request->version;
         $empresa->norma=$request->norma;
+        $empresa->codigo_tarjeta_vehiculo_invitado=$request->codigo_tarjeta_vehiculo_invitado;
+
         if ($request->hasFile('foto')) {
             $archivo = $request->file('foto');
             if ($archivo->isValid()) {

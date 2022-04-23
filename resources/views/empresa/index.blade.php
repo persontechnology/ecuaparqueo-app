@@ -199,6 +199,18 @@
                         </div>
                     </div>
 
+                    
+                    <div class="form-group">
+                        <label for="codigo_tarjeta_vehiculo_invitado">Código de tarjeta para vehículo invitado<i class="text-danger">*</i></label>
+                        <input id="codigo_tarjeta_vehiculo_invitado" type="text" class="form-control @error('codigo_tarjeta_vehiculo_invitado') is-invalid @enderror"
+                            name="codigo_tarjeta_vehiculo_invitado" value="{{ old('codigo_tarjeta_vehiculo_invitado', $empresa->codigo_tarjeta_vehiculo_invitado) }}" required />
+                        @error('codigo_tarjeta_vehiculo_invitado')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
                     <div class="form-group">
                         <label for="url_web_gps">URL web service GPS</label>
                         <input id="url_web_gps" type="text" class="form-control @error('url_web_gps') is-invalid @enderror"

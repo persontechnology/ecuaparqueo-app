@@ -21,6 +21,11 @@ class Vehiculo extends Model
         return $this->hasMany(Kilometraje::class);
     }
 
+    public function ultimoKilometraje()
+    {
+        return $this->hasMany(Kilometraje::class)->latest()->first()->numero??0;
+    }
+
     // Deivid, numero movil y placa del vehiculo concatenados
     public function getNumeroMovilPlacaAttribute()
     {
@@ -32,6 +37,7 @@ class Vehiculo extends Model
     {
         return $this->hasOne(Espacio::class,'vehiculo_id');
     }
+    
     //DEivid, funcion para retornar color segun a lso estado
     public function getColorEstadoAttribute()
     {   

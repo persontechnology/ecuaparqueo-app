@@ -16,4 +16,17 @@
             
         </div>
     </div>
+    
+    <div class="dropdown">
+        <a href="#" class="list-icons-item" data-toggle="dropdown">
+            <i class="icon-menu9"></i>
+        </a>
+
+        <div class="dropdown-menu dropdown-menu-left">
+            <a href="{{ route('vehiculosLecturaEspecial',$vehiculo->id) }}" class="dropdown-item">
+                <i class="fa-solid fa-address-card text-warning"></i> 
+                Orden Movilización
+            </a> 
+        </div>
+    </div>
 </div>

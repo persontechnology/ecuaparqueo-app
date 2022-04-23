@@ -94,6 +94,10 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/vehiculos-lecturas/{id}', [LecturaController::class, 'index'])->name('vehiculosLecturas');
     // vehiculos orden de movilización
     Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');
+
+    // lectura especial
+    Route::get('/vehiculos-lecturas-especial/{id}', [VehiculoController::class, 'vehiculosLecturaEspecial'])->name('vehiculosLecturaEspecial');
+    
     
 
     // kilometrajes

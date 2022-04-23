@@ -19,7 +19,7 @@ class Lectura extends Model
     // Deivid, una lectura pude tener una orden de movilizacion
     public function ordenMovilizacion()
     {
-        return $this->belongsTo(OrdenMovilizacion::class,'vehiculo_id');
+        return $this->belongsTo(OrdenMovilizacion::class,'orden_movilizacion_id');
     }
 
     // Deivid, una lectura tiene un brazo

@@ -99,7 +99,7 @@ class OrdenMovilizacion extends Model
             case 'ACEPTADA':
                 $color='success';
                 break;
-            case 'OCUPADO':
+            case 'INCOMPLETO':
                 $color='danger';
                 break;
             case 'FINALIZADO':

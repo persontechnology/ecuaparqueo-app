@@ -9,6 +9,7 @@ use App\Http\Requests\RqActualizarVehiculo;
 use App\Http\Requests\RqGuardarVehiculo;
 use App\Models\Empresa;
 use App\Models\Kilometraje;
+use App\Models\LecturaEspecial;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
 use Illuminate\Contracts\Cache\Store;
@@ -193,5 +194,14 @@ class VehiculoController extends Controller
     {
         $data = array('vehiculo' => Vehiculo::findOrFail($vehiculoId) );
         return view('vehiculos.ordenMovilizaciones',$data);
+    }
+
+    public function vehiculosLecturaEspecial($id)
+    {
+        $le=LecturaEspecial::where('vehiculo_id',$id)
+        ->orderBy('created_at','desc')
+        ->paginate(6);
+        $data = array('lecturasEspecial' => $le);
+        return view('vehiculos.lecturas.especial.index',$data);
     }
 }
