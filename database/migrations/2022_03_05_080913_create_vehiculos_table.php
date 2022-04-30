@@ -29,7 +29,7 @@ class CreateVehiculosTable extends Migration
             $table->enum('tipo',['Normal','Invitados','Especial'])->default('Normal');
 
             $table->foreignId('conductor_id')->nullable()->constrained('users');
-            $table->foreignId('tipo_vehiculo_id')->constrained('tipo_vehiculos');
+            $table->foreignId('tipo_vehiculo_id')->nullable()->constrained('tipo_vehiculos');
             $table->bigInteger('user_create')->nullable();
             $table->bigInteger('user_update')->nullable();
             

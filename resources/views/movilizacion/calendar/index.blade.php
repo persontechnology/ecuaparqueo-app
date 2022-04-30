@@ -25,14 +25,7 @@
 
 
 <div class="card card-body table-responsive">
-    <div class="container mb-1 text-right">
-        <span class="badge badge-primary">SOLICITADO</span>
-        <span class="badge badge-secondary">DENEGADA</span>
-        <span class="badge badge-success">ACEPTADA</span>
-        <span class="badge badge-danger">OCUPADO</span>
-        <span class="badge badge-warning">FINALIZADO</span>
-        
-    </div>
+    @include('movilizacion.estados')
     <table class="table">
 
 </table>

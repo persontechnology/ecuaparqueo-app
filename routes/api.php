@@ -4,9 +4,10 @@ use App\Http\Controllers\Api\BrazoController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\Api\LecturaEspecialController;
+use App\Http\Controllers\Api\LecturaInvitadoController;
+use App\Http\Controllers\Api\LecturaNormalController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\NotificacionLecturaController;
-use App\Http\Controllers\LecturaInvitadoController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -51,11 +52,27 @@ Route::middleware('auth:sanctum')->group(function(){
 
 
     // Lectura especiales
-    Route::post('/notificacion-lectura-especial', [LecturaEspecialController::class,'ultimaLista']);
+    Route::post('/notificacion-lectura-especial', [LecturaEspecialController::class,'diezUltimasLista']);
     Route::post('/notificacion-lectura-especial-finalizar', [LecturaEspecialController::class,'finalizarLectura']);
     // Lectura invitados
     Route::post('/notificacion-lectura-invitado', [LecturaInvitadoController::class,'diezUltimasLista']);
-    Route::post('/notificacion-lectura-invitado-detalle', [LecturaInvitadoController::class,'detalle']);
+    Route::post('/notificacion-lectura-invitado-revision', [LecturaInvitadoController::class,'revision']);
+    Route::post('/notificacion-lectura-invitado-finalizar-revision', [LecturaInvitadoController::class,'finalizar']);
+    Route::post('/notificacion-lectura-invitado-finalizar-revision-salida', [LecturaInvitadoController::class,'finalizarSalida']);
+    Route::post('/notificacion-lectura-invitado-finalizar-revision-eliminar', [LecturaInvitadoController::class,'eliminar']);
+
+
+    // lectura normales
+    Route::post('/notificacion-lectura-normal', [LecturaNormalController::class,'diezUltimasLista']);
+    Route::post('/notificacion-lectura-normal-finalizar-salida', [LecturaNormalController::class,'finalizarSalida']);
+    Route::post('/lectura-normal-detalle', [LecturaNormalController::class,'detalle']);
+    Route::post('/lectura-normal-finalizar-entrada', [LecturaNormalController::class,'finalizarEntrada']);
+    
+    
+    
+    
+    
+    
     
 
 });

@@ -8,13 +8,7 @@
                 </button>
             </div>
         
-            <div class="header-elements">
-                <span class="badge badge-primary ml-1">SOLICITADO</span>
-                <span class="badge badge-secondary ml-1">DENEGADA</span>
-                <span class="badge badge-success ml-1">ACEPTADA</span>
-                <span class="badge badge-danger ml-1">OCUPADO</span>
-                <span class="badge badge-warning ml-1">FINALIZADO</span>
-            </div>
+            @include('movilizacion.estados')
         </div>
         <div class="card-header">
             <div class="form-row">

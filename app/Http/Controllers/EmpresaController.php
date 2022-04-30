@@ -25,32 +25,24 @@ class EmpresaController extends Controller
 
         if (Auth::user()->hasRole('SuperAdmin')) {
             $request->validate([
-                'tipo'=>'required|in:Pública,Privada',
-                'nombre'=>'required|string|max:255',
                 'fecha_caducidad_inicio'=>'required',
                 'fecha_caducidad_fin'=>'required|date|after_or_equal:fecha_caducidad_inicio',
                 'estado'=>'required|in:Activo,Inactivo',
-                'descripcion'=>'required|string|max:255',
-                'foto'=>'nullable|image',
-                'token'=>'nullable|string|max:225',
-                'codigo'=>'required|string|max:255',
-                'version'=>'required|string|max:255',
-                'norma'=>'required|string|max:255',
-                'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta'
-            ]); 
-        }else{
-            $request->validate([
-                'tipo'=>'required|in:Pública,Privada',
-                'nombre'=>'required|string|max:255',
-                'descripcion'=>'required|string|max:255',
-                'foto'=>'nullable|image',
-                'token'=>'nullable|string|max:225',
-                'codigo'=>'required|string|max:255',
-                'version'=>'required|string|max:255',
-                'norma'=>'required|string|max:255',
-                'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta'
             ]); 
         }
+
+        $request->validate([
+            'tipo'=>'required|in:Pública,Privada',
+            'nombre'=>'required|string|max:255',
+            'descripcion'=>'required|string|max:255',
+            'foto'=>'nullable|image',
+            'token'=>'nullable|string|max:225',
+            'codigo'=>'required|string|max:255',
+            'version'=>'required|string|max:255',
+            'norma'=>'required|string|max:255',
+            'codigo_tarjeta_vehiculo_invitado'=>'required|string|max:255|unique:vehiculos,codigo_tarjeta',
+            'minutos_extras_entrada_vehiculos'=>'required|integer|between:0,59'
+        ]); 
 
         $empresa=Empresa::first();
         $empresa->tipo=$request->tipo;
@@ -61,6 +53,7 @@ class EmpresaController extends Controller
         $empresa->version=$request->version;
         $empresa->norma=$request->norma;
         $empresa->codigo_tarjeta_vehiculo_invitado=$request->codigo_tarjeta_vehiculo_invitado;
+        $empresa->minutos_extras_entrada_vehiculos=$request->minutos_extras_entrada_vehiculos;
 
         if ($request->hasFile('foto')) {
             $archivo = $request->file('foto');

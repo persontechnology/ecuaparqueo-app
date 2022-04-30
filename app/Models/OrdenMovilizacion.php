@@ -88,24 +88,32 @@ class OrdenMovilizacion extends Model
 
     public function getColorEstadoAttribute()
     {   
-        $color='primary';
+        
+        $color='';
         switch ($this->estado) {
             case 'SOLICITADO':
-                $color='primary';
-                break;
-            case 'DENEGADA':
-                $color='secondary';
-                break;
+                $color='info';
+                 break;
             case 'ACEPTADA':
                 $color='success';
-                break;
-            case 'INCOMPLETO':
+                 break;
+            case 'DENEGADA':
                 $color='danger';
-                break;
-            case 'FINALIZADO':
+                 break;
+            case 'RECORRIDO':
                 $color='warning';
+                 break;
+            case 'FINALIZADO':
+                $color='secondary';
+                 break;
+            case 'INCUMPLIDA':
+                $color='purple';
+                 break;
+            case 'FUERA DE HORARIO':
+                $color='dark'; 
                 break;
         }
+
         return $color;
     }
 

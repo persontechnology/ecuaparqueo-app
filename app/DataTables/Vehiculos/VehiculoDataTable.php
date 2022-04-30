@@ -25,7 +25,7 @@ class VehiculoDataTable extends DataTable
                 return view('vehiculos.foto',['vehiculo'=>$vehiculo])->render();
             })
             ->editColumn('tipo_vehiculo_id',function($vehiculo){
-                return $vehiculo->tipoVehiculo->nombre;
+                return $vehiculo->tipoVehiculo->nombre??'';
             })
             ->filterColumn('tipo_vehiculo_id',function($query,$keyword){
                 $query->whereHas('tipoVehiculo',function($query) use ($keyword){
@@ -88,11 +88,14 @@ class VehiculoDataTable extends DataTable
                   ->addClass('text-center'),
             Column::make('foto')->searchable(false),
             Column::make('numero_movil')->title('N° Móvil'),
+            Column::make('codigo_tarjeta')->title('Tarjeta'),
+            Column::make('tipo'),
             Column::make('modelo')->title('Modelo'),
             Column::make('marca')->title('Marca'),
             
             Column::make('placa'),
             Column::make('color'),
+            
             Column::make('tipo_vehiculo_id')->title('Tipo V.'),
             Column::make('estado'),
             // Column::make('imei')->title('IMEI'),

@@ -25,7 +25,7 @@ class CreateOrdenMovilizacionsTable extends Migration
             $table->string('procedencia');
             $table->string('destino');
             $table->string('comision_cumplir');
-            $table->enum('estado',['SOLICITADO','ACEPTADA','DENEGADA','OCUPADO','FINALIZADO'])->default('SOLICITADO');
+            $table->enum('estado',['SOLICITADO','ACEPTADA','DENEGADA','RECORRIDO','FINALIZADO','INCUMPLIDA','FUERA DE HORARIO'])->default('SOLICITADO');
 
             $table->foreignId('conductor_id')->nullable()->constrained('users');
             $table->foreignId('solicitante_id')->nullable()->constrained('users');

@@ -25,7 +25,7 @@ class VehiculoDataTable extends DataTable
                 return view('vehiculos.foto',['vehiculo'=>$vehiculo])->render();
             })
             ->editColumn('tipo_vehiculo_id',function($vehiculo){
-                return $vehiculo->tipoVehiculo->nombre;
+                return $vehiculo->tipoVehiculo->nombre??'';
             })
             ->filterColumn('tipo_vehiculo_id',function($query,$keyword){
                 $query->whereHas('tipoVehiculo',function($query) use ($keyword){

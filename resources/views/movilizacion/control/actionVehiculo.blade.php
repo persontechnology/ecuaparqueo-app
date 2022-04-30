@@ -4,7 +4,7 @@
     data-marca="{{ $vehiculo->marca }}"
     data-modelo="{{ $vehiculo->modelo }}"
     data-placa="{{ $vehiculo->placa }}"
-    data-tipo="{{ $vehiculo->tipoVehiculo->nombre }}"
+    data-tipo="{{ $vehiculo->tipoVehiculo->nombre??'' }}"
     data-color="{{ $vehiculo->color }}"
     data-conductorid="{{ $vehiculo->id_conductor }}"
     data-conductorinfo="{{ $vehiculo->info_conductor }}"
