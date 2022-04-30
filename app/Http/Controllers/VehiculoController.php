@@ -10,6 +10,7 @@ use App\Http\Requests\RqGuardarVehiculo;
 use App\Models\Empresa;
 use App\Models\Kilometraje;
 use App\Models\LecturaEspecial;
+use App\Models\LecturaNormal;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
 use Illuminate\Contracts\Cache\Store;
@@ -143,13 +144,16 @@ class VehiculoController extends Controller
                 $ve->foto=$path;
             }
         }
+    
         $ve->save();
         $kilometraje=$ve->kilometrajes()->latest()->first();
-        if($kilometraje){
-            $kilometraje->numero=$request->kilometraje;
-            $kilometraje->user_update=Auth::user()->id;
-            $kilometraje->save();
+        if(!$kilometraje){
+            $kilometraje= new Kilometraje();
+            $kilometraje->vehiculo_id=$ve->id;
         }
+        $kilometraje->numero=$request->kilometraje;
+        $kilometraje->user_update=Auth::user()->id;
+        $kilometraje->save();
         request()->session()->flash('success','Vehículo actualizado');
         return redirect()->route('vehiculos');
     }
@@ -196,7 +200,7 @@ class VehiculoController extends Controller
         return view('vehiculos.ordenMovilizaciones',$data);
     }
 
-    public function vehiculosLecturaEspecial($id)
+    public function lecturaEspecial($id)
     {
         $le=LecturaEspecial::where('vehiculo_id',$id)
         ->orderBy('created_at','desc')
@@ -204,4 +208,14 @@ class VehiculoController extends Controller
         $data = array('lecturasEspecial' => $le);
         return view('vehiculos.lecturas.especial.index',$data);
     }
+
+    public function lecturaNormal($id)
+    {
+        $le=LecturaNormal::where('vehiculo_id',$id)
+        ->orderBy('created_at','desc')
+        ->paginate(6);
+        $data = array('lecturasNormal' => $le);
+        return view('vehiculos.lecturas.normal.index',$data);
+    }
+
 }

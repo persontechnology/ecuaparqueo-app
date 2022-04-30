@@ -31,6 +31,7 @@ class LecturaNormalController extends Controller
     {
         $ln=LecturaNormal::find($request->id);
         $ln->finalizado=true;
+        $ln->guardia_id=$request->user()->id;
         $ln->save();
         response()->json('ok');
     }
@@ -85,11 +86,25 @@ class LecturaNormalController extends Controller
             DB::commit();
             return response()->json(['estado'=>'ok','mensaje'=>'Revisión finalizado']);
         } catch (\Throwable $th) {
-            return response()->json(['estado'=>'no','mensaje'=>'Ocurrio un error, vuelva intentar']);
+            return response()->json(['estado'=>'no','mensaje'=>$th->getMessage()]);
         }
-        
-        
+    }
 
+
+    public function cancelarEntrada(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+                $ln=LecturaNormal::find($request->id);
+                $ln->brazo->estado_brazo=9;
+                $ln->brazo->save();
+                $ln->delete();
+            DB::commit();
+            return response()->json(['estado'=>'ok','mensaje'=>'Cancelado']);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['estado'=>'no','mensaje'=>'Error']);
+        }
     }
 }
 

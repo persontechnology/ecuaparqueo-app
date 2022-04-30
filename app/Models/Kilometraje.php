@@ -10,6 +10,9 @@ class Kilometraje extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'numero' => 'integer',
+    ];
     // Deivid, un kilometraje tiene un usuario creado
     public function usuarioCreado()
     {

@@ -5,7 +5,6 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
-use App\Http\Controllers\LecturaController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -90,13 +89,16 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/vehiculos-actualizar', [VehiculoController::class, 'actualizar'])->name('actualizarVehiculo');
     Route::post('/vehiculos-eliminar', [VehiculoController::class, 'eliminar'])->name('vehiculosEliminar');
     Route::get('/vehiculos-ubicacion-mapa/{id}', [VehiculoController::class, 'ubicacionMapa'])->name('vehiculosUbicacionMapa');
-    // vehiculos lecturas entradas y salidas
-    Route::get('/vehiculos-lecturas/{id}', [LecturaController::class, 'index'])->name('vehiculosLecturas');
+    
     // vehiculos orden de movilización
     Route::get('/vehiculos-orden-movilizaciones/{id}', [VehiculoController::class, 'ordenMovilizaciones'])->name('vehiculosOrdenMovilizacion');
 
     // lectura especial
-    Route::get('/vehiculos-lecturas-especial/{id}', [VehiculoController::class, 'vehiculosLecturaEspecial'])->name('vehiculosLecturaEspecial');
+    Route::get('/vehiculos-lecturas-especial/{id}', [VehiculoController::class, 'lecturaEspecial'])->name('vehiculosLecturaEspecial');
+    // lectura normal
+    Route::get('/vehiculos-lecturas-normal/{id}', [VehiculoController::class, 'lecturaNormal'])->name('vehiculosLecturaNormal');
+    // lectura invitados
+    Route::get('/vehiculos-lecturas-invitados/{id}', [VehiculoController::class, 'lecturaInvitados'])->name('vehiculosLecturaInvitados');
     
     
 

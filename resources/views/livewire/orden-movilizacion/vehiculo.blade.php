@@ -56,7 +56,7 @@
                                             data-marca="{{ $esp->marca }}"
                                             data-modelo="{{ $esp->modelo }}"
                                             data-placa="{{ $esp->placa }}"
-                                            data-tipo="{{ $esp->tipoVehiculo->nombre }}"
+                                            data-tipo="{{ $esp->tipoVehiculo->nombre??'' }}"
                                             data-color="{{ $esp->color }}"
                                             data-conductorid="{{ $esp->id_conductor }}"
                                             data-conductorinfo="{{ $esp->conductor->apellidos_nombres??'' }}"

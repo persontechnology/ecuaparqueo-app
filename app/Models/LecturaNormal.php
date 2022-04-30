@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class LecturaNormal extends Model
 {
     use HasFactory;
+    protected $casts = [
+        'kilometraje' => 'integer',
+    ];
 
     public function vehiculo()
     {

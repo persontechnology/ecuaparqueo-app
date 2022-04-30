@@ -138,6 +138,8 @@ class LecturaInvitadoController extends Controller
             DB::beginTransaction();
            
             $li=LecturaInvitado::find($request->id);
+            $li->brazo->estado_brazo=9;
+            $li->brazo->save();
             $li->delete();
             
             DB::commit();

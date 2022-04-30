@@ -20,7 +20,7 @@ class CreateLecturaNormalsTable extends Migration
             $table->enum('tipo',['Salida','Entrada','Revisión'])->nullable();
             $table->boolean('finalizado')->default(false);
             $table->integer('porcentaje_combustible')->nullable();
-            $table->integer('kilometraje')->nullable();
+            $table->string('kilometraje')->nullable();
             $table->string('observacion')->nullable();
 
             $table->enum('proceso_orden_movilizacion',['FINALIZADO','FUERA HORARIO','INCUMPLIDA'])->nullable();

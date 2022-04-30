@@ -67,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/notificacion-lectura-normal-finalizar-salida', [LecturaNormalController::class,'finalizarSalida']);
     Route::post('/lectura-normal-detalle', [LecturaNormalController::class,'detalle']);
     Route::post('/lectura-normal-finalizar-entrada', [LecturaNormalController::class,'finalizarEntrada']);
+    Route::post('/lectura-normal-cancelar-entrada', [LecturaNormalController::class,'cancelarEntrada']);
     
     
     
