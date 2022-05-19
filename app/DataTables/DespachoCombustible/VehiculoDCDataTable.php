@@ -21,9 +21,12 @@ class VehiculoDCDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->editColumn('foto',function($ve){
+                return view('vehiculos.foto',['vehiculo'=>$ve])->render();
+            })
             ->addColumn('action', function($ve){
                 return view('despachoCombustible.accion',['vehiculo'=>$ve])->render();
-            });
+            })->rawColumns(['foto','action']);
     }
 
     /**
@@ -74,7 +77,7 @@ class VehiculoDCDataTable extends DataTable
                   ->printable(false)
                   ->width(60)
                   ->addClass('text-center'),
-            Column::make('foto'),
+            Column::make('foto')->searchable(false),
             Column::make('placa'),
             Column::make('numero_movil')->title('N° Móvil'),
             Column::make('modelo'),
