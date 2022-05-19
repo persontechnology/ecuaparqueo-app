@@ -76,6 +76,7 @@ class VehiculoDCDataTable extends DataTable
                   ->exportable(false)
                   ->printable(false)
                   ->width(60)
+                  ->title('Seleccionar')
                   ->addClass('text-center'),
             Column::make('foto')->searchable(false),
             Column::make('placa'),
