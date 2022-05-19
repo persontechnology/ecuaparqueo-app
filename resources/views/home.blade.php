@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card">
-    <div class="card-header">
-        Header
-    </div>
-    <div class="card-body">
-        <h1>oko</h1>
-    </div>
-    <div class="card-footer text-muted">
-        Footer
-    </div>
+<div class="card text-left">
+  <img class="card-img-top" src="{{ asset('img/traking.svg') }}" alt="">
+  <div class="card-body">
+    <h4 class="card-title">{{ config('app.name','') }}</h4>
+    <p class="card-text">{{ date('Y') }}</p>
+  </div>
 </div>
 @endsection
