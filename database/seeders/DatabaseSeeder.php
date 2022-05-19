@@ -47,12 +47,13 @@ class DatabaseSeeder extends Seeder
        
         // crear super admin user
         $email_admin=config('app.SUPER_ADMIN_EMAIL');
+        $password_admin=config('app.SUPER_ADMIN_PASSWORD');
         $user=User::where('email',$email_admin)->first();
         if(!$user){
             $user= User::Create([
                 'name' => $email_admin,
                 'email' => $email_admin,
-                'password' => Hash::make($email_admin),
+                'password' => Hash::make($password_admin),
                 'email_verified_at'=>now()
             ]);
         }
@@ -60,12 +61,13 @@ class DatabaseSeeder extends Seeder
 
         // crear site admin user
         $email_site=config('app.SITE_ADMIN_EMAIL');
+        $password_site=config('app.SITE_ADMIN_PASSWORD','');
         $user_site=User::where('email',$email_site)->first();
         if(!$user_site){
             $user_site= User::Create([
                 'name' => $email_site,
                 'email' => $email_site,
-                'password' => Hash::make($email_site),
+                'password' => Hash::make($password_site),
                 'email_verified_at'=>now()
             ]);
         }
