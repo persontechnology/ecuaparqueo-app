@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\DespachoCombustible;
 use App\Models\Empresa;
+use App\Policies\DespachoCombustiblePolicy;
 use App\Policies\EmpresaPolicy;
 use App\Policies\RolePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -19,7 +21,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Role::class=>RolePolicy::class,
-        
+        DespachoCombustible::class=>DespachoCombustiblePolicy::class
     ];
 
     /**

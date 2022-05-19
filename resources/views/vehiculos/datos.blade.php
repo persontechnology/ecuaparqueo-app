@@ -1,7 +1,7 @@
 <fieldset>
 
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="form-group">
                 <label for="numero_movil">Número Móvil<i class="text-danger">*</i></label>
                 <input id="numero_movil" type="text" class="form-control @error('numero_movil') is-invalid @enderror"
@@ -15,7 +15,25 @@
                 @enderror
             </div>
         </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label for="placa">Placa<i class="text-danger">*</i></label>
+                <input id="placa" type="text" class="form-control @error('placa') is-invalid @enderror" name="placa"
+                    value="{{ old('placa', $vehiculo->placa ?? '') }}" required>
 
+                @error('placa')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+        </div>
+
+        
+    </div>
+
+    <div class="row">
+        
         <div class="col-lg-4">
             <div class="form-group">
                 <label for="modelo">Modelo</label>
@@ -43,24 +61,7 @@
                 @enderror
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label for="placa">Placa</label>
-                <input id="placa" type="text" class="form-control @error('placa') is-invalid @enderror" name="placa"
-                    value="{{ old('placa', $vehiculo->placa ?? '') }}">
-
-                @error('placa')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label for="color">Color</label>
                 <input id="color" type="text" class="form-control @error('color') is-invalid @enderror" name="color"

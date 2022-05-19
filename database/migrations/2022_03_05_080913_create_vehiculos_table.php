@@ -17,7 +17,7 @@ class CreateVehiculosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('numero_movil')->unique();
-            $table->string('placa')->nullable();
+            $table->string('placa');
             $table->string('color')->nullable();
             $table->string('modelo')->nullable();
             $table->string('marca')->nullable();

@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\ControlOrdenMovilizacionController;
+use App\Http\Controllers\DespachadorController;
+use App\Http\Controllers\DespachoCombustibleController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EspacioController;
+use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
 use App\Http\Controllers\OrdenMovilizacionController;
@@ -139,6 +142,13 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::post('/espacios-eliminar', [EspacioController::class, 'eliminar'])->name('espaciosEliminar');
     Route::get('/espacios-pdf/{parqueadero}', [EspacioController::class, 'pdf'])->name('espaciosPdf');
     Route::get('/espacios-ver-vehiculo-mapa/{espacio}', [EspacioController::class, 'verVehiculoMapa'])->name('espaciosVerVehiculoMapa');
+
+    // despacho de combustible
+    Route::resource('despacho-combustible', DespachoCombustibleController::class);
+    Route::get('/despacho-combustible-pdf/{id}', [DespachoCombustibleController::class, 'pdf'])->name('despacho-combustible.pdf');
+    // estaciones de combustible
+    Route::resource('estacion', EstacionController::class);
+    
 
      // reportes
      Route::get('/dashboard-vehiculos', [DashboardVehiculoController::class, 'index'])->name('dashboardVehiculos');

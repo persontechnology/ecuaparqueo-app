@@ -143,6 +143,32 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                     </li>
                 @endcan
 
+                @can('Estación de servicios')
+                    <li class="nav-item">
+                        <a href="{{ route('estacion.index') }}"
+                            class="nav-link {{ request()->routeIs('estacion*') ? 'active' : '' }}">
+                            <i class="fas fa-square-full"></i>
+                            <span>
+                                Estación de servicios
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('Despacho de combustible')
+                    <li class="nav-item">
+                        <a href="{{ route('despacho-combustible.index') }}"
+                            class="nav-link {{ request()->routeIs('despacho-combustible*') ? 'active' : '' }}">
+                            <i class="fa-solid fa-gas-pump"></i>
+                            <span>
+                                Despacho de combustible
+                            </span>
+                        </a>
+                    </li>
+                @endcan
+
+             
+                
                 @hasanyrole('SuperAdmin|SiteAdmin')
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-xs line-height-xs">Dashboard</div> <i class="icon-menu"

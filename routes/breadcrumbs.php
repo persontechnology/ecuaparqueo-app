@@ -140,3 +140,34 @@ Breadcrumbs::for('vehiculosLecturas', function (BreadcrumbTrail $trail,$vehiculo
 });
 
 
+// despacho de combustible
+Breadcrumbs::for('despacho-combustible.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Despacho de combustible', route('despacho-combustible.index'));
+});
+Breadcrumbs::for('despacho-combustible.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('despacho-combustible.index');
+    $trail->push('Nuevo', route('despacho-combustible.create'));
+});
+Breadcrumbs::for('despacho-combustible.show', function (BreadcrumbTrail $trail,$dc) {
+    $trail->parent('despacho-combustible.index');
+    $trail->push('Ver', route('despacho-combustible.show',$dc->id));
+});
+Breadcrumbs::for('despacho-combustible.edit', function (BreadcrumbTrail $trail,$dc) {
+    $trail->parent('despacho-combustible.show',$dc);
+    $trail->push('Editar', route('despacho-combustible.edit',$dc));
+});
+
+// estacion de servicios
+Breadcrumbs::for('estacion.index', function (BreadcrumbTrail $trail) {
+    $trail->parent('home');
+    $trail->push('Estación de servicios', route('estacion.index'));
+});
+Breadcrumbs::for('estacion.create', function (BreadcrumbTrail $trail) {
+    $trail->parent('estacion.index');
+    $trail->push('Nuevo', route('estacion.create'));
+});
+Breadcrumbs::for('estacion.edit', function (BreadcrumbTrail $trail,$es) {
+    $trail->parent('estacion.index');
+    $trail->push('Editar', route('estacion.edit',$es->id));
+});

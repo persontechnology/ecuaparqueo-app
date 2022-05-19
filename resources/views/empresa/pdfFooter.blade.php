@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <p>&copy; {{ date('y') }} {{ config('app.name','ECUAPARUQEO') }}</p>
+    <p>&copy; {{ date('Y') }} {{ App\Models\Empresa::first()->nombre??'' }}</p>
 </body>
 </html>

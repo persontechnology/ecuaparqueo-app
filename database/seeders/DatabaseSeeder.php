@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
     {
 
         // crear roles
-        foreach (['SuperAdmin','SiteAdmin','Supervisor','Operador','Guardia'] as $rol) {
+        foreach (['SuperAdmin','SiteAdmin','Supervisor','Operador','Guardia','Despachador'] as $rol) {
             Role::updateOrCreate(['name' => $rol]);    
         }
         
@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $permisos = array(
             'Usuarios',
             'Empresa',
+            'Estación de servicios',
             'Departamentos',
             'Vehículos',
             'Parqueaderos',
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
             'Mis Parqueaderos',
             'Orden de Movilización',
             'Control Orden de Movilización',
+            'Despacho de combustible'
         );
         foreach ($permisos as $per) {
             Permission::updateOrCreate(['name' => $per]);    

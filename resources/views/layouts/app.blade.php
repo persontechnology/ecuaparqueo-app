@@ -24,6 +24,10 @@
     <script src="{{ asset('global_assets/js/main/bootstrap.bundle.min.js') }}"></script>
     <!-- /core JS files -->
 
+    @stack('scripts')
+	@stack('linksCabeza')
+
+    
     <!-- Theme JS files -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
@@ -46,8 +50,7 @@
         });
     </script>
 
-    @stack('scripts')
-	@stack('linksCabeza')
+    
     
     
     @livewireStyles
@@ -184,7 +187,41 @@
 
     </div>
     <!-- /page content -->
+
+
+    {{-- <a href="{{ route('estacion.destroy',$es->id) }}" onclick="event.preventDefault(); ;" class="dropdown-item"><i class="fa-solid fa-trash text-danger"></i> Salir</a> --}}
+    <form id="form-eliminar" action="" method="POST" class="d-none">
+        @csrf
+        @method('delete')
+    </form>
+
+
     <script>
+
+        function eliminarR(arg){
+            
+
+            var url = $(arg).data('url');
+            var msg = $(arg).data('msg');
+
+            $.confirm({
+                theme: 'Modern',
+                type: 'red',
+                closeIcon: true,
+                icon: 'fa-regular fa-face-sad-tear fa-beat',
+                title: 'Confirmar!',
+                content: msg,
+                buttons: {
+                    confirmar: function() {
+                        $('#form-eliminar').attr('action',url).submit();
+                    },
+                    cancelar: function() {
+
+                    }
+                }
+            });
+        }
+
         function eliminar(arg) {
 
             var url = $(arg).data('url');

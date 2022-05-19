@@ -70,5 +70,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(NotificacionLectura::class,'guardia_id');
     }
+
+    // estaciones
+    public function estacionServicios()
+    {
+        return $this->belongsToMany(Estacion::class, 'despachadors', 'despachador_id', 'estacion_id');
+    }
     
 }
