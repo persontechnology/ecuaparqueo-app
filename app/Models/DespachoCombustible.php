@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class DespachoCombustible extends Model
@@ -77,6 +78,19 @@ class DespachoCombustible extends Model
     public function despachador()
     {
         return $this->belongsTo(User::class,'despachador_id');
+    }
+    // Deivid, un dc tiene una estacion de gasolinera
+    public function estacionGasolinera()
+    {
+        return $this->belongsTo(Estacion::class,'estacion_id');
+    }
+    // retornor direciion de foto
+    public function getFotoLinkAttribute()
+    {
+        if(Storage::exists($this->foto)){
+            return Storage::url($this->foto) ;
+        }
+        
     }
 
 }

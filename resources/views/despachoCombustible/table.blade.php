@@ -1,3 +1,8 @@
+<style>
+    .page-break {
+        page-break-after: always;
+    }
+</style>
 <table class="table" style="text-align: center;">
     <thead>
         <tr style="background-color:#f5f5f5">
@@ -9,7 +14,9 @@
                 <strong>NÚMERO DE ORDEN:</strong>{{ $dc->numero }}
             </td>
             <td><strong>CÓDIGO:</strong>{{ $dc->codigo }}</td>
-            <td><strong>ESTADO:</strong>{{ $dc->estado }}</td>
+            <td>
+                <strong>ESTADO:</strong>{{ $dc->estado }}
+            </td>
         </tr>
         <tr style="background-color:#f5f5f5">
             <th colspan="4">DATOS DE CONDUCTOR</th>
@@ -55,7 +62,10 @@
         </tr>
         <tr>
             <td><strong>KILOMETRAJE</strong> <br>{{ $dc->kilometraje }}</td>
-            <td colspan="3"><strong>DESTINO</strong> <br>{{ $dc->destino }}</td>
+            <td><strong>DESTINO</strong> <br>{{ $dc->destino }}</td>
+            <td colspan="2">
+                <strong>FOTO EVIDENCIA</strong>
+            </td>
         </tr>
         <tr>
             <td scope="row" colspan="4"><strong>Observaciones:</strong> {{ $dc->observaciones }}</td>
@@ -76,6 +86,11 @@
             </td>
             <td>
                 <p class="text-center"><br> ______________ <br>{{ $dc->despachador->apellidos_nombres??'...................' }} <br>
+                    @isset($dc->estacionGasolinera->nombre)
+                        <small>{{ $dc->estacionGasolinera->nombre??'' }}</small> <br>    
+                    @endisset
+                    
+                    
                     <strong>Despachador</strong>
                 </p>
             </td>
@@ -85,9 +100,38 @@
                 </p>
             </td>
         </tr>
-        <tr>
-
-        </tr>
-
     </tbody>
 </table>
+
+@if (Storage::exists($dc->foto))
+    @if ($fotoPdf==='SI')
+        <style>
+            #fotoEvidencia {
+                background: url("{!! public_path($dc->foto_link) !!}");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                height: 750px;
+                
+            }  
+        </style> 
+    @else
+        <style>
+            #fotoEvidencia {
+                background: url("{{ $dc->foto_link }}");
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                height: 750px;
+                
+            }  
+        </style>   
+    @endif
+    <div class="page-break"></div>
+    <div style="background-color:#f5f5f5;text-align: center; margin-top: 3px; border: 1px solid #000;">
+        <strong>EVIDENCIA</strong>
+        <p><strong>Fecha despacho: </strong>{{ $dc->fecha_despacho }}</p>
+        <div id="fotoEvidencia" style="margin: 1em;"></div>
+    </div>
+    
+    
+    
+@endif

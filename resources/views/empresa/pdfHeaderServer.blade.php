@@ -35,32 +35,30 @@
 </head>
 <body>
     
-    <div class="container" style="padding-bottom: 5px;">
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td rowspan="4" id="example1" style="width: 20%">
-                    </td>
-                    <th class="col-6 py-0 text-center" rowspan="4" style="width: 60%">
-                        <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN' }}</p>
-                    </th>
-                    <th >CÓDIGO </th>
-                    <td >{{ $empresa->codigo }}</td>
-                </tr>
-                <tr>
-                    <th >VERSIÓN</th>
-                    <td >{{ $empresa->version }}</td>
-                </tr>
-                <tr>
-                    <th >FECHA</th>
-                    <td >{{ \Carbon\Carbon::now() }}</td>
-                </tr>
-                <tr>
-                    <th >NORMA</th>
-                    <td >{{ $empresa->norma }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td rowspan="4" id="example1" style="width: 20%">
+                </td>
+                <th class="col-6 py-0 text-center" rowspan="4" style="width: 60%">
+                    <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN' }}</p>
+                </th>
+                <th >CÓDIGO </th>
+                <td >{{ $empresa->codigo }}</td>
+            </tr>
+            <tr>
+                <th >VERSIÓN</th>
+                <td >{{ $empresa->version }}</td>
+            </tr>
+            <tr>
+                <th >FECHA</th>
+                <td >{{ \Carbon\Carbon::now() }}</td>
+            </tr>
+            <tr>
+                <th >NORMA</th>
+                <td >{{ $empresa->norma }}</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

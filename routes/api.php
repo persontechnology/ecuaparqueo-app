@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BrazoController;
+use App\Http\Controllers\Api\DespachoCombustibleController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\LecturaController;
 use App\Http\Controllers\Api\LecturaEspecialController;
@@ -68,6 +69,14 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/lectura-normal-detalle', [LecturaNormalController::class,'detalle']);
     Route::post('/lectura-normal-finalizar-entrada', [LecturaNormalController::class,'finalizarEntrada']);
     Route::post('/lectura-normal-cancelar-entrada', [LecturaNormalController::class,'cancelarEntrada']);
+
+
+    // despacho de combustible
+    Route::post('/dc-consulta', [DespachoCombustibleController::class,'consulta']);
+    Route::post('/dc-consulta-estaciones', [DespachoCombustibleController::class,'consultaEstaciones']);
+    Route::post('/dc-enviarFoto', [DespachoCombustibleController::class,'guardarFoto']);
+    
+    
     
     
     

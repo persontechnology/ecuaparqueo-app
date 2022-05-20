@@ -24,6 +24,9 @@ class DespachoCombustibleDataTable extends DataTable
             ->editColumn('vehiculo_id',function($dc){
                 return $dc->vehiculo->numero_movil;
             })
+            ->editColumn('foto',function($dc){
+                return view('despachoCombustible.foto',['foto'=>$dc->foto])->render();
+            })
             ->editColumn('estado',function($dc){
                 return view('despachoCombustible.estado',['estado'=>$dc->estado])->render();
             })
@@ -42,7 +45,7 @@ class DespachoCombustibleDataTable extends DataTable
             })
             ->addColumn('action', function($dc){
                 return view('despachoCombustible.actionTable',['dc'=>$dc])->render();
-            })->rawColumns(['action','estado']);
+            })->rawColumns(['action','estado','foto']);
     }
 
     /**
@@ -94,6 +97,7 @@ class DespachoCombustibleDataTable extends DataTable
                   ->title('Ver')
                   ->addClass('text-center'),
             Column::make('estado')->title('Estado'),      
+            Column::make('foto')->title('foto'),      
             Column::make('codigo')->title('Código'),
             Column::make('numero')->title('N° despacho'),
             Column::make('fecha'),

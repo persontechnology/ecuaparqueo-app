@@ -18,7 +18,7 @@
 </head>
 <body>
     <div class="container" style="padding-bottom: 5px;">
-        @include('despachoCombustible.table',['dc'=>$dc])
+        @include('despachoCombustible.table',['dc'=>$dc,'fotoPdf'=>'SI'])
     </div>
 </body>
 </html>

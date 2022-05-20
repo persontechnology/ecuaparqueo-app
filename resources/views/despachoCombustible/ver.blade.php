@@ -35,7 +35,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            @include('despachoCombustible.table',['dc'=>$dc])
+            @include('despachoCombustible.table',['dc'=>$dc,'fotoPdf'=>'NO'])
         </div>
     </div>
 </div>

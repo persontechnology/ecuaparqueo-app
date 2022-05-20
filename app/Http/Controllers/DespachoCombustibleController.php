@@ -123,7 +123,7 @@ class DespachoCombustibleController extends Controller
      */
     public function update(RqEditar $request, DespachoCombustible $despachoCombustible)
     {
-        
+        $this->authorize('update',$despachoCombustible);
         $data = $request->all();
         $data['cantidad_galones'] = $request->galones;
         $data['chofer_id']=$request->conductor;
@@ -183,7 +183,7 @@ class DespachoCombustibleController extends Controller
 
        $pdf = PDF::loadView('despachoCombustible.pdf',$data)
         // ->setOrientation('landscape')
-        ->setOption('margin-top', '2.5cm')
+        ->setOption('margin-top', '3cm')
         ->setOption('margin-bottom', '1cm')
         ->setOption('header-html', $headerHtml)
         ->setOption('footer-html', $footerHtml);
