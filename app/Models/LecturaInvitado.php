@@ -12,4 +12,12 @@ class LecturaInvitado extends Model
     {
         return $this->belongsTo(Brazo::class, 'brazo_id');
     }
+    public function vehiculo()
+    {
+        return $this->belongsTo(Vehiculo::class, 'vehiculo_id');
+    }
+    public function guardia()
+    {
+        return $this->belongsTo(User::class, 'guardia_id');
+    }
 }

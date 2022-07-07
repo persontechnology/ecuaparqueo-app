@@ -25,8 +25,7 @@ class RqLogin extends FormRequest
     {
         return [
             'email' => 'required|email|string|max:255',
-            'password' => 'required|min:8|string|max:255',
-            'device_name' => 'required|string|max:255',
+            'password' => 'required|min:8|string|max:255'
         ];
     }
 }

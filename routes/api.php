@@ -41,8 +41,9 @@ Route::get('/buscar-vehiculo-tarjeta-entrada', [BrazoController::class,'buscarVe
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::post('/actualizar-contrasena', [HomeController::class,'actualizarContrasena']);
-    Route::post('/lectura-salida-vehicular', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
-    Route::post('/lectura-entrada-vehicular', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
+    // queda fuera de la app movil
+    // Route::post('/lectura-salida-vehicular', [BrazoController::class,'buscarVehiculoTarjetaSalida']);
+    // Route::post('/lectura-entrada-vehicular', [BrazoController::class,'buscarVehiculoTarjetaEntrada']);
 
     // Deivid: notificaciones
     Route::post('/notificacion-lectura-vehicular', [NotificacionLecturaController::class,'lecturaNotificacion']);

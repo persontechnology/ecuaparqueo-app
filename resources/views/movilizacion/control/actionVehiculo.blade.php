@@ -7,7 +7,7 @@
     data-tipo="{{ $vehiculo->tipoVehiculo->nombre??'' }}"
     data-color="{{ $vehiculo->color }}"
     data-conductorid="{{ $vehiculo->id_conductor }}"
-    data-conductorinfo="{{ $vehiculo->conductor->apellidos_nombre }}"
+    data-conductorinfo="{{ $vehiculo->conductor->apellidos_nombre??'' }}"
 >
     <i class="fa-solid fa-hand-pointer fa-2x"></i>
 </a>

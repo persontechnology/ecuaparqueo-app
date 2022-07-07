@@ -10,6 +10,7 @@ use App\Http\Requests\RqGuardarVehiculo;
 use App\Models\Empresa;
 use App\Models\Kilometraje;
 use App\Models\LecturaEspecial;
+use App\Models\LecturaInvitado;
 use App\Models\LecturaNormal;
 use App\Models\TipoVehiculo;
 use App\Models\Vehiculo;
@@ -216,6 +217,15 @@ class VehiculoController extends Controller
         ->paginate(6);
         $data = array('lecturasNormal' => $le);
         return view('vehiculos.lecturas.normal.index',$data);
+    }
+
+    public function LecturaInvitados($id)
+    {
+        $le=LecturaInvitado::where('vehiculo_id',$id)
+        ->orderBy('created_at','desc')
+        ->paginate(6);
+        $data = array('lecturasInvitado' => $le);
+        return view('vehiculos.lecturas.invitado.index',$data);
     }
 
 }

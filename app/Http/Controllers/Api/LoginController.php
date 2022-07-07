@@ -33,7 +33,7 @@ class LoginController extends Controller
                         'estado'=>$user->estado
                     ],
                     'roles_permisos'=> Arr::collapse( [$user->getRoleNames(),$user->getAllPermissions()->pluck('name')]),
-                    'token'=>$user->createToken($request->device_name)->plainTextToken
+                    'token'=>$user->createToken($request->email)->plainTextToken
                 ]);
             }else{
                 throw ValidationException::withMessages([

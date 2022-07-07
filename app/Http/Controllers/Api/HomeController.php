@@ -19,8 +19,6 @@ class HomeController extends Controller
             'pwdRepita' => 'required|string|min:8|max:255|same:pwdNueva'
         ]);
         $user=User::find($request->userId);
-        $user->password=Hash::make($request->pwdNueva);
-        $user->save();
         if (! $user || ! Hash::check($request->pwdActual, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['Las credenciales proporcionadas son incorrectas.'],

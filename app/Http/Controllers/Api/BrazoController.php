@@ -57,6 +57,7 @@ class BrazoController extends Controller
     // Deivid, lectura de salida de vehiculos
     public function buscarVehiculoTarjetaSalida(Request $request)
     {
+        //http://192.168.1.6:8000/api/buscar-vehiculo-tarjeta-salida?codeBrazo=001&code=1
         return $this->procesoVehiculo($request,'Salida');
     }
 
