@@ -152,6 +152,4 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
      // reportes
      Route::get('/dashboard-vehiculos', [DashboardVehiculoController::class, 'index'])->name('dashboardVehiculos');
-     
 });
-Route::post('/dc-enviarFoto', [DespachoCombustibleController::class,'guardarFoto']);
