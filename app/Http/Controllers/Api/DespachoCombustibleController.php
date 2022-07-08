@@ -64,12 +64,20 @@ class DespachoCombustibleController extends Controller
         try {
             DB::beginTransaction();
             $dc=DespachoCombustible::find($request->id);
-            $code_base64 = str_replace('data:image/jpg;base64,','',$request->foto);
-            $code_binary = base64_decode($code_base64);
-            $path='public/dc/'.$dc->id.'.png';
-            Storage::delete($dc->foto);
-            Storage::put($path, $code_binary);
-            $dc->foto=$path;
+            if ($request->hasFile('foto')) {
+                $archivo = $request->file('foto');
+                 if ($archivo->isValid()) {
+                    Storage::delete($dc->foto);
+                    $path = Storage::putFileAs(
+                        'public/dc',
+                        $archivo,
+                        $dc->id.'.'. $archivo->extension()
+                    );
+                    $dc->foto=$path;
+                }
+                
+            }
+        
             $dc->estado='Despachado';
             $dc->fecha_despacho=Carbon::now();
             $dc->despachador_id=$request->user()->id;
@@ -81,5 +89,6 @@ class DespachoCombustibleController extends Controller
             DB::rollback();
             return response()->json('no');
         }
+
     }
 }
