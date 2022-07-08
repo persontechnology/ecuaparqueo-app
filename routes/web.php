@@ -8,6 +8,8 @@ use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
+use App\Http\Controllers\LecturaEspecialController;
+use App\Http\Controllers\LecturaInvitadoController;
 use App\Http\Controllers\LecturaNormalController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
@@ -152,6 +154,8 @@ Route::middleware(['verified', 'auth'])->group(function () {
 
     // lecturas
     Route::resource('lectura-normal', LecturaNormalController::class);
+    Route::resource('lectura-especial', LecturaEspecialController::class);
+    Route::resource('lectura-invitado', LecturaInvitadoController::class);
     
 
      // reportes

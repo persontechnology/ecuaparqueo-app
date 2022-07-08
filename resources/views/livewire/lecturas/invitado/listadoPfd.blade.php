@@ -48,35 +48,25 @@
                     <td>Tipo</td>
                     <td>N° Vehículo & Placa</td>
                     <td>Finalizado</td>
-                    <td>Porcentaje combustible</td>
-                    <td>kilometraje</td>
-                    <td>Observación</td>
-                    <td>Proceso orden movilización</td>
+                    <td>Motivo</td>
                     <td>Fecha salida</td>
                     <td>Fecha entrada</td>
                     <td>Parqueadero & Brazo</td>
                     <td>Guardia</td>
-                    <td>Orden movilizacion</td>
-                    <td>Chofer</td>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($lecturasNormales as $ln)
-                    <tr>
+                   <tr>
                         <td>{{ $ln->tipo }}</td>
                         <td>{{ $ln->vehiculo->numero_movil_placa }}</td>
                         <td>{{ $ln->finalizado }}</td>
-                        <td>{{ $ln->porcentaje_combustible }}</td>
-                        <td>{{ $ln->kilometraje }}</td>
-                        <td>{{ $ln->observacion }}</td>
-                        <td>{{ $ln->proceso_orden_movilizacion }}</td>
+                        <td>{{ $ln->motivo }}</td>
                         <td>{{ $ln->fecha_salida }}</td>
                         <td>{{ $ln->fecha_entrada }}</td>
                         <td>{{ $ln->brazo->parqueadero->nombre }}-{{ $ln->brazo->codigo }}</td>
-                        <td>{{ $ln->guardia->apellidos_nombres ?? '' }}</td>
-                        <td>{{ $ln->ordenMovilizacion->numero ?? '' }}</td>
-                        <td>{{ $ln->chofer->apellidos_nombres ?? '' }}</td>
-                    </tr>
+                        <td>{{ $ln->guardia->apellidos_nombres??'' }}</td>
+                   </tr>
                 @endforeach
             </tbody>
         </table>

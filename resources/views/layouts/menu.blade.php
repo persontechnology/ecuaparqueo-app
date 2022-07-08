@@ -177,10 +177,10 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                             <a href="{{ route('lectura-normal.index') }}" class="nav-link {{ request()->routeIs('lectura-normal*') ? 'active' : '' }}">Normal</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Invitados</a>
+                            <a href="{{ route('lectura-especial.index') }}" class="nav-link {{ request()->routeIs('lectura-especial*') ? 'active' : '' }}">Especial</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Especial</a>
+                            <a href="{{ route('lectura-invitado.index') }}" class="nav-link {{ request()->routeIs('lectura-invitado*') ? 'active' : '' }}">Invitado</a>
                         </li>
                     </ul>
                 </li>

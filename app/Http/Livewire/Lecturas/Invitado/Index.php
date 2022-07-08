@@ -1,8 +1,7 @@
 <?php
+namespace App\Http\Livewire\Lecturas\Invitado;
 
-namespace App\Http\Livewire\Lecturas\Normal;
-
-use App\Models\LecturaNormal;
+use App\Models\LecturaInvitado;
 use Livewire\Component;
 use PDF;
 use Carbon\Carbon;
@@ -32,12 +31,12 @@ class Index extends Component
         $data = array(
             'lecturasNormales'=>$this->listadoLecturas(),
         );
-        return view('livewire.lecturas.normal.index',$data);
+        return view('livewire.lecturas.invitado.index',$data);
     }
 
     public function listadoLecturas()
     {
-        return LecturaNormal::where(function($query){
+        return LecturaInvitado::where(function($query){
             if($this->desde && $this->hasta){
                 $query->whereDate('created_at','>=', $this->desde);
                 $query->whereDate('created_at','<=', $this->hasta);
@@ -67,13 +66,13 @@ class Index extends Component
     public function pdf()
     {
         $lecturasNormales=$this->listadoLecturas();
-        $headerHtml = view()->make('empresa.pdfHeader',['titulo'=>'LECTURAS DE VEHÍCULOS NORMALES'])->render();
+        $headerHtml = view()->make('empresa.pdfHeader',['titulo'=>'LECTURAS DE VEHÍCULOS INVITADOS'])->render();
         $footerHtml = view()->make('empresa.pdfFooter')->render();
 
         $data = array('lecturasNormales' => $lecturasNormales);
 
         
-       $pdf = PDF::loadView('livewire.lecturas.normal.listadoPfd',$data)
+       $pdf = PDF::loadView('livewire.lecturas.invitado.listadoPfd',$data)
         ->setOrientation('landscape')
         ->setOption('margin-top', '2.5cm')
         ->setOption('margin-bottom', '1cm')

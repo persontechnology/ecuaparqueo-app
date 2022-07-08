@@ -24,7 +24,7 @@
 </head>
 <body>
     <div style="padding-top: 5px;">
-        <table class="table table-bordered table-sm">
+        <table class="table table-bordered table-sm" with="100%">
             <thead>
                 <tr>
                     <th>Salida</th>
