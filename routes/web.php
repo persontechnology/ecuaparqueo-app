@@ -8,6 +8,7 @@ use App\Http\Controllers\EspacioController;
 use App\Http\Controllers\EstacionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\KilometrajeController;
+use App\Http\Controllers\LecturaNormalController;
 use App\Http\Controllers\OrdenMovilizacionController;
 use App\Http\Controllers\ParqueaderoController;
 use App\Http\Controllers\Reportes\DashboardVehiculoController;
@@ -148,6 +149,9 @@ Route::middleware(['verified', 'auth'])->group(function () {
     Route::get('/despacho-combustible-pdf/{id}', [DespachoCombustibleController::class, 'pdf'])->name('despacho-combustible.pdf');
     // estaciones de combustible
     Route::resource('estacion', EstacionController::class);
+
+    // lecturas
+    Route::resource('lectura-normal', LecturaNormalController::class);
     
 
      // reportes

@@ -22,12 +22,9 @@ class CreateLecturaNormalsTable extends Migration
             $table->integer('porcentaje_combustible')->nullable();
             $table->string('kilometraje')->nullable();
             $table->string('observacion')->nullable();
-
             $table->enum('proceso_orden_movilizacion',['FINALIZADO','FUERA HORARIO','INCUMPLIDA'])->nullable();
-
             $table->dateTime('fecha_salida')->nullable();
             $table->dateTime('fecha_entrada')->nullable();
-            
             $table->foreignId('brazo_id')->nullable()->constrained('brazos');
             $table->foreignId('vehiculo_id')->nullable()->constrained('vehiculos');
             $table->foreignId('guardia_id')->nullable()->constrained('users');

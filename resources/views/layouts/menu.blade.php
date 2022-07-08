@@ -169,6 +169,23 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
 
              
                 
+                <li class="nav-item nav-item-submenu {{ request()->routeIs(['lectura-*']) ? 'nav-item-expanded nav-item-open' : '' }}">
+                    <a href="#" class="nav-link"><i class="fas fa-exchange"></i>
+                    <span>Lecturas entradas y salidas</span></a>
+                    <ul class="nav nav-group-sub" data-submenu-title="Orden de Movilización">
+                        <li class="nav-item">
+                            <a href="{{ route('lectura-normal.index') }}" class="nav-link {{ request()->routeIs('lectura-normal*') ? 'active' : '' }}">Normal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Invitados</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('odernMovilizacionListado') }}" class="nav-link {{ request()->routeIs('odernMovilizacionListado') ? 'active' : '' }}">Especial</a>
+                        </li>
+                    </ul>
+                </li>
+                
+                
                 @hasanyrole('SuperAdmin|SiteAdmin')
                     <li class="nav-item-header">
                         <div class="text-uppercase font-size-xs line-height-xs">Dashboard</div> <i class="icon-menu"

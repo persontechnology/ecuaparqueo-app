@@ -41,9 +41,6 @@ class Listado extends Component
             'tipoVehiculos'=>TipoVehiculo::get(),
             'parqueaderos'=>Parqueadero::get(),
         );
-
-
-
         return view('livewire.orden-movilizacion-control.listado',$data);
     }
 
@@ -77,10 +74,9 @@ class Listado extends Component
         $this->resetPage();
     }
     
-
+    
     public function updatedIdTipoVehiculo($value)
     {
-        
         $this->IdTipoVehiculo=$value;
     }
 

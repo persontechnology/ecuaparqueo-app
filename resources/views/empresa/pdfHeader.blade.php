@@ -16,7 +16,8 @@
             #example1 {
                 background: url("{!! public_path($empresa->logo_link) !!}");
                 background-repeat: no-repeat;
-                background-size: 100% 100%;
+                background-size: 95% 95%;
+                background-position: center;
                 
             }  
         </style>
@@ -39,7 +40,7 @@
         <table class="table">
             <tbody>
                 <tr>
-                    <td rowspan="4" id="example1" style="width: 20%">
+                    <td rowspan="4" id="example1"  style="border-right-color:#fff; width: 20%">
                     </td>
                     <th class="col-6 py-0 text-center" rowspan="4" style="width: 60%">
                         <p>{{ $titulo??'FORMULARIO ORDEN DE MOVILIZACIÓN DENTRO DEL ÁREA DE CONSECIÓN' }}</p>
