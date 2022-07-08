@@ -61,6 +61,10 @@ class DespachoCombustibleController extends Controller
 
     public function guardarFoto(Request $request)
     {
+        $request->validate([
+            'service'=>'required',
+            'foto'=>'required',
+        ]);
         try {
             DB::beginTransaction();
             $dc=DespachoCombustible::find($request->id);
@@ -89,6 +93,5 @@ class DespachoCombustibleController extends Controller
             DB::rollback();
             return response()->json('no');
         }
-
     }
 }
