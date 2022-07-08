@@ -63,7 +63,7 @@ class DespachoCombustibleController extends Controller
     {
         $request->validate([
             'service'=>'required',
-            'foto'=>'required',
+            'foto'=>'required|image',
         ]);
         try {
             DB::beginTransaction();
