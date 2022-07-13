@@ -38,7 +38,8 @@ class DatabaseSeeder extends Seeder
             'Mis Parqueaderos',
             'Orden de Movilización',
             'Control Orden de Movilización',
-            'Despacho de combustible'
+            'Despacho de combustible',
+            'Lecturas entradas y salidas'
         );
         foreach ($permisos as $per) {
             Permission::updateOrCreate(['name' => $per]);    

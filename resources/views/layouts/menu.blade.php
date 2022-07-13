@@ -168,7 +168,7 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                 @endcan
 
              
-                
+                @can('Lecturas entradas y salidas')
                 <li class="nav-item nav-item-submenu {{ request()->routeIs(['lectura-*']) ? 'nav-item-expanded nav-item-open' : '' }}">
                     <a href="#" class="nav-link"><i class="fas fa-exchange"></i>
                     <span>Lecturas entradas y salidas</span></a>
@@ -184,6 +184,7 @@ $bgtemamenu = Auth::user()->configuracion->menu ?? 'dark';
                         </li>
                     </ul>
                 </li>
+                @endcan
                 
                 
                 @hasanyrole('SuperAdmin|SiteAdmin')
