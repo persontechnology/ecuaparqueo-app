@@ -29,7 +29,7 @@ class Vehiculo extends Model
     // Deivid, numero movil y placa del vehiculo concatenados
     public function getNumeroMovilPlacaAttribute()
     {
-            return $this->numero_movil.' '.$this->placa;
+            return $this->numero_movil??''.' '.$this->placa??'';
     }
 
     // Deivid, un vehiculo esta en espacios de un parquadero
