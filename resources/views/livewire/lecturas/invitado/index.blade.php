@@ -66,7 +66,7 @@
                         @foreach ($lecturasNormales as $ln)
                            <tr>
                                 <td>{{ $ln->tipo }}</td>
-                                <td>{{ $ln->vehiculo->numero_movil_placa }}</td>
+                                <td>{{ $ln->vehiculo->numero_movil_placa??'' }}</td>
                                 <td>{{ $ln->finalizado }}</td>
                                 <td>{{ $ln->motivo }}</td>
                                 <td>{{ $ln->fecha_salida }}</td>
