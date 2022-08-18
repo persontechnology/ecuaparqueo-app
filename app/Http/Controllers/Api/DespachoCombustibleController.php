@@ -62,7 +62,7 @@ class DespachoCombustibleController extends Controller
     public function guardarFoto(Request $request)
     {
         $request->validate([
-            'service'=>'required',
+            'estacion'=>'required',
             'foto'=>'required|image',
         ]);
         try {
@@ -85,7 +85,7 @@ class DespachoCombustibleController extends Controller
             $dc->estado='Despachado';
             $dc->fecha_despacho=Carbon::now();
             $dc->despachador_id=$request->user()->id;
-            $dc->estacion_id=$request->service;
+            $dc->estacion_id=$request->estacion;
             $dc->save();
             DB::commit();
             return response()->json('ok');
