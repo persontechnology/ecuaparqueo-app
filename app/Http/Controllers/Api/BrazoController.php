@@ -87,7 +87,8 @@ class BrazoController extends Controller
             }
             
             // para vehiculos, especiales y normales
-            $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+            // $vehiculo = Vehiculo::with('espacio')->where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
+            $vehiculo = Vehiculo::where(['codigo_tarjeta' => $request->code, 'estado' => 'Activo'])->first();
             if($vehiculo&&$vehiculo->espacio){
                 if($vehiculo->tipo==='Especial'){
                     return $this->procesoVehiculoEspecial($request,$vehiculo,$brazo,$tipo);
