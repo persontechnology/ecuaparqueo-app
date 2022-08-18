@@ -13,14 +13,14 @@
         <h5>Sistema de parqueo inteligente.</h5>
         <img src="{{ asset('img/appmovil.png') }}" class="img-fluid mb-4" height="230" alt="">
         
-        <h5>Descarga nuestra aplicación móvil</h5>
+        <h5>Descarga nuestra aplicación móvil para android</h5>
     </div>
     <!-- /error title -->
 
 
     <!-- Error content -->
     <div class="text-center">
-        <a href="{{ asset('apk/app-universal-release-ecuaparqueo.apk') }}" class="btn btn-primary"><i class="icon-download4 mr-2"></i> Descargar aplicación móvil</a>
+        <a href="{{ asset('apk/app-universal-release-ecuaparqueo.apk') }}" class="btn btn-primary"><i class="icon-download4 mr-2"></i> Descargar</a>
     </div>
     <!-- /error wrapper -->
 
