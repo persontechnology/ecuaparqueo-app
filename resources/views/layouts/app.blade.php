@@ -51,7 +51,8 @@
     </script>
 
     
-    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
     
     @livewireStyles
 </head>
